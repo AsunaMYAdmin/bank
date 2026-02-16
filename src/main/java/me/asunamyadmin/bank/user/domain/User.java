@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public record User(
-        int id,
+        Integer id,
         @NotNull
         @Email
         String email,

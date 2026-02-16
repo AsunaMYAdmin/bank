@@ -16,9 +16,10 @@ public class UserEntityMapper {
     }
 
     public UserEntity toUserEntity(User user) {
-        return new UserEntity(
-                user.email(),
-                user.password()
-        );
+        UserEntity userEntity = new UserEntity();
+        userEntity.setEmail(user.email());
+        userEntity.setPassword(user.password());
+        userEntity.setCreatedAt(user.createdAt());
+        return userEntity;
     }
 }

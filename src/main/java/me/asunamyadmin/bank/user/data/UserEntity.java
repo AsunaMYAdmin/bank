@@ -14,16 +14,15 @@ import java.time.LocalDateTime;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    int id;
+    Integer id;
     String email;
     String password;
     LocalDateTime createdAt;
 
-    public UserEntity() {}
-
-    public UserEntity(String email, String password) {
-        this.email = email;
-        this.password = password;
+    @PrePersist
+    public void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
+
+    public UserEntity() {}
 }

@@ -1,8 +1,10 @@
 package me.asunamyadmin.bank.user.domain;
 
-import jakarta.persistence.EntityNotFoundException;
 import me.asunamyadmin.bank.user.data.UserEntity;
 import me.asunamyadmin.bank.user.data.UserRepository;
+import me.asunamyadmin.bank.user.exception.UserNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final UserEntityMapper userEntityMapper;
+    private final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     public UserService(UserRepository userRepository) {
@@ -37,16 +40,14 @@ public class UserService {
     }
 
     public User updateUser (User user, int id) {
-        UserEntity updatedUser = userRepository.findById(id).orElse(null);
-        userIsNull(updatedUser);
-        updatedUser = userRepository.save(userEntityMapper.toUserEntity(user));
-        return userEntityMapper.toUser(updatedUser);
+        UserEntity userEntity = userRepository.findById(id).orElse(null);
+        userIsNull(userEntity);
+        userEntity.setEmail(user.email());
+        userEntity.setPassword(user.password());
+        return userEntityMapper.toUser(userRepository.save(userEntity));
     }
 
     public User saveUser(User user) {
-        if (userRepository.existsById(user.id())) {
-            throw new IllegalStateException("User already exists!");
-        }
         UserEntity newEntity = userRepository.save(userEntityMapper.toUserEntity(user));
         return userEntityMapper.toUser(newEntity);
     }
@@ -58,7 +59,8 @@ public class UserService {
 
     private void userIsNull(UserEntity user) {
         if (user == null) {
-            throw new EntityNotFoundException("User with this id is not found");
+            logger.error("User is not found!");
+            throw new UserNotFoundException("User with this id is not found");
         }
     }
 }
