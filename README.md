@@ -1,4 +1,4 @@
-<div>
+<div style="text-align: center">
 
   <h1>🏦 Orange Bank Simulator</h1>
   <p><strong>Симуляция банковской системы на Java 25 + Spring Boot</strong></p>
