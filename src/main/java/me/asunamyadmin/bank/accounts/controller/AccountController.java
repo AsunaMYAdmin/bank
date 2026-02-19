@@ -1,9 +1,7 @@
 package me.asunamyadmin.bank.accounts.controller;
 
-import me.asunamyadmin.bank.accounts.data.AccountRepository;
 import me.asunamyadmin.bank.accounts.domain.Account;
 import me.asunamyadmin.bank.accounts.domain.AccountService;
-import me.asunamyadmin.bank.user.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +15,9 @@ import java.util.List;
 @RequestMapping("/account")
 public class AccountController {
     AccountService accountService;
-    UserRepository  userRepository;
     @Autowired
-    public AccountController(AccountRepository accountRepository, UserRepository userRepository) {
-        this.accountService = new AccountService(accountRepository, userRepository);
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
     }
     @GetMapping("/all")
     public ResponseEntity<List<Account>> getAllAccounts(){
@@ -45,11 +42,11 @@ public class AccountController {
         return ResponseEntity.ok().build();
     }
     @PostMapping("/transfer")
-    public ResponseEntity<Account> transferAccount(@RequestParam int from, @RequestParam int to, @RequestParam BigDecimal amount) {
+    public ResponseEntity<Void> transferAccount(@RequestParam int from, @RequestParam int to, @RequestParam BigDecimal amount) {
         accountService.transferMoney(from, to, amount);
         return ResponseEntity.ok().build();
     }
-    @PostMapping("/ban/{id}")
+    @PatchMapping("/ban/{id}")
     public ResponseEntity<BanDTO> ban(@PathVariable int id){
         String message = accountService.banAccount(id);
         return ResponseEntity.ok().body(new BanDTO(
@@ -57,7 +54,7 @@ public class AccountController {
                 message
         ));
     }
-    @PostMapping("/unban/{id}")
+    @PatchMapping("/unban/{id}")
     public ResponseEntity<BanDTO> unBanAccount(@PathVariable int id){
         String message = accountService.unBanAccount(id);
         return ResponseEntity.ok().body(new BanDTO(
