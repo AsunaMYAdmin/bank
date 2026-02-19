@@ -1,6 +1,6 @@
 <div align="center">
 
-  <h1>🏦 Orange Bank Simulator</h1>
+  <h1>🏦 Orange Bank</h1>
   <p><strong>Симуляция банковской системы на Java 25 + Spring Boot</strong></p>
 
   <!-- Бейджи с технологиями -->
