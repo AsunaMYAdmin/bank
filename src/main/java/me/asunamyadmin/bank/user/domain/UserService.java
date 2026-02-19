@@ -34,14 +34,12 @@ public class UserService {
     }
 
     public User findById(int id) {
-        UserEntity userEntity = userRepository.findById(id).orElse(null);
-        userIsNull(userEntity);
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         return userEntityMapper.toUser(userEntity);
     }
 
     public User updateUser (User user, int id) {
-        UserEntity userEntity = userRepository.findById(id).orElse(null);
-        userIsNull(userEntity);
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         userEntity.setEmail(user.email());
         userEntity.setPassword(user.password());
         return userEntityMapper.toUser(userRepository.save(userEntity));
@@ -53,14 +51,9 @@ public class UserService {
     }
 
     public void deleteById(int id) {
-        userIsNull(userEntityMapper.toUserEntity(findById(id)));
+        userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         userRepository.deleteById(id);
     }
 
-    private void userIsNull(UserEntity user) {
-        if (user == null) {
-            logger.error("User is not found!");
-            throw new UserNotFoundException("User with this id is not found");
-        }
-    }
+
 }

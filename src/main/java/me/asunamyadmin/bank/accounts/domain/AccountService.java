@@ -7,7 +7,6 @@ import me.asunamyadmin.bank.accounts.exception.AccountHasAlreadyBeenBlocked;
 import me.asunamyadmin.bank.accounts.exception.AccountNotFoundException;
 import me.asunamyadmin.bank.accounts.exception.SelfTransferException;
 import me.asunamyadmin.bank.user.data.UserRepository;
-import me.asunamyadmin.bank.user.domain.UserService;
 import me.asunamyadmin.bank.user.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,8 +59,8 @@ public class AccountService {
     }
 
     @Transactional
-    public void delete(Account account) {
-        AccountEntity entity = getEntityFromRepository(account.id());
+    public void delete(int id) {
+        AccountEntity entity = getEntityFromRepository(id);
         accountRepository.delete(entity);
     }
 

@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -21,10 +23,11 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<User>> getAllUsers() {
         logger.info("Get all users");
-        return ResponseEntity.ok().body(userService.findAll());
+        List<User> users = new ArrayList<>(userService.findAll());
+        return ResponseEntity.ok().body(users);
     }
 
     @GetMapping("/{id}")
@@ -33,19 +36,19 @@ public class UserController {
         return ResponseEntity.ok().body(userService.findById(id));
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         logger.info("Create user {}", user);
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveUser(user));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable int id) {
         logger.info("Update user {}", user);
         return ResponseEntity.ok().body(userService.updateUser(user, id));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable int id) {
         logger.info("Delete user {}", id);
         userService.deleteById(id);

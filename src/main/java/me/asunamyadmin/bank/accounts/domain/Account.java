@@ -17,7 +17,4 @@ public record Account(
     Integer version,
     LocalDateTime createdAt
 ) {
-    public Account {
-
-    }
 }
