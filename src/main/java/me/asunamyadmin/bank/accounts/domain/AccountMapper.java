@@ -9,7 +9,7 @@ public class AccountMapper {
         return new Account(
                 accountEntity.getId(),
                 accountEntity.getUser().getId(),
-                accountEntity.getAccount_number(),
+                accountEntity.getAccountNumber(),
                 accountEntity.getBalance(),
                 accountEntity.getVersion(),
                 accountEntity.getCreated_at()
@@ -18,7 +18,7 @@ public class AccountMapper {
 
     public AccountEntity toEntity(Account account) {
         AccountEntity accountEntity = new AccountEntity();
-        accountEntity.setAccount_number(account.account_number());
+        accountEntity.setAccountNumber(account.account_number());
         return accountEntity;
     }
 }

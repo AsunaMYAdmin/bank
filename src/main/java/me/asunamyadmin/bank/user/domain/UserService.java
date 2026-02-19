@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,7 @@ public class UserService {
         return userEntityMapper.toUser(userEntity);
     }
 
+    @Transactional
     public User updateUser (User user, int id) {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         userEntity.setEmail(user.email());
@@ -45,11 +47,13 @@ public class UserService {
         return userEntityMapper.toUser(userRepository.save(userEntity));
     }
 
+    @Transactional
     public User saveUser(User user) {
         UserEntity newEntity = userRepository.save(userEntityMapper.toUserEntity(user));
         return userEntityMapper.toUser(newEntity);
     }
 
+    @Transactional
     public void deleteById(int id) {
         userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         userRepository.deleteById(id);

@@ -1,6 +1,5 @@
 package me.asunamyadmin.bank.accounts.domain;
 
-import jakarta.transaction.Transactional;
 import me.asunamyadmin.bank.accounts.data.AccountEntity;
 import me.asunamyadmin.bank.accounts.data.AccountRepository;
 import me.asunamyadmin.bank.accounts.exception.AccountHasAlreadyBeenBlocked;
@@ -10,6 +9,7 @@ import me.asunamyadmin.bank.user.data.UserRepository;
 import me.asunamyadmin.bank.user.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -22,7 +22,8 @@ public class AccountService {
     private final UserRepository userRepository;
 
     @Autowired
-    public AccountService(AccountRepository accountRepository, UserRepository userRepository) {
+    public AccountService(AccountRepository accountRepository,
+                          UserRepository userRepository) {
         this.accountRepository = accountRepository;
         this.accountMapper = new AccountMapper();
         this.userRepository = userRepository;
@@ -54,7 +55,7 @@ public class AccountService {
     @Transactional
     public Account update(Account account) {
         AccountEntity entity = getEntityFromRepository(account.id());
-        entity.setAccount_number(account.account_number());
+        entity.setAccountNumber(account.account_number());
         return accountMapper.toAccount(entity);
     }
 
@@ -65,14 +66,14 @@ public class AccountService {
     }
 
     @Transactional
-    public void transferMoney(int idFrom, int idTo, BigDecimal amount) {
-        if (idFrom == idTo) {
+    public void transferMoney(Transfer transfer, BigDecimal amount) {
+        if (transfer.fromId() == transfer.toId()) {
             throw new SelfTransferException();
         }
-        AccountEntity fromEntity = getEntityFromRepository(idFrom);
-        AccountEntity toEntity = getEntityFromRepository(idTo);
-        fromEntity.withdraw(amount);
-        toEntity.deposit(amount);
+            AccountEntity fromEntity = getEntityFromRepository(transfer.fromId());
+            AccountEntity toEntity = getEntityFromRepository(transfer.toId());
+            fromEntity.withdraw(amount);
+            toEntity.deposit(amount);
     }
 
     @Transactional
