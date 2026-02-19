@@ -28,11 +28,4 @@ public class TransactionController {
         Transaction transaction = transactionService.getTransactionById(id);
         return ResponseEntity.ok().body(transaction);
     }
-
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteTransaction(@PathVariable int id) {
-        transactionService.deleteTransactionById(id);
-        return ResponseEntity.ok().build();
-    }
 }

@@ -65,12 +65,6 @@ public class TransactionService {
         entity.markFailed();
     }
 
-    @Transactional
-    public void deleteTransactionById(int id) {
-        TransactionEntity entity = getEntityFromRepository(id);
-        transactionRepository.delete(entity);
-    }
-
     private TransactionEntity getEntityFromRepository(int id) {
         return transactionRepository.findById(id).orElseThrow(TransactionNotFoundException::new);
     }
