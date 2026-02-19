@@ -1,3 +1,5 @@
+<div align="center">
+
   <h1>🏦 Orange Bank Simulator</h1>
   <p><strong>Симуляция банковской системы на Java 25 + Spring Boot</strong></p>
 
@@ -16,6 +18,7 @@
   </p>
 
   <!-- Красивая картинка-шапка (можно заменить на свой баннер) -->
+  <img src="src/main/resources/assets/banner.png" alt="Orange Bank Banner" width="100%">
 </div>
 
 ---
@@ -49,4 +52,5 @@
 
 ### Системные требования
 - **Java 25** или выше ([скачать](https://jdk.java.net/25/))
+- **Maven 3.9+** (или использовать встроенный Maven Wrapper)
 - **PostgreSQL 15+** (или H2 для разработки)
