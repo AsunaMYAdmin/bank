@@ -9,7 +9,6 @@
     <img src="https://img.shields.io/badge/Spring%20Boot-3.4-brightgreen?logo=spring&logoColor=white&style=flat-square" alt="Spring Boot">
     <img src="https://img.shields.io/badge/Maven-3.9-orange?logo=apache-maven&logoColor=white&style=flat-square" alt="Maven">
     <img src="https://img.shields.io/badge/PostgreSQL-15-blue?logo=postgresql&logoColor=white&style=flat-square" alt="PostgreSQL">
-    <img src="https://img.shields.io/badge/License-MIT-orange?style=flat-square" alt="License">
   </p>
 
   <!-- Статус проекта -->
