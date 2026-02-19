@@ -14,7 +14,7 @@
 
   <!-- Статус проекта -->
   <p>
-    <img src="https://img.shields.io/badge/Статус-Активная_разработка-orange?style=for-the-badge" alt="Status">
+    <img src="https://img.shields.io/badge/Статус-Активная_разработка-orange?style=for-the-badge " alt="Status">
   </p>
 
   <!-- Красивая картинка-шапка (можно заменить на свой баннер) -->
