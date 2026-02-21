@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кристальный Банк | Мир Кристаллов</title>
+    <!-- Подключение CSS -->
+    <link rel="stylesheet" href="/css/main.css">
+    <!-- Шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Фоновые декоративные элементы (для атмосферы) -->
+<div class="bg-decoration">
+    <div class="crystal crystal-1"></div>
+    <div class="crystal crystal-2"></div>
+    <div class="crystal crystal-3"></div>
+    <div class="crystal crystal-4"></div>
+</div>
+
+<!-- ШАПКА -->
+<header class="header">
+    <div class="container header-container">
+        <div class="logo">
+            <span class="logo-icon">⛁</span>
+            <span class="logo-text" th:text="${bankName} ?: 'Кристальный Банк'">Кристальный Банк</span>
+        </div>
+        <nav class="nav">
+            <a href="#" class="nav-link" th:href="@{/}">Главная</a>
+            <a href="#" class="nav-link" th:href="@{/accounts}">Счета</a>
+            <a href="#" class="nav-link" th:href="@{/transactions}">Операции</a>
+            <a href="#" class="nav-link" th:href="@{/exchange}">Обмен валют</a>
+            <a href="#" class="nav-link" th:href="@{/about}">О банке</a>
+        </nav>
+        <div class="header-actions">
+            <a href="#" class="btn btn-outline" th:href="@{/login}">Войти</a>
+            <a href="#" class="btn btn-primary" th:href="@{/register}">Открыть счёт</a>
+        </div>
+    </div>
+</header>
+
+<!-- ГЛАВНЫЙ ЭКРАН (HERO) -->
+<section class="hero">
+    <div class="container hero-container">
+        <div class="hero-content">
+            <div class="hero-badge" th:text="${worldName} ?: 'Мир Кристаллов'">Мир Кристаллов</div>
+            <h1 class="hero-title">
+                Хранилище <span class="gradient-text">магических кристаллов</span> и богатств
+            </h1>
+            <p class="hero-description">
+                Единственный банк в мире, где ваши сокровища защищены древней магией и современными технологиями.
+                Открывайте счета, обменивайте валюты и приумножайте богатства.
+            </p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-value" th:text="${clientCount} ?: '10K+'">10K+</div>
+                    <div class="stat-label">Довольных клиентов</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" th:text="${crystalCount} ?: '1M'">1M</div>
+                    <div class="stat-label">Кристаллов в хранилище</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" th:text="${securityLevel} ?: '100%'">100%</div>
+                    <div class="stat-label">Магическая защита</div>
+                </div>
+            </div>
+            <div class="hero-buttons">
+                <a href="#" class="btn btn-primary btn-large" th:href="@{/register}">
+                    <span class="btn-text">Открыть кошелёк</span>
+                    <span class="btn-icon">⟶</span>
+                </a>
+                <a href="#" class="btn btn-outline btn-large" th:href="@{/about}">
+                    <span class="btn-text">Легенды банка</span>
+                </a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="crystal-display">
+                <div class="floating-crystal crystal-orange"></div>
+                <div class="floating-crystal crystal-blue"></div>
+                <div class="floating-crystal crystal-orange-small"></div>
+                <div class="floating-crystal crystal-blue-small"></div>
+                <div class="crystal-glow"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ПАРТНЁРЫ / МИРЫ -->
+<section class="partners">
+    <div class="container">
+        <div class="partners-grid" th:each="world : ${worlds} ?: ${defaultWorlds}">
+            <div class="partner-item" th:text="${world.name} ?: 'Мир Арден'">Мир Арден</div>
+            <div class="partner-item" th:text="${world.name2} ?: 'Эльфийские леса'">Эльфийские леса</div>
+            <div class="partner-item" th:text="${world.name3} ?: 'Гномьи горы'">Гномьи горы</div>
+            <div class="partner-item" th:text="${world.name4} ?: 'Магическая академия'">Магическая академия</div>
+        </div>
+    </div>
+</section>
+
+<!-- УСЛУГИ -->
+<section class="services">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Наши <span class="gradient-text">магические</span> услуги</h2>
+            <p class="section-description">Всё для хранения и приумножения ваших кристаллов</p>
+        </div>
+
+        <div class="services-grid">
+            <!-- Карточка 1 -->
+            <div class="service-card" th:each="service : ${services}">
+                <div class="card-icon">⛀</div>
+                <h3 class="card-title" th:text="${service.name} ?: 'Кристальный счёт'">Кристальный счёт</h3>
+                <p class="card-description" th:text="${service.desc} ?: 'Храните кристаллы под высокий процент'">
+                    Храните кристаллы под высокий процент
+                </p>
+                <div class="card-footer">
+                    <span class="card-rate" th:text="${service.rate} ?: 'от 5%'">от 5%</span>
+                    <a href="#" class="card-link" th:href="@{${service.link} ?: '/accounts'}">
+                        Подробнее <span class="link-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Карточка 2 (статическая, если нет динамики) -->
+            <div class="service-card">
+                <div class="card-icon">⛂</div>
+                <h3 class="card-title">Обмен валют</h3>
+                <p class="card-description">Мгновенный обмен между мирами без комиссии</p>
+                <div class="card-footer">
+                    <span class="card-rate">0% комиссии</span>
+                    <a href="#" class="card-link" th:href="@{/exchange}">Подробнее →</a>
+                </div>
+            </div>
+
+            <!-- Карточка 3 -->
+            <div class="service-card">
+                <div class="card-icon">⛃</div>
+                <h3 class="card-title">Магические переводы</h3>
+                <p class="card-description">Мгновенные переводы между любыми мирами</p>
+                <div class="card-footer">
+                    <span class="card-rate">Мгновенно</span>
+                    <a href="#" class="card-link" th:href="@{/transfers}">Подробнее →</a>
+                </div>
+            </div>
+
+            <!-- Карточка 4 -->
+            <div class="service-card">
+                <div class="card-icon">⛀</div>
+                <h3 class="card-title">Сейфы артефактов</h3>
+                <p class="card-description">Индивидуальные сейфы с магической защитой</p>
+                <div class="card-footer">
+                    <span class="card-rate">от 10 кристаллов</span>
+                    <a href="#" class="card-link" th:href="@{/vaults}">Подробнее →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ПРЕИМУЩЕСТВА -->
+<section class="advantages">
+    <div class="container">
+        <div class="advantages-grid">
+            <div class="advantage-item">
+                <div class="advantage-icon">🛡️</div>
+                <h3>Древняя защита</h3>
+                <p>Наши хранилища защищены магией древних кристаллов</p>
+            </div>
+            <div class="advantage-item">
+                <div class="advantage-icon">⚡</div>
+                <h3>Мгновенные операции</h3>
+                <p>Магические переводы за долю секунды</p>
+            </div>
+            <div class="advantage-item">
+                <div class="advantage-icon">🌍</div>
+                <h3>Межмировые операции</h3>
+                <p>Работаем во всех мирах вселенной</p>
+            </div>
+            <div class="advantage-item">
+                <div class="advantage-icon">💎</div>
+                <h3>Честный курс</h3>
+                <p>Прозрачный обмен кристаллов и валют</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- КУРСЫ КРИСТАЛЛОВ -->
+<section class="rates">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Актуальные <span class="gradient-text">курсы</span></h2>
+            <p class="section-description">Обновляется магией каждую секунду</p>
+        </div>
+
+        <div class="rates-table" th:each="rate : ${exchangeRates}">
+            <div class="rate-row" th:each="rate, iterStat : ${exchangeRates}">
+                <span class="currency" th:text="${rate.currency} ?: 'Кристалл → Золото'">Кристалл → Золото</span>
+                <span class="value" th:text="${rate.value} ?: '1 : 15.6'">1 : 15.6</span>
+                <span class="change" th:classappend="${rate.change > 0} ? 'positive' : 'negative'"
+                      th:text="${rate.change} ?: '+2.3%'">+2.3%</span>
+            </div>
+            <!-- Статические примеры -->
+            <div class="rate-row">
+                <span class="currency">Кристалл → Эльфийский серебр</span>
+                <span class="value">1 : 24.8</span>
+                <span class="change positive">+1.2%</span>
+            </div>
+            <div class="rate-row">
+                <span class="currency">Кристалл → Гномье золото</span>
+                <span class="value">1 : 8.4</span>
+                <span class="change negative">-0.5%</span>
+            </div>
+            <div class="rate-row">
+                <span class="currency">Кристалл → Магические осколки</span>
+                <span class="value">1 : 32.1</span>
+                <span class="change positive">+3.7%</span>
+            </div>
+        </div>
+
+        <div class="rates-footer">
+            <a href="#" class="btn btn-outline" th:href="@{/exchange}">Все курсы →</a>
+        </div>
+    </div>
+</section>
+
+<!-- ПРИЗЫВ К ДЕЙСТВИЮ -->
+<section class="cta">
+    <div class="container">
+        <div class="cta-content">
+            <h2 class="cta-title">Начни своё приключение с кристаллами</h2>
+            <p class="cta-description">Открой счёт сегодня и получи 100 кристаллов в подарок</p>
+            <a href="#" class="btn btn-primary btn-large" th:href="@{/register}">
+                <span class="btn-text">Создать кошелёк</span>
+            </a>
+        </div>
+        <div class="cta-decoration"></div>
+    </div>
+</section>
+
+<!-- ПОДВАЛ -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <span class="logo-icon">⛁</span>
+                    <span class="logo-text" th:text="${bankName} ?: 'Кристальный Банк'">Кристальный Банк</span>
+                </div>
+                <p class="footer-description">
+                    Храним ваши сокровища с древних времён
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Услуги</h4>
+                <ul>
+                    <li><a href="#" th:href="@{/accounts}">Счета</a></li>
+                    <li><a href="#" th:href="@{/exchange}">Обмен валют</a></li>
+                    <li><a href="#" th:href="@{/transfers}">Переводы</a></li>
+                    <li><a href="#" th:href="@{/vaults}">Сейфы</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Миры</h4>
+                <ul>
+                    <li><a href="#">Арден</a></li>
+                    <li><a href="#">Эльфийские леса</a></li>
+                    <li><a href="#">Гномьи горы</a></li>
+                    <li><a href="#">Магическая академия</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Поддержка</h4>
+                <ul>
+                    <li><a href="#" th:href="@{/help}">Помощь</a></li>
+                    <li><a href="#" th:href="@{/faq}">FAQ</a></li>
+                    <li><a href="#" th:href="@{/contacts}">Контакты</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="copyright" th:text="${copyright} ?: '© 2026 Кристальный Банк. Все права защищены магией'">
+                © 2026 Кристальный Банк. Все права защищены магией
+            </div>
+            <div class="magic-signature">✦ Хранится в кристаллах ✦</div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
