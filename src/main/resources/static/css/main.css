@@ -1,4 +1,3 @@
-/* ========== ОСНОВНЫЕ ПЕРЕМЕННЫЕ ========== */
 :root {
     --orange-primary: #ff8c42;
     --orange-dark: #e67a2e;
@@ -33,7 +32,6 @@
     --border-radius-xl: 32px;
 }
 
-/* ========== СБРОС И БАЗОВЫЕ СТИЛИ ========== */
 * {
     margin: 0;
     padding: 0;
@@ -56,7 +54,6 @@ body {
     padding: 0 24px;
 }
 
-/* ========== ДЕКОРАТИВНЫЕ ЭЛЕМЕНТЫ ========== */
 .bg-decoration {
     position: fixed;
     top: 0;
@@ -123,7 +120,6 @@ body {
     }
 }
 
-/* ========== ШАПКА ========== */
 .header {
     position: sticky;
     top: 0;
@@ -175,6 +171,12 @@ body {
     gap: 32px;
 }
 
+@media (max-width: 768px) {
+    .nav {
+        display: none;
+    }
+}
+
 .nav-link {
     color: var(--text-secondary);
     text-decoration: none;
@@ -207,7 +209,6 @@ body {
     gap: 12px;
 }
 
-/* ========== КНОПКИ ========== */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -272,7 +273,6 @@ body {
     font-size: 16px;
 }
 
-/* ========== HERO СЕКЦИЯ ========== */
 .hero {
     padding: 60px 0 80px;
     position: relative;
@@ -438,7 +438,6 @@ body {
     }
 }
 
-/* ========== ПАРТНЁРЫ ========== */
 .partners {
     padding: 40px 0;
     border-top: 1px solid rgba(255,140,66,0.2);
@@ -468,7 +467,6 @@ body {
     transform: scale(1.05);
 }
 
-/* ========== СЕКЦИИ ========== */
 .section-header {
     text-align: center;
     margin-bottom: 60px;
@@ -485,7 +483,6 @@ body {
     color: var(--text-secondary);
 }
 
-/* ========== УСЛУГИ (КАРТОЧКИ) ========== */
 .services {
     padding: 80px 0;
 }
@@ -576,7 +573,6 @@ body {
     gap: 8px;
 }
 
-/* ========== ПРЕИМУЩЕСТВА ========== */
 .advantages {
     padding: 60px 0;
     background: rgba(0, 0, 0, 0.2);
@@ -619,7 +615,6 @@ body {
     font-size: 14px;
 }
 
-/* ========== КУРСЫ ========== */
 .rates {
     padding: 80px 0;
 }
@@ -683,7 +678,6 @@ body {
     text-align: center;
 }
 
-/* ========== CTA ========== */
 .cta {
     padding: 80px 0;
     position: relative;
@@ -735,7 +729,6 @@ body {
     z-index: 0;
 }
 
-/* ========== ПОДВАЛ ========== */
 .footer {
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
@@ -804,7 +797,7 @@ body {
     font-style: italic;
 }
 
-/* ========== АДАПТИВНОСТЬ ========== */
+/* ========== МОБИЛЬНАЯ АДАПТАЦИЯ ========== */
 @media (max-width: 1024px) {
     .hero-title {
         font-size: 42px;
@@ -817,13 +810,14 @@ body {
 }
 
 @media (max-width: 768px) {
-    .nav {
-        display: none;
+    .header-container {
+        height: 70px;
     }
 
     .hero-container {
         grid-template-columns: 1fr;
         text-align: center;
+        gap: 40px;
     }
 
     .hero-content {
@@ -835,30 +829,97 @@ body {
         height: 300px;
     }
 
-    .hero-stats {
-        justify-content: center;
+    .hero-badge {
+        margin-left: auto;
+        margin-right: auto;
     }
 
-    .hero-buttons {
-        justify-content: center;
+    .hero-title {
+        font-size: 36px;
     }
 
     .hero-description {
         margin-left: auto;
         margin-right: auto;
+        font-size: 16px;
+    }
+
+    .hero-stats {
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .stat-item {
+        text-align: center;
+        min-width: 120px;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .partners-grid {
+        gap: 20px;
+    }
+
+    .partner-item {
+        font-size: 16px;
+    }
+
+    .section-title {
+        font-size: 32px;
+    }
+
+    .section-description {
+        font-size: 16px;
     }
 
     .services-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
 
     .advantages-grid {
         grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .advantage-item {
+        padding: 16px;
+    }
+
+    .advantage-icon {
+        font-size: 40px;
+    }
+
+    .advantage-item h3 {
+        font-size: 18px;
+    }
+
+    .advantage-item p {
+        font-size: 13px;
+    }
+
+    .rate-row {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 16px;
+    }
+
+    .cta-title {
+        font-size: 32px;
+    }
+
+    .cta-description {
+        font-size: 16px;
     }
 
     .footer-grid {
         grid-template-columns: 1fr;
         text-align: center;
+        gap: 30px;
     }
 
     .footer-logo {
@@ -874,31 +935,69 @@ body {
 
 @media (max-width: 480px) {
     .hero-title {
-        font-size: 36px;
+        font-size: 28px;
     }
 
     .hero-stats {
         flex-direction: column;
-        gap: 20px;
         align-items: center;
+        gap: 15px;
+    }
+
+    .stat-item {
+        width: 100%;
+        max-width: 200px;
     }
 
     .hero-buttons {
         flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .btn-large {
+        width: 100%;
+        max-width: 280px;
     }
 
     .advantages-grid {
         grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .partner-item {
+        font-size: 14px;
+    }
+
+    .partner-item:hover {
+        transform: scale(1.02);
     }
 
     .rate-row {
         flex-direction: column;
-        gap: 10px;
         text-align: center;
+        padding: 16px 12px;
+    }
+
+    .currency, .value, .change {
+        width: 100%;
+    }
+
+    .change {
+        display: inline-block;
+        width: auto;
+        margin-top: 4px;
+    }
+
+    .cta-title {
+        font-size: 28px;
+    }
+
+    .btn-outline, .btn-primary {
+        padding: 10px 20px;
     }
 }
 
-/* ========== АНИМАЦИИ ========== */
 @keyframes fadeInUp {
     from {
         opacity: 0;

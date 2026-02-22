@@ -4,15 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Кристальный Банк | Мир Кристаллов</title>
-    <!-- Подключение CSS -->
     <link rel="stylesheet" href="/css/main.css">
-    <!-- Шрифты -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-<!-- Фоновые декоративные элементы (для атмосферы) -->
 <div class="bg-decoration">
     <div class="crystal crystal-1"></div>
     <div class="crystal crystal-2"></div>
@@ -20,7 +17,6 @@
     <div class="crystal crystal-4"></div>
 </div>
 
-<!-- ШАПКА -->
 <header class="header">
     <div class="container header-container">
         <div class="logo">
@@ -35,13 +31,11 @@
             <a href="#" class="nav-link" th:href="@{/about}">О банке</a>
         </nav>
         <div class="header-actions">
-            <a href="#" class="btn btn-outline" th:href="@{/login}">Войти</a>
-            <a href="#" class="btn btn-primary" th:href="@{/register}">Открыть счёт</a>
+            <a href="#" class="btn btn-primary" th:href="@{/login}">Войти в банк</a>
         </div>
     </div>
 </header>
 
-<!-- ГЛАВНЫЙ ЭКРАН (HERO) -->
 <section class="hero">
     <div class="container hero-container">
         <div class="hero-content">
@@ -89,10 +83,9 @@
     </div>
 </section>
 
-<!-- ПАРТНЁРЫ / МИРЫ -->
 <section class="partners">
     <div class="container">
-        <div class="partners-grid" th:each="world : ${worlds} ?: ${defaultWorlds}">
+        <div class="partners-grid" th:each="world : ${worlds != null ? worlds : defaultWorlds}">
             <div class="partner-item" th:text="${world.name} ?: 'Мир Арден'">Мир Арден</div>
             <div class="partner-item" th:text="${world.name2} ?: 'Эльфийские леса'">Эльфийские леса</div>
             <div class="partner-item" th:text="${world.name3} ?: 'Гномьи горы'">Гномьи горы</div>
@@ -101,7 +94,6 @@
     </div>
 </section>
 
-<!-- УСЛУГИ -->
 <section class="services">
     <div class="container">
         <div class="section-header">
@@ -110,7 +102,6 @@
         </div>
 
         <div class="services-grid">
-            <!-- Карточка 1 -->
             <div class="service-card" th:each="service : ${services}">
                 <div class="card-icon">⛀</div>
                 <h3 class="card-title" th:text="${service.name} ?: 'Кристальный счёт'">Кристальный счёт</h3>
@@ -119,13 +110,12 @@
                 </p>
                 <div class="card-footer">
                     <span class="card-rate" th:text="${service.rate} ?: 'от 5%'">от 5%</span>
-                    <a href="#" class="card-link" th:href="@{${service.link} ?: '/accounts'}">
+                    <a href="#" class="card-link" th:href="@{${service.link != null ? service.link : '/accounts'}}">
                         Подробнее <span class="link-arrow">→</span>
                     </a>
                 </div>
             </div>
 
-            <!-- Карточка 2 (статическая, если нет динамики) -->
             <div class="service-card">
                 <div class="card-icon">⛂</div>
                 <h3 class="card-title">Обмен валют</h3>
@@ -136,7 +126,6 @@
                 </div>
             </div>
 
-            <!-- Карточка 3 -->
             <div class="service-card">
                 <div class="card-icon">⛃</div>
                 <h3 class="card-title">Магические переводы</h3>
@@ -147,7 +136,6 @@
                 </div>
             </div>
 
-            <!-- Карточка 4 -->
             <div class="service-card">
                 <div class="card-icon">⛀</div>
                 <h3 class="card-title">Сейфы артефактов</h3>
@@ -161,7 +149,6 @@
     </div>
 </section>
 
-<!-- ПРЕИМУЩЕСТВА -->
 <section class="advantages">
     <div class="container">
         <div class="advantages-grid">
@@ -189,7 +176,6 @@
     </div>
 </section>
 
-<!-- КУРСЫ КРИСТАЛЛОВ -->
 <section class="rates">
     <div class="container">
         <div class="section-header">
@@ -204,7 +190,6 @@
                 <span class="change" th:classappend="${rate.change > 0} ? 'positive' : 'negative'"
                       th:text="${rate.change} ?: '+2.3%'">+2.3%</span>
             </div>
-            <!-- Статические примеры -->
             <div class="rate-row">
                 <span class="currency">Кристалл → Эльфийский серебр</span>
                 <span class="value">1 : 24.8</span>
@@ -228,7 +213,6 @@
     </div>
 </section>
 
-<!-- ПРИЗЫВ К ДЕЙСТВИЮ -->
 <section class="cta">
     <div class="container">
         <div class="cta-content">
@@ -242,7 +226,6 @@
     </div>
 </section>
 
-<!-- ПОДВАЛ -->
 <footer class="footer">
     <div class="container">
         <div class="footer-grid">
