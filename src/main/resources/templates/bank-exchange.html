@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обмен валют | Кристальный Банк</title>
+    <link rel="stylesheet" href="/css/bank-exchange.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Фоновые кристаллы -->
+<div class="bg-decoration">
+    <div class="crystal crystal-1"></div>
+    <div class="crystal crystal-2"></div>
+    <div class="crystal crystal-3"></div>
+    <div class="crystal crystal-4"></div>
+</div>
+
+<!-- Шапка -->
+<div th:replace="~{fragments/bank-header :: bank-header('exchange')}"></div>
+
+<main class="main">
+    <div class="container">
+        <!-- Хлебные крошки -->
+        <div class="breadcrumbs">
+            <a href="/">Главная</a> <span>/</span> <span>Обмен валют</span>
+        </div>
+
+        <!-- Заголовок -->
+        <section class="page-header">
+            <h1 class="page-title">Обмен <span class="gradient-text">валют</span></h1>
+            <p class="page-description">
+                Меняй и переводи кристаллы, золото и серебро между мирами. Мгновенно и без комиссии.
+            </p>
+        </section>
+
+        <!-- Актуальные курсы -->
+        <section class="rates-section">
+            <h2 class="section-title">Актуальные <span class="gradient-text">курсы</span></h2>
+            <p class="section-description">Обновляется магией каждую секунду</p>
+
+            <div class="rates-compact">
+                <div class="rate-item">
+                    <div class="rate-pair">
+                        <span class="rate-from">💎 Кристаллы</span>
+                        <span class="rate-arrow">→</span>
+                        <span class="rate-to">💰 Золото</span>
+                    </div>
+                    <div class="rate-value">1 : 15.6</div>
+                    <div class="rate-change positive">+2.3%</div>
+                </div>
+
+                <div class="rate-item">
+                    <div class="rate-pair">
+                        <span class="rate-from">💰 Золото</span>
+                        <span class="rate-arrow">→</span>
+                        <span class="rate-to">💎 Кристаллы</span>
+                    </div>
+                    <div class="rate-value">1 : 0.064</div>
+                    <div class="rate-change negative">-1.2%</div>
+                </div>
+
+                <div class="rate-item">
+                    <div class="rate-pair">
+                        <span class="rate-from">💎 Кристаллы</span>
+                        <span class="rate-arrow">→</span>
+                        <span class="rate-to">✨ Серебро</span>
+                    </div>
+                    <div class="rate-value">1 : 24.8</div>
+                    <div class="rate-change positive">+1.8%</div>
+                </div>
+
+                <div class="rate-item">
+                    <div class="rate-pair">
+                        <span class="rate-from">✨ Серебро</span>
+                        <span class="rate-arrow">→</span>
+                        <span class="rate-to">💎 Кристаллы</span>
+                    </div>
+                    <div class="rate-value">1 : 0.040</div>
+                    <div class="rate-change negative">-0.7%</div>
+                </div>
+
+                <div class="rate-item">
+                    <div class="rate-pair">
+                        <span class="rate-from">💰 Золото</span>
+                        <span class="rate-arrow">→</span>
+                        <span class="rate-to">✨ Серебро</span>
+                    </div>
+                    <div class="rate-value">1 : 398</div>
+                    <div class="rate-change positive">+5.2%</div>
+                </div>
+
+                <div class="rate-item">
+                    <div class="rate-pair">
+                        <span class="rate-from">✨ Серебро</span>
+                        <span class="rate-arrow">→</span>
+                        <span class="rate-to">💰 Золото</span>
+                    </div>
+                    <div class="rate-value">1 : 0.0025</div>
+                    <div class="rate-change negative">-0.3%</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Вкладки: Обмен / Межмировой перевод -->
+        <section class="exchange-tabs">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="exchange">💱 Обмен валют</button>
+                <button class="tab-btn" data-tab="transfer">🌍 Межмировой перевод</button>
+            </div>
+        </section>
+
+        <!-- Вкладка: Обмен валют -->
+        <section class="exchange-section tab-content active" id="exchange-tab">
+            <div class="exchange-card">
+                <div class="exchange-form">
+                    <!-- Отдаю -->
+                    <div class="exchange-block from-block">
+                        <h3 class="block-title">ОТДАЮ</h3>
+
+                        <div class="form-group">
+                            <label class="form-label">Валюта</label>
+                            <div class="currency-radio-group">
+                                <label class="currency-radio">
+                                    <input type="radio" name="fromCurrency" value="crystal" checked>
+                                    <span class="radio-card crystal">
+                                        <span class="radio-icon">💎</span>
+                                        <span class="radio-text">Кристаллы</span>
+                                    </span>
+                                </label>
+
+                                <label class="currency-radio">
+                                    <input type="radio" name="fromCurrency" value="gold">
+                                    <span class="radio-card gold">
+                                        <span class="radio-icon">💰</span>
+                                        <span class="radio-text">Гномье золото</span>
+                                    </span>
+                                </label>
+
+                                <label class="currency-radio">
+                                    <input type="radio" name="fromCurrency" value="silver">
+                                    <span class="radio-card silver">
+                                        <span class="radio-icon">✨</span>
+                                        <span class="radio-text">Эльфийское серебро</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Счёт списания</label>
+                            <label for="fromAccount"></label><select class="account-selector" id="fromAccount">
+                                <option value="cry" data-world="Мир Арден" data-balance="542800">CRY-4242-8888-1234 (542,800 крист.) - Мир Арден</option>
+                                <option value="gld" data-world="Гномьи горы" data-balance="12450">GLD-5678-1234-5678 (12,450 золота) - Гномьи горы</option>
+                                <option value="slv" data-world="Эльфийские леса" data-balance="45200">SLV-9876-5432-1098 (45,200 серебра) - Эльфийские леса</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Стрелка обмена -->
+                    <div class="exchange-arrow">
+                        <span class="arrow-icon">⬇️</span>
+                        <span class="arrow-text">обменять</span>
+                        <span class="arrow-icon">⬇️</span>
+                    </div>
+
+                    <!-- Получаю -->
+                    <div class="exchange-block to-block">
+                        <h3 class="block-title">ПОЛУЧАЮ</h3>
+
+                        <div class="form-group">
+                            <label class="form-label">Валюта</label>
+                            <div class="currency-radio-group">
+                                <label class="currency-radio">
+                                    <input type="radio" name="toCurrency" value="crystal">
+                                    <span class="radio-card crystal">
+                                        <span class="radio-icon">💎</span>
+                                        <span class="radio-text">Кристаллы</span>
+                                    </span>
+                                </label>
+
+                                <label class="currency-radio">
+                                    <input type="radio" name="toCurrency" value="gold" checked>
+                                    <span class="radio-card gold">
+                                        <span class="radio-icon">💰</span>
+                                        <span class="radio-text">Гномье золото</span>
+                                    </span>
+                                </label>
+
+                                <label class="currency-radio">
+                                    <input type="radio" name="toCurrency" value="silver">
+                                    <span class="radio-card silver">
+                                        <span class="radio-icon">✨</span>
+                                        <span class="radio-text">Эльфийское серебро</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Счёт зачисления</label>
+                            <label for="toAccount"></label><select class="account-selector" id="toAccount">
+                                <option value="cry" data-world="Мир Арден" data-balance="542800">CRY-4242-8888-1234 (542,800 крист.) - Мир Арден</option>
+                                <option value="gld" data-world="Гномьи горы" data-balance="12450">GLD-5678-1234-5678 (12,450 золота) - Гномьи горы</option>
+                                <option value="slv" data-world="Эльфийские леса" data-balance="45200">SLV-9876-5432-1098 (45,200 серебра) - Эльфийские леса</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Сумма и курс -->
+                    <div class="amount-section">
+                        <div class="amount-group">
+                            <label class="amount-label">Сумма</label>
+                            <label for="amount"></label><input type="number" class="amount-input" id="amount" value="1000" min="1" placeholder="0">
+                        </div>
+
+                        <div class="rate-info-box">
+                            <span class="rate-text">Текущий курс:</span>
+                            <span class="rate-value-box" id="rateDisplay">1 💎 = 15.6 💰</span>
+                        </div>
+                    </div>
+
+                    <!-- Результат -->
+                    <div class="result-section">
+                        <div class="result-label">Вы получите:</div>
+                        <div class="result-value" id="resultAmount">15,600</div>
+                        <div class="result-currency" id="resultCurrency">💰 золота</div>
+                        <div class="result-hint">Без комиссии</div>
+                    </div>
+
+                    <!-- Кнопки -->
+                    <div class="exchange-actions">
+                        <button class="btn btn-primary btn-large btn-exchange">
+                            <span>Совершить обмен</span>
+                            <span class="btn-icon">🔄</span>
+                        </button>
+                        <button class="btn btn-outline btn-large">Отмена</button>
+                    </div>
+                </div>
+
+                <div class="exchange-decoration">
+                    <div class="floating-crystal small"></div>
+                    <div class="floating-crystal medium"></div>
+                    <div class="floating-crystal large"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Вкладка: Межмировой перевод -->
+        <section class="exchange-section tab-content" id="transfer-tab">
+            <div class="exchange-card transfer-card">
+                <div class="exchange-form">
+                    <div class="world-transfer-header">
+                        <span class="world-icon">🌍</span>
+                        <h3 class="world-title">Межмировой перевод</h3>
+                    </div>
+
+                    <!-- Мир отправитель -->
+                    <div class="world-block">
+                        <h4 class="world-block-title">ИЗ МИРА</h4>
+
+                        <div class="form-group">
+                            <label class="form-label">Мир</label>
+                            <div class="world-selector" id="fromWorld">
+                                <div class="world-option selected" data-world="arden">
+                                    <span class="world-emoji">🗺️</span>
+                                    <span class="world-name">Мир Арден</span>
+                                </div>
+                                <div class="world-option" data-world="mountains">
+                                    <span class="world-emoji">⛰️</span>
+                                    <span class="world-name">Гномьи горы</span>
+                                </div>
+                                <div class="world-option" data-world="forests">
+                                    <span class="world-emoji">🌲</span>
+                                    <span class="world-name">Эльфийские леса</span>
+                                </div>
+                                <div class="world-option" data-world="academy">
+                                    <span class="world-emoji">🔮</span>
+                                    <span class="world-name">Магическая академия</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Счёт списания</label>
+                            <label for="transferFromAccount"></label><select class="account-selector" id="transferFromAccount">
+                                <option value="cry" data-world="Мир Арден" data-balance="542800">CRY-4242-8888-1234 (542,800 крист.) - Мир Арден</option>
+                                <option value="gld" data-world="Гномьи горы" data-balance="12450">GLD-5678-1234-5678 (12,450 золота) - Гномьи горы</option>
+                                <option value="slv" data-world="Эльфийские леса" data-balance="45200">SLV-9876-5432-1098 (45,200 серебра) - Эльфийские леса</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Стрелка перехода -->
+                    <div class="world-arrow">
+                        <span class="arrow-line"></span>
+                        <span class="arrow-icon">🌍 → 🌍</span>
+                        <span class="arrow-line"></span>
+                    </div>
+
+                    <!-- Мир получатель -->
+                    <div class="world-block">
+                        <h4 class="world-block-title">В МИР</h4>
+
+                        <div class="form-group">
+                            <label class="form-label">Мир</label>
+                            <div class="world-selector" id="toWorld">
+                                <div class="world-option" data-world="arden">
+                                    <span class="world-emoji">🗺️</span>
+                                    <span class="world-name">Мир Арден</span>
+                                </div>
+                                <div class="world-option selected" data-world="mountains">
+                                    <span class="world-emoji">⛰️</span>
+                                    <span class="world-name">Гномьи горы</span>
+                                </div>
+                                <div class="world-option" data-world="forests">
+                                    <span class="world-emoji">🌲</span>
+                                    <span class="world-name">Эльфийские леса</span>
+                                </div>
+                                <div class="world-option" data-world="academy">
+                                    <span class="world-emoji">🔮</span>
+                                    <span class="world-name">Магическая академия</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Получатель</label>
+                            <div class="recipient-input-group">
+                                <label for="recipient"></label><input type="text" class="recipient-input" id="recipient" placeholder="Введите ник игрока">
+                                <span class="recipient-icon">👤</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Валюта и сумма -->
+                    <div class="transfer-amount-section">
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label class="form-label">Валюта</label>
+                                <div class="currency-radio-group small" id="transferCurrency">
+                                    <label class="currency-radio">
+                                        <input type="radio" name="transferCurrency" value="crystal" checked>
+                                        <span class="radio-card crystal">
+                                            <span class="radio-icon">💎</span>
+                                            <span class="radio-text">Кристаллы</span>
+                                        </span>
+                                    </label>
+
+                                    <label class="currency-radio">
+                                        <input type="radio" name="transferCurrency" value="gold">
+                                        <span class="radio-card gold">
+                                            <span class="radio-icon">💰</span>
+                                            <span class="radio-text">Золото</span>
+                                        </span>
+                                    </label>
+
+                                    <label class="currency-radio">
+                                        <input type="radio" name="transferCurrency" value="silver">
+                                        <span class="radio-card silver">
+                                            <span class="radio-icon">✨</span>
+                                            <span class="radio-text">Серебро</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group half">
+                                <label class="form-label">Сумма</label>
+                                <label for="transferAmount"></label><input type="number" class="amount-input" id="transferAmount" value="5000" min="1" placeholder="0">
+                            </div>
+                        </div>
+
+                        <div class="transfer-fee" id="feeDisplay">
+                            <span class="fee-label">Комиссия за межмировой перевод:</span>
+                            <span class="fee-value">2% (100 кристаллов)</span>
+                        </div>
+                    </div>
+
+                    <!-- Итог -->
+                    <div class="transfer-result" id="transferResult">
+                        <div class="result-item">
+                            <span class="result-label">К получению:</span>
+                            <span class="result-amount">4,900 кристаллов</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Время доставки:</span>
+                            <span class="result-time">~ 30 секунд</span>
+                        </div>
+                    </div>
+
+                    <!-- Кнопки -->
+                    <div class="exchange-actions">
+                        <button class="btn btn-primary btn-large btn-transfer">
+                            <span>Отправить перевод</span>
+                            <span class="btn-icon">🌍</span>
+                        </button>
+                        <button class="btn btn-outline btn-large">Отмена</button>
+                    </div>
+                </div>
+
+                <div class="exchange-decoration">
+                    <div class="floating-crystal small"></div>
+                    <div class="floating-crystal medium"></div>
+                    <div class="floating-crystal large"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- История обменов и переводов -->
+        <section class="history-section">
+            <h2 class="section-title">Последние <span class="gradient-text">операции</span></h2>
+
+            <div class="history-table">
+                <div class="history-header">
+                    <div class="col-date">Дата</div>
+                    <div class="col-type">Тип</div>
+                    <div class="col-from">Откуда</div>
+                    <div class="col-to">Куда</div>
+                    <div class="col-amount">Сумма</div>
+                    <div class="col-status">Статус</div>
+                </div>
+
+                <div class="history-body">
+                    <div class="history-row">
+                        <div class="col-date">22.02.2026</div>
+                        <div class="col-type"><span class="type-badge exchange">Обмен</span></div>
+                        <div class="col-from">1,000 💎</div>
+                        <div class="col-to">15,600 💰</div>
+                        <div class="col-amount positive">+15,600 💰</div>
+                        <div class="col-status"><span class="status-badge completed">Завершено</span></div>
+                    </div>
+
+                    <div class="history-row">
+                        <div class="col-date">21.02.2026</div>
+                        <div class="col-type"><span class="type-badge transfer">Межмир</span></div>
+                        <div class="col-from">Мир Арден</div>
+                        <div class="col-to">Гномьи горы</div>
+                        <div class="col-amount">5,000 💎</div>
+                        <div class="col-status"><span class="status-badge completed">Завершено</span></div>
+                    </div>
+
+                    <div class="history-row">
+                        <div class="col-date">20.02.2026</div>
+                        <div class="col-type"><span class="type-badge exchange">Обмен</span></div>
+                        <div class="col-from">2,000 💎</div>
+                        <div class="col-to">49,600 ✨</div>
+                        <div class="col-amount positive">+49,600 ✨</div>
+                        <div class="col-status"><span class="status-badge completed">Завершено</span></div>
+                    </div>
+
+                    <div class="history-row">
+                        <div class="col-date">19.02.2026</div>
+                        <div class="col-type"><span class="type-badge transfer">Межмир</span></div>
+                        <div class="col-from">Эльф. леса</div>
+                        <div class="col-to">Маг. академия</div>
+                        <div class="col-amount">10,000 ✨</div>
+                        <div class="col-status"><span class="status-badge pending">В пути</span></div>
+                    </div>
+                </div>
+
+                <div class="history-footer">
+                    <a href="#" class="btn btn-outline btn-small">Вся история →</a>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- Подвал -->
+<div th:replace="~{fragments/bank-footer :: bank-footer}"></div>
+
+<script>
+    document.querySelector('.mobile-menu-btn')?.addEventListener('click', function() {
+        document.querySelector('.nav').classList.toggle('active');
+    });
+
+    // Переключение вкладок
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            const tabId = this.getAttribute('data-tab') + '-tab';
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    // Выбор мира
+    document.querySelectorAll('.world-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const parent = this.parentElement;
+            parent.querySelectorAll('.world-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            this.classList.add('selected');
+
+            // Обновить информацию о переводе
+            updateTransferInfo();
+        });
+    });
+
+    // Курсы обмена
+    const rates = {
+        'crystal_gold': 15.6,
+        'crystal_silver': 24.8,
+        'gold_crystal': 0.064,
+        'gold_silver': 398,
+        'silver_crystal': 0.040,
+        'silver_gold': 0.0025
+    };
+
+    const currencySymbols = {
+        'crystal': '💎',
+        'gold': '💰',
+        'silver': '✨'
+    };
+
+    const currencyNames = {
+        'crystal': 'кристаллов',
+        'gold': 'золота',
+        'silver': 'серебра'
+    };
+
+    // Обновление курса и результата для обмена валют
+    function updateExchangeRate() {
+        const fromCurrency = document.querySelector('input[name="fromCurrency"]:checked')?.value || 'crystal';
+        const toCurrency = document.querySelector('input[name="toCurrency"]:checked')?.value || 'gold';
+        const amount = parseFloat(document.getElementById('amount').value) || 0;
+
+        const rateKey = `${fromCurrency}_${toCurrency}`;
+        const rate = rates[rateKey] || 1;
+
+        // Обновить отображение курса
+        const fromSymbol = currencySymbols[fromCurrency];
+        const toSymbol = currencySymbols[toCurrency];
+        document.getElementById('rateDisplay').innerHTML = `1 ${fromSymbol} = ${rate} ${toSymbol}`;
+
+        // Обновить результат
+        const result = amount * rate;
+        document.getElementById('resultAmount').innerHTML = result.toLocaleString();
+        document.getElementById('resultCurrency').innerHTML = `${toSymbol} ${currencyNames[toCurrency]}`;
+    }
+
+    // Обновление информации о межмировом переводе
+    function updateTransferInfo() {
+        const amount = parseFloat(document.getElementById('transferAmount').value) || 0;
+        const currency = document.querySelector('input[name="transferCurrency"]:checked')?.value || 'crystal';
+
+        const commission = amount * 0.02;
+        const finalAmount = amount - commission;
+        const symbol = currencySymbols[currency];
+
+        document.getElementById('feeDisplay').innerHTML = `
+            <span class="fee-label">Комиссия за межмировой перевод:</span>
+            <span class="fee-value">2% (${commission.toLocaleString()} ${symbol})</span>
+        `;
+
+        document.getElementById('transferResult').innerHTML = `
+            <div class="result-item">
+                <span class="result-label">К получению:</span>
+                <span class="result-amount">${finalAmount.toLocaleString()} ${symbol}</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Время доставки:</span>
+                <span class="result-time">~ 30 секунд</span>
+            </div>
+        `;
+    }
+
+    // Слушатели для обмена валют
+    document.querySelectorAll('input[name="fromCurrency"], input[name="toCurrency"]').forEach(radio => {
+        radio.addEventListener('change', updateExchangeRate);
+    });
+
+    document.getElementById('amount').addEventListener('input', updateExchangeRate);
+
+    // Слушатели для межмирового перевода
+    document.querySelectorAll('input[name="transferCurrency"]').forEach(radio => {
+        radio.addEventListener('change', updateTransferInfo);
+    });
+
+    document.getElementById('transferAmount').addEventListener('input', updateTransferInfo);
+
+    // Инициализация
+    updateExchangeRate();
+    updateTransferInfo();
+</script>
+</body>
+</html>

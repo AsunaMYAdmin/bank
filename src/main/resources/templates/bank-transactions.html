@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Операции | Кристальный Банк</title>
+  <link rel="stylesheet" href="/css/bank-transactions.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Фоновые кристаллы -->
+<div class="bg-decoration">
+  <div class="crystal crystal-1"></div>
+  <div class="crystal crystal-2"></div>
+  <div class="crystal crystal-3"></div>
+  <div class="crystal crystal-4"></div>
+</div>
+
+<!-- Шапка -->
+<div th:replace="~{fragments/bank-header :: bank-header('transactions')}"></div>
+
+<main class="main">
+  <div class="container">
+    <!-- Хлебные крошки -->
+    <div class="breadcrumbs">
+      <a href="/">Главная</a> <span>/</span> <span>Операции</span>
+    </div>
+
+    <!-- Заголовок -->
+    <section class="page-header">
+      <h1 class="page-title">История <span class="gradient-text">операций</span></h1>
+      <p class="page-description">
+        Все движения кристаллов, переводы и начисления в магическом реестре
+      </p>
+    </section>
+
+    <!-- Краткая статистика -->
+    <section class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">💎</div>
+          <div class="stat-info">
+            <span class="stat-label">Всего операций</span>
+            <span class="stat-value">1,247</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📤</div>
+          <div class="stat-info">
+            <span class="stat-label">Отправлено</span>
+            <span class="stat-value">542,800</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📥</div>
+          <div class="stat-info">
+            <span class="stat-label">Получено</span>
+            <span class="stat-value">691,767</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⚖️</div>
+          <div class="stat-info">
+            <span class="stat-label">Баланс</span>
+            <span class="stat-value">+148,967</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Фильтры -->
+    <section class="filters-section">
+      <div class="filters-header">
+        <h2 class="filters-title">🔮 Магический фильтр</h2>
+        <div class="filter-toggles">
+          <button class="filter-toggle active" data-filter="all">Все</button>
+          <button class="filter-toggle" data-filter="incoming">Входящие</button>
+          <button class="filter-toggle" data-filter="outgoing">Исходящие</button>
+          <button class="filter-toggle" data-filter="interest">Проценты</button>
+        </div>
+      </div>
+
+      <div class="filters-grid">
+        <div class="filter-group">
+          <label class="filter-label">Счёт</label>
+          <label>
+            <select class="filter-select">
+              <option>Все счета</option>
+              <option>CRY-4242-8888-1234 (Кристальный)</option>
+              <option>GLD-5678-1234-5678 (Золотой)</option>
+              <option>SLV-9876-5432-1098 (Серебряный)</option>
+              <option>SAV-1111-2222-3333 (Сберегательный)</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Период</label>
+          <label>
+            <select class="filter-select">
+              <option>За всё время</option>
+              <option>Последний месяц</option>
+              <option>Последние 3 месяца</option>
+              <option>Последний год</option>
+              <option>Выбрать даты</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Тип операции</label>
+          <label>
+            <select class="filter-select">
+              <option>Все типы</option>
+              <option>Переводы</option>
+              <option>Начисления процентов</option>
+              <option>Обмен валют</option>
+              <option>Платежи</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Сумма</label>
+          <div class="filter-range">
+            <label>
+              <input type="text" placeholder="от" class="range-input">
+            </label>
+            <span class="range-sep">—</span>
+            <label>
+              <input type="text" placeholder="до" class="range-input">
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="filters-actions">
+        <button class="btn btn-primary">Применить фильтр</button>
+        <button class="btn btn-outline">Сбросить</button>
+      </div>
+    </section>
+
+    <!-- Таблица операций -->
+    <section class="transactions-section">
+      <div class="transactions-header">
+        <h2 class="section-title">Журнал <span class="gradient-text">транзакций</span></h2>
+        <div class="export-btn">
+          <button class="btn btn-outline btn-small">📊 Экспорт</button>
+        </div>
+      </div>
+
+      <div class="transactions-table">
+        <div class="table-header">
+          <div class="col-date">Дата</div>
+          <div class="col-time">Время</div>
+          <div class="col-type">Тип</div>
+          <div class="col-description">Описание</div>
+          <div class="col-account">Счёт</div>
+          <div class="col-amount">Сумма</div>
+          <div class="col-status">Статус</div>
+        </div>
+
+        <div class="table-body">
+          <!-- Сегодня -->
+          <div class="table-date-separator">
+            <span class="separator-text">Сегодня</span>
+          </div>
+
+          <div class="table-row incoming">
+            <div class="col-date">22.02.2026</div>
+            <div class="col-time">14:23</div>
+            <div class="col-type"><span class="type-badge incoming">Входящий перевод</span></div>
+            <div class="col-description">Перевод от ShadowDragon</div>
+            <div class="col-account">CRY-4242-8888-1234</div>
+            <div class="col-amount positive">+5,000</div>
+            <div class="col-status"><span class="status-badge completed">Завершено</span></div>
+          </div>
+
+          <div class="table-row outgoing">
+            <div class="col-date">22.02.2026</div>
+            <div class="col-time">11:05</div>
+            <div class="col-type"><span class="type-badge outgoing">Исходящий перевод</span></div>
+            <div class="col-description">Перевод MoonElf</div>
+            <div class="col-account">CRY-4242-8888-1234</div>
+            <div class="col-amount negative">-1,200</div>
+            <div class="col-status"><span class="status-badge completed">Завершено</span></div>
+          </div>
+
+          <!-- Вчера -->
+          <div class="table-date-separator">
+            <span class="separator-text">Вчера</span>
+          </div>
+
+          <div class="table-row interest">
+            <div class="col-date">21.02.2026</div>
+            <div class="col-time">23:59</div>
+            <div class="col-type"><span class="type-badge interest">Проценты</span></div>
+            <div class="col-description">Начисление процентов по сберегательному счёту</div>
+            <div class="col-account">SAV-1111-2222-3333</div>
+            <div class="col-amount positive">+4,160</div>
+            <div class="col-status"><span class="status-badge completed">Завершено</span></div>
+          </div>
+
+          <div class="table-row outgoing">
+            <div class="col-date">21.02.2026</div>
+            <div class="col-time">18:30</div>
+            <div class="col-type"><span class="type-badge outgoing">Исходящий перевод</span></div>
+            <div class="col-description">Оплата в магазине артефактов</div>
+            <div class="col-account">CRY-4242-8888-1234</div>
+            <div class="col-amount negative">-2,500</div>
+            <div class="col-status"><span class="status-badge completed">Завершено</span></div>
+          </div>
+
+          <div class="table-row exchange">
+            <div class="col-date">21.02.2026</div>
+            <div class="col-time">09:15</div>
+            <div class="col-type"><span class="type-badge exchange">Обмен валют</span></div>
+            <div class="col-description">Кристаллы → Золото</div>
+            <div class="col-account">GLD-5678-1234-5678</div>
+            <div class="col-amount positive">+1,000</div>
+            <div class="col-status"><span class="status-badge completed">Завершено</span></div>
+          </div>
+
+          <!-- Ранее -->
+          <div class="table-date-separator">
+            <span class="separator-text">20 февраля 2026</span>
+          </div>
+
+          <div class="table-row incoming">
+            <div class="col-date">20.02.2026</div>
+            <div class="col-time">22:10</div>
+            <div class="col-type"><span class="type-badge incoming">Входящий перевод</span></div>
+            <div class="col-description">Перевод от Ironbeard</div>
+            <div class="col-account">CRY-4242-8888-1234</div>
+            <div class="col-amount positive">+3,000</div>
+            <div class="col-status"><span class="status-badge completed">Завершено</span></div>
+          </div>
+
+          <div class="table-row outgoing">
+            <div class="col-date">20.02.2026</div>
+            <div class="col-time">16:45</div>
+            <div class="col-type"><span class="type-badge outgoing">Исходящий перевод</span></div>
+            <div class="col-description">Пополнение сберегательного счёта</div>
+            <div class="col-account">SAV-1111-2222-3333</div>
+            <div class="col-amount negative">-10,000</div>
+            <div class="col-status"><span class="status-badge completed">Завершено</span></div>
+          </div>
+
+          <div class="table-row exchange">
+            <div class="col-date">20.02.2026</div>
+            <div class="col-time">11:20</div>
+            <div class="col-type"><span class="type-badge exchange">Обмен валют</span></div>
+            <div class="col-description">Серебро → Кристаллы</div>
+            <div class="col-account">SLV-9876-5432-1098</div>
+            <div class="col-amount positive">+2,500</div>
+            <div class="col-status"><span class="status-badge completed">Завершено</span></div>
+          </div>
+
+          <div class="table-row payment">
+            <div class="col-date">19.02.2026</div>
+            <div class="col-time">13:30</div>
+            <div class="col-type"><span class="type-badge payment">Платёж</span></div>
+            <div class="col-description">Аренда гильдейского замка</div>
+            <div class="col-account">CRY-4242-8888-1234</div>
+            <div class="col-amount negative">-500</div>
+            <div class="col-status"><span class="status-badge completed">Завершено</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Пагинация -->
+      <div class="pagination">
+        <a href="#" class="page-prev disabled">←</a>
+        <div class="page-numbers">
+          <a href="#" class="page-number active">1</a>
+          <a href="#" class="page-number">2</a>
+          <a href="#" class="page-number">3</a>
+          <a href="#" class="page-number">4</a>
+          <span class="page-dots">...</span>
+          <a href="#" class="page-number">12</a>
+        </div>
+        <a href="#" class="page-next">→</a>
+      </div>
+    </section>
+
+    <!-- Быстрые действия -->
+    <section class="quick-actions">
+      <h2 class="section-title">Быстрые <span class="gradient-text">действия</span></h2>
+
+      <div class="actions-grid">
+        <a href="/transfer" class="action-card">
+          <div class="action-icon">📤</div>
+          <h3>Новый перевод</h3>
+          <p>Отправить кристаллы другому игроку</p>
+        </a>
+
+        <a href="/exchange" class="action-card">
+          <div class="action-icon">🔄</div>
+          <h3>Обмен валют</h3>
+          <p>Конвертировать кристаллы в золото/серебро</p>
+        </a>
+
+        <a href="/payment" class="action-card">
+          <div class="action-icon">💰</div>
+          <h3>Оплата услуг</h3>
+          <p>Оплатить аренду, магазин, гильдию</p>
+        </a>
+
+        <a href="/report" class="action-card">
+          <div class="action-icon">📊</div>
+          <h3>Отчёт за период</h3>
+          <p>Сформировать выписку по операциям</p>
+        </a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- Подвал -->
+<div th:replace="~{fragments/bank-footer :: bank-footer}"></div>
+
+<script>
+  document.querySelector('.mobile-menu-btn')?.addEventListener('click', function() {
+    document.querySelector('.nav').classList.toggle('active');
+  });
+
+  // Фильтры (демо)
+  document.querySelectorAll('.filter-toggle').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-toggle').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+
+      // Здесь будет логика фильтрации
+      const filter = this.getAttribute('data-filter');
+      console.log('Фильтр:', filter);
+    });
+  });
+
+  // Поиск (демо)
+  document.querySelector('.search-btn')?.addEventListener('click', function() {
+    const query = document.querySelector('.search-input').value;
+    if (query) alert('Поиск: ' + query);
+  });
+</script>
+</body>
+</html>

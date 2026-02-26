@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<header class="header" th:fragment="bank-header(activePage)">
+    <div class="container header-container">
+        <div class="logo">
+            <span class="logo-icon">⛁</span>
+            <span class="logo-text">Кристальный Банк</span>
+        </div>
+        <nav class="nav">
+            <a href="/" class="nav-link" th:classappend="${activePage == 'bank-home'} ? 'active' : ''">Главная</a>
+            <a href="/accounts" class="nav-link" th:classappend="${activePage == 'accounts'} ? 'active' : ''">Счета</a>
+            <a href="/transactions" class="nav-link" th:classappend="${activePage == 'transactions'} ? 'active' : ''">Операции</a>
+            <a href="/exchange" class="nav-link" th:classappend="${activePage == 'exchange'} ? 'active' : ''">Обмен валют</a>
+            <a href="/bank-about" class="nav-link" th:classappend="${activePage == 'bank-about'} ? 'active' : ''">О банке</a>
+            <a href="/site" class="nav-link" th:classappend="${activePage == 'loregard.ru'} ? 'active' : ''">LOREGARD</a>
+        </nav>
+        <div class="header-actions">
+            <a href="/login" class="btn btn-primary">Войти в банк</a>
+        </div>
+    </div>
+</header>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О Банке | Кристальный Банк</title>
+    <link rel="stylesheet" href="/css/bank-about.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Фоновые кристаллы -->
+<div class="bg-decoration">
+    <div class="crystal crystal-1"></div>
+    <div class="crystal crystal-2"></div>
+    <div class="crystal crystal-3"></div>
+    <div class="crystal crystal-4"></div>
+</div>
+
+<!-- Шапка -->
+<div th:replace="~{fragments/bank-header :: bank-header('bank-about')}"></div>
+
+<main class="main">
+    <div class="container">
+        <!-- Хлебные крошки -->
+        <div class="breadcrumbs">
+            <a href="/">Главная</a> <span>/</span> <span>О банке</span>
+        </div>
+
+        <!-- Геройский блок -->
+        <section class="about-hero">
+            <div class="hero-content">
+                <div class="hero-badge">🏦 Основан в 2026 году</div>
+                <h1 class="hero-title">
+                    О <span class="gradient-text">Кристальном</span> Банке
+                </h1>
+                <p class="hero-description">
+                    Единственный банк в мире Loregard, где магия встречается с высокими финансами.
+                    Полноценная банковская симуляция с настоящими счетами, транзакциями и процентными ставками.
+                </p>
+            </div>
+            <div class="hero-crystal">
+                <div class="floating-crystal hero-crystal-big"></div>
+                <div class="floating-crystal hero-crystal-medium"></div>
+                <div class="floating-crystal hero-crystal-small"></div>
+            </div>
+        </section>
+
+        <!-- ===== КАРТОЧКА ТВОЯ (ВЕРХОВНЫЙ ХРАНИТЕЛЬ) ===== -->
+        <section class="creator-section">
+            <div class="creator-card">
+                <div class="creator-crystal">
+                    <div class="crystal-orb gold-orb"></div>
+                    <div class="crystal-particles">
+                        <span>👑</span>
+                        <span>⚔️</span>
+                        <span>✨</span>
+                    </div>
+                </div>
+                <div class="creator-info">
+                    <div class="creator-badge">⚡ Верховный хранитель Loregard ⚡</div>
+                    <h2 class="creator-name">Asuna's Knight</h2>
+                    <div class="creator-title">Основатель мира и создатель Кристального банка</div>
+
+                    <div class="creator-quote">
+                        <span class="quote-mark">"</span>
+                        <p class="quote-text">
+                            Я создал этот мир и этот банк, чтобы каждый герой мог чувствовать себя частью
+                            великой легенды. Кристальный банк — сердце экономики Loregard, и оно бьётся в ритме магии.
+                        </p>
+                    </div>
+
+                    <div class="creator-stats">
+                        <div class="stat">
+                            <span class="stat-value">∞</span>
+                            <span class="stat-label">Сила</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">👑</span>
+                            <span class="stat-label">Власть</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">🔮</span>
+                            <span class="stat-label">Магия</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Разделитель с кристаллами -->
+        <div class="crystal-divider">
+            <span>💎</span>
+            <span>💎</span>
+            <span>💎</span>
+        </div>
+
+        <!-- ===== КАРТОЧКА ГЛАВНОГО ХРАНИТЕЛЯ БАНКА (ПОДЧИНЁННЫЙ) ===== -->
+        <section class="guardian-section">
+            <div class="guardian-card">
+                <div class="guardian-crystal">
+                    <div class="crystal-orb blue-orb"></div>
+                    <div class="crystal-particles">
+                        <span>💎</span>
+                        <span>💰</span>
+                        <span>📊</span>
+                    </div>
+                </div>
+
+                <div class="guardian-info">
+                    <div class="guardian-badge">👑 Главный хранитель банка 👑</div>
+
+                    <!-- Имя можно будет подставить через Thymeleaf -->
+                    <h2 class="guardian-name" th:text="${bankGuardianName} ?: 'Имя Хранителя'">Имя Хранителя</h2>
+
+                    <div class="guardian-title">Хранитель Кристального банка</div>
+
+                    <div class="guardian-quote">
+                        <span class="quote-mark">"</span>
+                        <p class="quote-text" th:text="${bankGuardianQuote} ?: 'Каждый кристалл в этом банке хранит частицу магии. Моя задача — сохранить их и приумножить для всех героев Loregard.'">
+                            Каждый кристалл в этом банке хранит частицу магии. Моя задача — сохранить их и приумножить для всех героев Loregard.
+                        </p>
+                    </div>
+
+                    <div class="guardian-stats">
+                        <div class="stat">
+                            <span class="stat-value">💎</span>
+                            <span class="stat-label">Кристаллы</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">📈</span>
+                            <span class="stat-label">Доход</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">⚖️</span>
+                            <span class="stat-label">Честность</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- О симуляции -->
+        <section class="simulation-section">
+            <h2 class="section-title">Полноценная <span class="gradient-text">банковская</span> симуляция</h2>
+
+            <div class="simulation-grid">
+                <div class="simulation-card">
+                    <div class="card-icon">💳</div>
+                    <h3>Система счетов</h3>
+                    <p>Каждый клиент получает уникальный номер счёта. Можно открыть несколько счетов в разных валютах: кристаллы, золото, эльфийское серебро.</p>
+                    <div class="card-example">
+                        <span>Счёт: CRY-4242-XXXX-8888</span>
+                    </div>
+                </div>
+
+                <div class="simulation-card">
+                    <div class="card-icon">🔄</div>
+                    <h3>Мгновенные переводы</h3>
+                    <p>Переводи кристаллы между игроками за секунду. Каждая транзакция записывается в магический реестр и защищена от подделки.</p>
+                    <div class="card-example">
+                        <span>+1000 кристаллов • 2 сек назад</span>
+                    </div>
+                </div>
+
+                <div class="simulation-card">
+                    <div class="card-icon">📈</div>
+                    <h3>Процентные ставки</h3>
+                    <p>Храни кристаллы на счетах и получай до 5% годовых в кристаллах. Проценты начисляются ежедневно.</p>
+                    <div class="card-example">
+                        <span>Ставка: от 1% до 5%</span>
+                    </div>
+                </div>
+
+                <div class="simulation-card">
+                    <div class="card-icon">💰</div>
+                    <h3>Кредитование</h3>
+                    <p>Нужны кристаллы прямо сейчас? Возьми кредит под залог будущих поступлений. Прозрачные условия без скрытых комиссий.</p>
+                    <div class="card-example">
+                        <span>Кредит до 50 000 кристаллов</span>
+                    </div>
+                </div>
+
+                <div class="simulation-card">
+                    <div class="card-icon">⚖️</div>
+                    <h3>Обмен валют</h3>
+                    <p>Меняй кристаллы на золото гномов или серебро эльфов по реальному курсу. Курс обновляется каждый час.</p>
+                    <div class="card-example">
+                        <span>1 кристалл = 15.6 золота</span>
+                    </div>
+                </div>
+
+                <div class="simulation-card">
+                    <div class="card-icon">📜</div>
+                    <h3>История операций</h3>
+                    <p>Полная выписка по всем движениям средств. Магический свиток покажет каждую транзакцию за любой период.</p>
+                    <div class="card-example">
+                        <span>Доступно за 90 дней</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Цифры банка -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">15K+</div>
+                    <div class="stat-label">Клиентов</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1.2M</div>
+                    <div class="stat-label">Кристаллов</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Работа</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Магия</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Принципы работы -->
+        <section class="principles-section">
+            <h2 class="section-title">Как мы <span class="gradient-text">работаем</span></h2>
+
+            <div class="principles-grid">
+                <div class="principle-item">
+                    <div class="principle-number">1</div>
+                    <h3>Прозрачность</h3>
+                    <p>Все комиссии и ставки известны заранее. Никаких скрытых платежей.</p>
+                </div>
+                <div class="principle-item">
+                    <div class="principle-number">2</div>
+                    <h3>Безопасность</h3>
+                    <p>Магическая защита древних кристаллов + современное шифрование.</p>
+                </div>
+                <div class="principle-item">
+                    <div class="principle-number">3</div>
+                    <h3>Скорость</h3>
+                    <p>Мгновенные переводы между любыми мирами Loregard.</p>
+                </div>
+                <div class="principle-item">
+                    <div class="principle-number">4</div>
+                    <h3>Честность</h3>
+                    <p>Никаких махинаций с курсами и процентами. Только честная магия.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Призыв к действию -->
+        <section class="cta-section">
+            <div class="cta-card">
+                <h2 class="cta-title">Готов стать клиентом?</h2>
+                <p class="cta-description">
+                    Открой счёт прямо сейчас и получи <span class="highlight">100 кристаллов</span> в подарок!
+                </p>
+                <a href="/login" class="btn btn-primary btn-large">
+                    <span class="btn-text">Открыть счёт</span>
+                    <span class="btn-icon">⟶</span>
+                </a>
+                <div class="cta-crystals">
+                    <span>💎</span>
+                    <span>💎</span>
+                    <span>💎</span>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- Подвал -->
+<div th:replace="~{fragments/bank-footer :: bank-footer}"></div>
+
+<script>
+    document.querySelector('.mobile-menu-btn')?.addEventListener('click', function() {
+        document.querySelector('.nav').classList.toggle('active');
+    });
+</script>
+</body>
+</html>

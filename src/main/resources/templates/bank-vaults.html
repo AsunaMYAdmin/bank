@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сейфы | Кристальный Банк</title>
+    <link rel="stylesheet" href="/css/bank-vaults.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Фоновые кристаллы -->
+<div class="bg-decoration">
+    <div class="crystal crystal-1"></div>
+    <div class="crystal crystal-2"></div>
+    <div class="crystal crystal-3"></div>
+    <div class="crystal crystal-4"></div>
+</div>
+
+<!-- Шапка -->
+<div th:replace="~{fragments/bank-header :: bank-header('vaults')}"></div>
+
+<main class="main">
+    <div class="container">
+        <!-- Хлебные крошки -->
+        <div class="breadcrumbs">
+            <a href="/">Главная</a> <span>/</span> <span>Сейфы</span>
+        </div>
+
+        <!-- Заголовок -->
+        <section class="page-header">
+            <h1 class="page-title">Магические <span class="gradient-text">сейфы</span></h1>
+            <p class="page-description">
+                Индивидуальные хранилища для самых ценных артефактов и кристаллов. Только вы имеете доступ к своему сейфу.
+            </p>
+        </section>
+
+        <!-- Статистика сейфов -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🔒</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Ваших сейфов</span>
+                        <span class="stat-value">3</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💎</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Хранится кристаллов</span>
+                        <span class="stat-value">125,800</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🏷️</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Активных аренд</span>
+                        <span class="stat-value">2</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⚔️</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Уровень защиты</span>
+                        <span class="stat-value">Магический</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Кнопка аренды сейфа -->
+        <section class="action-bar">
+            <a href="#" class="btn btn-primary btn-large">
+                <span class="btn-text">Арендовать новый сейф</span>
+                <span class="btn-icon">🔐</span>
+            </a>
+            <div class="action-hint">
+                <span class="hint-icon">✨</span>
+                <span>Первые 7 дней аренды — бесплатно</span>
+            </div>
+        </section>
+
+        <!-- Список сейфов -->
+        <section class="vaults-section">
+            <h2 class="section-title">Ваши <span class="gradient-text">сейфы</span></h2>
+
+            <div class="vaults-grid">
+                <!-- Сейф 1: Малый сейф -->
+                <div class="vault-card">
+                    <div class="vault-badge">Активен</div>
+                    <div class="vault-icon">🔓</div>
+                    <h3 class="vault-name">Малый кристальный сейф</h3>
+
+                    <div class="vault-number">
+                        <span class="number-label">Номер сейфа:</span>
+                        <span class="number-value">VLT-1234-5678</span>
+                    </div>
+
+                    <div class="vault-details">
+                        <div class="vault-detail">
+                            <span class="detail-label">Вместимость:</span>
+                            <span class="detail-value">10,000 кристаллов</span>
+                        </div>
+                        <div class="vault-detail">
+                            <span class="detail-label">Занято:</span>
+                            <span class="detail-value">8,450 кристаллов</span>
+                        </div>
+                        <div class="vault-progress">
+                            <div class="progress-bar" style="width: 84%"></div>
+                        </div>
+                    </div>
+
+                    <div class="vault-items">
+                        <div class="items-title">Хранящиеся предметы:</div>
+                        <div class="items-list">
+                            <div class="item">
+                                <span class="item-icon">💎</span>
+                                <span class="item-name">Кристаллы</span>
+                                <span class="item-count">8,450</span>
+                            </div>
+                            <div class="item">
+                                <span class="item-icon">🔮</span>
+                                <span class="item-name">Магический шар</span>
+                                <span class="item-count">1</span>
+                            </div>
+                            <div class="item">
+                                <span class="item-icon">📜</span>
+                                <span class="item-name">Древний свиток</span>
+                                <span class="item-count">3</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vault-footer">
+                        <div class="vault-rent">
+                            <span class="rent-label">Аренда до:</span>
+                            <span class="rent-date">25.03.2026</span>
+                        </div>
+                        <div class="vault-actions">
+                            <a href="#" class="btn btn-outline btn-small">Пополнить</a>
+                            <a href="#" class="btn btn-outline btn-small">Изъять</a>
+                        </div>
+                    </div>
+
+                    <div class="vault-security">
+                        <span class="security-icon">🛡️</span>
+                        <span class="security-text">Магическая защита уровня 3</span>
+                    </div>
+                </div>
+
+                <!-- Сейф 2: Средний сейф -->
+                <div class="vault-card premium">
+                    <div class="vault-badge premium">Премиум</div>
+                    <div class="vault-icon">🔒</div>
+                    <h3 class="vault-name">Средний артефактный сейф</h3>
+
+                    <div class="vault-number">
+                        <span class="number-label">Номер сейфа:</span>
+                        <span class="number-value">VLT-5678-9012</span>
+                    </div>
+
+                    <div class="vault-details">
+                        <div class="vault-detail">
+                            <span class="detail-label">Вместимость:</span>
+                            <span class="detail-value">50,000 кристаллов</span>
+                        </div>
+                        <div class="vault-detail">
+                            <span class="detail-label">Занято:</span>
+                            <span class="detail-value">32,500 кристаллов</span>
+                        </div>
+                        <div class="vault-progress">
+                            <div class="progress-bar" style="width: 65%"></div>
+                        </div>
+                    </div>
+
+                    <div class="vault-items">
+                        <div class="items-title">Хранящиеся предметы:</div>
+                        <div class="items-list">
+                            <div class="item">
+                                <span class="item-icon">💎</span>
+                                <span class="item-name">Кристаллы</span>
+                                <span class="item-count">32,500</span>
+                            </div>
+                            <div class="item">
+                                <span class="item-icon">⚔️</span>
+                                <span class="item-name">Меч дракона</span>
+                                <span class="item-count">1</span>
+                            </div>
+                            <div class="item">
+                                <span class="item-icon">🛡️</span>
+                                <span class="item-name">Щит стража</span>
+                                <span class="item-count">1</span>
+                            </div>
+                            <div class="item">
+                                <span class="item-icon">👑</span>
+                                <span class="item-name">Корона власти</span>
+                                <span class="item-count">1</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vault-footer">
+                        <div class="vault-rent">
+                            <span class="rent-label">Аренда до:</span>
+                            <span class="rent-date">15.04.2026</span>
+                        </div>
+                        <div class="vault-actions">
+                            <a href="#" class="btn btn-outline btn-small">Пополнить</a>
+                            <a href="#" class="btn btn-outline btn-small">Изъять</a>
+                        </div>
+                    </div>
+
+                    <div class="vault-security">
+                        <span class="security-icon">🛡️</span>
+                        <span class="security-text">Магическая защита уровня 5</span>
+                    </div>
+                </div>
+
+                <!-- Сейф 3: Большой сейф (пустой) -->
+                <div class="vault-card empty">
+                    <div class="vault-badge">Пустует</div>
+                    <div class="vault-icon">📦</div>
+                    <h3 class="vault-name">Большой сейф</h3>
+
+                    <div class="vault-number">
+                        <span class="number-label">Номер сейфа:</span>
+                        <span class="number-value">VLT-9012-3456</span>
+                    </div>
+
+                    <div class="vault-details">
+                        <div class="vault-detail">
+                            <span class="detail-label">Вместимость:</span>
+                            <span class="detail-value">100,000 кристаллов</span>
+                        </div>
+                        <div class="vault-detail">
+                            <span class="detail-label">Занято:</span>
+                            <span class="detail-value">0 кристаллов</span>
+                        </div>
+                        <div class="vault-progress">
+                            <div class="progress-bar" style="width: 0"></div>
+                        </div>
+                    </div>
+
+                    <div class="vault-items">
+                        <div class="items-title">Хранящиеся предметы:</div>
+                        <div class="items-list empty-state">
+                            <span class="empty-message">Сейф пуст</span>
+                        </div>
+                    </div>
+
+                    <div class="vault-footer">
+                        <div class="vault-rent">
+                            <span class="rent-label">Аренда до:</span>
+                            <span class="rent-date">10.03.2026</span>
+                        </div>
+                        <div class="vault-actions">
+                            <a href="#" class="btn btn-outline btn-small">Пополнить</a>
+                            <a href="#" class="btn btn-outline btn-small">Изъять</a>
+                        </div>
+                    </div>
+
+                    <div class="vault-security">
+                        <span class="security-icon">🛡️</span>
+                        <span class="security-text">Магическая защита уровня 2</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Тарифы на аренду сейфов -->
+        <section class="tariffs-section">
+            <h2 class="section-title">Тарифы на <span class="gradient-text">аренду</span></h2>
+
+            <div class="tariffs-grid">
+                <div class="tariff-card">
+                    <h3 class="tariff-name">Малый сейф</h3>
+                    <div class="tariff-icon">🔓</div>
+                    <div class="tariff-capacity">до 10,000 кристаллов</div>
+                    <div class="tariff-price">50 <span class="price-currency">кристаллов/день</span></div>
+                    <ul class="tariff-features">
+                        <li>✅ 5 слотов для предметов</li>
+                        <li>✅ Базовая магическая защита</li>
+                        <li>✅ Доступ 24/7</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline btn-small">Выбрать</a>
+                </div>
+
+                <div class="tariff-card popular">
+                    <div class="popular-badge">🔥 Выбор игроков</div>
+                    <h3 class="tariff-name">Средний сейф</h3>
+                    <div class="tariff-icon">🔒</div>
+                    <div class="tariff-capacity">до 50,000 кристаллов</div>
+                    <div class="tariff-price">150 <span class="price-currency">кристаллов/день</span></div>
+                    <ul class="tariff-features">
+                        <li>✅ 15 слотов для предметов</li>
+                        <li>✅ Усиленная магическая защита</li>
+                        <li>✅ Доступ 24/7</li>
+                        <li>✅ Страхование до 10%</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary btn-small">Выбрать</a>
+                </div>
+
+                <div class="tariff-card">
+                    <h3 class="tariff-name">Большой сейф</h3>
+                    <div class="tariff-icon">🔐</div>
+                    <div class="tariff-capacity">до 100,000 кристаллов</div>
+                    <div class="tariff-price">300 <span class="price-currency">кристаллов/день</span></div>
+                    <ul class="tariff-features">
+                        <li>✅ 30 слотов для предметов</li>
+                        <li>✅ Древняя магическая защита</li>
+                        <li>✅ Доступ 24/7</li>
+                        <li>✅ Страхование до 25%</li>
+                        <li>✅ Личный ключ-кристалл</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline btn-small">Выбрать</a>
+                </div>
+
+                <div class="tariff-card vault-clan">
+                    <h3 class="tariff-name">Клановый сейф</h3>
+                    <div class="tariff-icon">🏰</div>
+                    <div class="tariff-capacity">до 500,000 кристаллов</div>
+                    <div class="tariff-price">1000 <span class="price-currency">кристаллов/день</span></div>
+                    <ul class="tariff-features">
+                        <li>✅ Общий доступ для гильдии</li>
+                        <li>✅ 100 слотов для предметов</li>
+                        <li>✅ Легендарная защита</li>
+                        <li>✅ Страхование до 50%</li>
+                        <li>✅ 5 ключей-кристаллов</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline btn-small">Выбрать</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- История операций с сейфом -->
+        <section class="history-section">
+            <h2 class="section-title">История <span class="gradient-text">операций</span></h2>
+
+            <div class="history-table">
+                <div class="history-header">
+                    <div class="col-date">Дата</div>
+                    <div class="col-vault">Сейф</div>
+                    <div class="col-type">Тип</div>
+                    <div class="col-item">Предмет</div>
+                    <div class="col-amount">Количество</div>
+                    <div class="col-status">Статус</div>
+                </div>
+
+                <div class="history-body">
+                    <div class="history-row">
+                        <div class="col-date">22.02.2026</div>
+                        <div class="col-vault">VLT-1234-5678</div>
+                        <div class="col-type"><span class="type-badge deposit">Пополнение</span></div>
+                        <div class="col-item">💎 Кристаллы</div>
+                        <div class="col-amount positive">+2,000</div>
+                        <div class="col-status"><span class="status-badge completed">Завершено</span></div>
+                    </div>
+
+                    <div class="history-row">
+                        <div class="col-date">21.02.2026</div>
+                        <div class="col-vault">VLT-5678-9012</div>
+                        <div class="col-type"><span class="type-badge withdraw">Изъятие</span></div>
+                        <div class="col-item">⚔️ Меч дракона</div>
+                        <div class="col-amount negative">-1</div>
+                        <div class="col-status"><span class="status-badge completed">Завершено</span></div>
+                    </div>
+
+                    <div class="history-row">
+                        <div class="col-date">20.02.2026</div>
+                        <div class="col-vault">VLT-1234-5678</div>
+                        <div class="col-type"><span class="type-badge deposit">Пополнение</span></div>
+                        <div class="col-item">📜 Древний свиток</div>
+                        <div class="col-amount positive">+2</div>
+                        <div class="col-status"><span class="status-badge completed">Завершено</span></div>
+                    </div>
+
+                    <div class="history-row">
+                        <div class="col-date">19.02.2026</div>
+                        <div class="col-vault">VLT-9012-3456</div>
+                        <div class="col-type"><span class="type-badge rent">Аренда</span></div>
+                        <div class="col-item">Продление аренды</div>
+                        <div class="col-amount negative">-300</div>
+                        <div class="col-status"><span class="status-badge completed">Завершено</span></div>
+                    </div>
+                </div>
+
+                <div class="history-footer">
+                    <a href="#" class="btn btn-outline btn-small">Вся история →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Уровни защиты -->
+        <section class="protection-section">
+            <h2 class="section-title">Уровни <span class="gradient-text">защиты</span></h2>
+
+            <div class="protection-grid">
+                <div class="protection-card level-1">
+                    <div class="protection-icon">🛡️</div>
+                    <h3 class="protection-name">Уровень 1</h3>
+                    <p class="protection-desc">Базовая магическая защита от взлома</p>
+                    <div class="protection-features">
+                        <span class="feature">✅ Защита от кражи</span>
+                        <span class="feature">✅ Сигнализация</span>
+                    </div>
+                </div>
+
+                <div class="protection-card level-2">
+                    <div class="protection-icon">⚔️</div>
+                    <h3 class="protection-name">Уровень 2</h3>
+                    <p class="protection-desc">Усиленная защита + страховка 10%</p>
+                    <div class="protection-features">
+                        <span class="feature">✅ Защита от кражи</span>
+                        <span class="feature">✅ Сигнализация</span>
+                        <span class="feature">✅ Страховка 10%</span>
+                    </div>
+                </div>
+
+                <div class="protection-card level-3">
+                    <div class="protection-icon">🔮</div>
+                    <h3 class="protection-name">Уровень 3</h3>
+                    <p class="protection-desc">Древняя защита + страховка 25%</p>
+                    <div class="protection-features">
+                        <span class="feature">✅ Защита от кражи</span>
+                        <span class="feature">✅ Сигнализация</span>
+                        <span class="feature">✅ Страховка 25%</span>
+                        <span class="feature">✅ Ключ-кристалл</span>
+                    </div>
+                </div>
+
+                <div class="protection-card level-4">
+                    <div class="protection-icon">👑</div>
+                    <h3 class="protection-name">Легендарный</h3>
+                    <p class="protection-desc">Несокрушимая защита + страховка 50%</p>
+                    <div class="protection-features">
+                        <span class="feature">✅ Защита от кражи</span>
+                        <span class="feature">✅ Сигнализация</span>
+                        <span class="feature">✅ Страховка 50%</span>
+                        <span class="feature">✅ 5 ключей</span>
+                        <span class="feature">✅ Магическая печать</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ по сейфам -->
+        <section class="faq-section">
+            <h2 class="section-title">Частые <span class="gradient-text">вопросы</span></h2>
+
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3 class="faq-question">❓ Как арендовать сейф?</h3>
+                    <p class="faq-answer">Нажмите кнопку "Арендовать новый сейф", выберите подходящий тариф и оплатите аренду кристаллами. Первые 7 дней бесплатно!</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3 class="faq-question">❓ Что можно хранить в сейфе?</h3>
+                    <p class="faq-answer">Кристаллы, редкие артефакты, магические предметы, ключи, свитки и любые ценности, которые вы хотите защитить.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3 class="faq-question">❓ Как работает страховка?</h3>
+                    <p class="faq-answer">При попытке взлома магическая защита активируется, и в случае неудачи банк компенсирует до 50% ущерба в зависимости от уровня защиты.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3 class="faq-question">❓ Можно ли открыть сейф с другим игроком?</h3>
+                    <p class="faq-answer">Да, для этого существуют клановые сейфы. Вы можете выдать доступ до 5 доверенным лицам.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Призыв к действию -->
+        <section class="cta-section">
+            <div class="cta-card">
+                <h2 class="cta-title">Защити свои сокровища</h2>
+                <p class="cta-description">
+                    Арендуй сейф сегодня и получи <span class="highlight">7 дней бесплатно</span>!
+                </p>
+                <a href="#" class="btn btn-primary btn-large">
+                    <span class="btn-text">Арендовать сейф</span>
+                    <span class="btn-icon">🔒</span>
+                </a>
+                <div class="cta-crystals">
+                    <span>💎</span>
+                    <span>💎</span>
+                    <span>💎</span>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- Подвал -->
+<div th:replace="~{fragments/bank-footer :: bank-footer}"></div>
+
+<script>
+    document.querySelector('.mobile-menu-btn')?.addEventListener('click', function() {
+        document.querySelector('.nav').classList.toggle('active');
+    });
+</script>
+</body>
+</html>

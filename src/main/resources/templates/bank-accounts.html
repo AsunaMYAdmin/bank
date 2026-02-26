@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Счета | Кристальный Банк</title>
+    <link rel="stylesheet" href="/css/bank-accounts.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Фоновые кристаллы -->
+<div class="bg-decoration">
+    <div class="crystal crystal-1"></div>
+    <div class="crystal crystal-2"></div>
+    <div class="crystal crystal-3"></div>
+    <div class="crystal crystal-4"></div>
+</div>
+
+<!-- Шапка -->
+<div th:replace="~{fragments/bank-header :: bank-header('accounts')}"></div>
+
+<main class="main">
+    <div class="container">
+        <!-- Хлебные крошки -->
+        <div class="breadcrumbs">
+            <a href="/">Главная</a> <span>/</span> <span>Счета</span>
+        </div>
+
+        <!-- Заголовок -->
+        <section class="page-header">
+            <h1 class="page-title">Мои <span class="gradient-text">счета</span></h1>
+            <p class="page-description">
+                Управляй своими кристаллами, открывай новые счета и следи за балансом
+            </p>
+        </section>
+
+        <!-- Общий баланс -->
+        <section class="total-balance">
+            <div class="balance-card">
+                <div class="balance-icon">💎</div>
+                <div class="balance-info">
+                    <span class="balance-label">Общий баланс</span>
+                    <span class="balance-value">1,234,567</span>
+                    <span class="balance-currency">кристаллов</span>
+                </div>
+                <div class="balance-crystals">
+                    <span>💎</span>
+                    <span>💎</span>
+                    <span>💎</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Кнопка открытия счёта -->
+        <section class="action-bar">
+            <a href="/accounts/open" class="btn btn-primary btn-large">
+                <span class="btn-text">Открыть новый счёт</span>
+                <span class="btn-icon">+</span>
+            </a>
+            <div class="action-hint">
+                <span class="hint-icon">✨</span>
+                <span>Первое открытие счёта — бесплатно</span>
+            </div>
+        </section>
+
+        <!-- Список счетов -->
+        <section class="accounts-section">
+            <h2 class="section-title">Ваши <span class="gradient-text">счета</span></h2>
+
+            <div class="accounts-grid">
+                <!-- Счёт 1: Кристальный (основной) -->
+                <div class="account-card main-account">
+                    <div class="account-badge">Основной</div>
+                    <div class="account-header">
+                        <div class="account-icon">💎</div>
+                        <div class="account-type">Кристальный счёт</div>
+                    </div>
+
+                    <div class="account-number">
+                        <span class="number-label">Номер счёта:</span>
+                        <span class="number-value">CRY-4242-8888-1234</span>
+                    </div>
+
+                    <div class="account-balance">
+                        <span class="balance-label">Баланс:</span>
+                        <span class="balance-value">542,800</span>
+                        <span class="balance-currency">кристаллов</span>
+                    </div>
+
+                    <div class="account-stats">
+                        <div class="stat">
+                            <span class="stat-label">Открыт</span>
+                            <span class="stat-value">15.01.2026</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Ставка</span>
+                            <span class="stat-value">3.5%</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Доход</span>
+                            <span class="stat-value positive">+1,240</span>
+                        </div>
+                    </div>
+
+                    <div class="account-actions">
+                        <a href="/accounts/CRY-4242-8888-1234" class="btn btn-outline btn-small">Детали</a>
+                        <a href="/transfer?from=CRY-4242-8888-1234" class="btn btn-outline btn-small">Перевод</a>
+                        <a href="/history?account=CRY-4242-8888-1234" class="btn btn-outline btn-small">История</a>
+                    </div>
+
+                    <div class="account-decoration">
+                        <span>💎</span>
+                        <span>💎</span>
+                        <span>💎</span>
+                    </div>
+                </div>
+
+                <!-- Счёт 2: Золотой (в золоте) -->
+                <div class="account-card gold-account">
+                    <div class="account-header">
+                        <div class="account-icon">💰</div>
+                        <div class="account-type">Золотой счёт</div>
+                    </div>
+
+                    <div class="account-number">
+                        <span class="number-label">Номер счёта:</span>
+                        <span class="number-value">GLD-5678-1234-5678</span>
+                    </div>
+
+                    <div class="account-balance">
+                        <span class="balance-label">Баланс:</span>
+                        <span class="balance-value">12,450</span>
+                        <span class="balance-currency">золота</span>
+                    </div>
+
+                    <div class="account-stats">
+                        <div class="stat">
+                            <span class="stat-label">Открыт</span>
+                            <span class="stat-value">03.02.2026</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Ставка</span>
+                            <span class="stat-value">2.0%</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Доход</span>
+                            <span class="stat-value positive">+210</span>
+                        </div>
+                    </div>
+
+                    <div class="account-actions">
+                        <a href="/accounts/GLD-5678-1234-5678" class="btn btn-outline btn-small">Детали</a>
+                        <a href="/transfer?from=GLD-5678-1234-5678" class="btn btn-outline btn-small">Перевод</a>
+                        <a href="/history?account=GLD-5678-1234-5678" class="btn btn-outline btn-small">История</a>
+                    </div>
+
+                    <div class="account-decoration">
+                        <span>💰</span>
+                        <span>💰</span>
+                        <span>💰</span>
+                    </div>
+                </div>
+
+                <!-- Счёт 3: Серебряный (эльфийский) -->
+                <div class="account-card silver-account">
+                    <div class="account-header">
+                        <div class="account-icon">✨</div>
+                        <div class="account-type">Эльфийский серебряный</div>
+                    </div>
+
+                    <div class="account-number">
+                        <span class="number-label">Номер счёта:</span>
+                        <span class="number-value">SLV-9876-5432-1098</span>
+                    </div>
+
+                    <div class="account-balance">
+                        <span class="balance-label">Баланс:</span>
+                        <span class="balance-value">45,200</span>
+                        <span class="balance-currency">серебра</span>
+                    </div>
+
+                    <div class="account-stats">
+                        <div class="stat">
+                            <span class="stat-label">Открыт</span>
+                            <span class="stat-value">20.12.2025</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Ставка</span>
+                            <span class="stat-value">4.2%</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Доход</span>
+                            <span class="stat-value positive">+1,870</span>
+                        </div>
+                    </div>
+
+                    <div class="account-actions">
+                        <a href="/accounts/SLV-9876-5432-1098" class="btn btn-outline btn-small">Детали</a>
+                        <a href="/transfer?from=SLV-9876-5432-1098" class="btn btn-outline btn-small">Перевод</a>
+                        <a href="/history?account=SLV-9876-5432-1098" class="btn btn-outline btn-small">История</a>
+                    </div>
+
+                    <div class="account-decoration">
+                        <span>✨</span>
+                        <span>✨</span>
+                        <span>✨</span>
+                    </div>
+                </div>
+
+                <!-- Счёт 4: Сберегательный -->
+                <div class="account-card savings-account">
+                    <div class="account-badge">Сберегательный</div>
+                    <div class="account-header">
+                        <div class="account-icon">🏦</div>
+                        <div class="account-type">Сберегательный</div>
+                    </div>
+
+                    <div class="account-number">
+                        <span class="number-label">Номер счёта:</span>
+                        <span class="number-value">SAV-1111-2222-3333</span>
+                    </div>
+
+                    <div class="account-balance">
+                        <span class="balance-label">Баланс:</span>
+                        <span class="balance-value">1,000,000</span>
+                        <span class="balance-currency">кристаллов</span>
+                    </div>
+
+                    <div class="account-stats">
+                        <div class="stat">
+                            <span class="stat-label">Открыт</span>
+                            <span class="stat-value">10.01.2026</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Ставка</span>
+                            <span class="stat-value">5.0%</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Доход</span>
+                            <span class="stat-value positive">+4,160</span>
+                        </div>
+                    </div>
+
+                    <div class="account-actions">
+                        <a href="/accounts/SAV-1111-2222-3333" class="btn btn-outline btn-small">Детали</a>
+                        <a href="/transfer?from=SAV-1111-2222-3333" class="btn btn-outline btn-small">Перевод</a>
+                        <a href="/history?account=SAV-1111-2222-3333" class="btn btn-outline btn-small">История</a>
+                    </div>
+
+                    <div class="account-decoration">
+                        <span>🏦</span>
+                        <span>🏦</span>
+                        <span>🏦</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Информация о счетах -->
+        <section class="info-section">
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-icon">💎</div>
+                    <h3>Кристальные счета</h3>
+                    <p>Основные счета для хранения кристаллов. До 3.5% годовых.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">💰</div>
+                    <h3>Золотые счета</h3>
+                    <p>Для хранения золота гномов. Ставка до 2% годовых.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">✨</div>
+                    <h3>Серебряные счета</h3>
+                    <p>Эльфийское серебро. Высокая ставка до 4.2% годовых.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">🏦</div>
+                    <h3>Сберегательные</h3>
+                    <p>Максимальная ставка 5% для долгосрочных вложений.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Последние операции -->
+        <section class="recent-section">
+            <h2 class="section-title">Последние <span class="gradient-text">операции</span></h2>
+
+            <div class="recent-table">
+                <div class="table-header">
+                    <div class="col-date">Дата</div>
+                    <div class="col-desc">Описание</div>
+                    <div class="col-account">Счёт</div>
+                    <div class="col-amount">Сумма</div>
+                </div>
+
+                <div class="table-body">
+                    <div class="table-row">
+                        <div class="col-date">22.02.2026</div>
+                        <div class="col-desc">Перевод от ShadowDragon</div>
+                        <div class="col-account">CRY-4242-8888-1234</div>
+                        <div class="col-amount positive">+5,000</div>
+                    </div>
+
+                    <div class="table-row">
+                        <div class="col-date">21.02.2026</div>
+                        <div class="col-desc">Начисление процентов</div>
+                        <div class="col-account">SAV-1111-2222-3333</div>
+                        <div class="col-amount positive">+4,160</div>
+                    </div>
+
+                    <div class="table-row">
+                        <div class="col-date">20.02.2026</div>
+                        <div class="col-desc">Оплата в магазине</div>
+                        <div class="col-account">CRY-4242-8888-1234</div>
+                        <div class="col-amount negative">-2,500</div>
+                    </div>
+
+                    <div class="table-row">
+                        <div class="col-date">19.02.2026</div>
+                        <div class="col-desc">Обмен валюты</div>
+                        <div class="col-account">GLD-5678-1234-5678</div>
+                        <div class="col-amount positive">+1,000</div>
+                    </div>
+
+                    <div class="table-row">
+                        <div class="col-date">18.02.2026</div>
+                        <div class="col-desc">Перевод в банк</div>
+                        <div class="col-account">SLV-9876-5432-1098</div>
+                        <div class="col-amount negative">-500</div>
+                    </div>
+                </div>
+
+                <div class="table-footer">
+                    <a href="/history" class="btn btn-outline">Все операции →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Призыв к действию -->
+        <section class="cta-section">
+            <div class="cta-card">
+                <h2 class="cta-title">Открой счёт с бонусом</h2>
+                <p class="cta-description">
+                    При открытии нового счёта сегодня — <span class="highlight">+500 кристаллов</span> на баланс!
+                </p>
+                <a href="/accounts/open" class="btn btn-primary btn-large">
+                    <span class="btn-text">Открыть счёт</span>
+                    <span class="btn-icon">+</span>
+                </a>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- Подвал -->
+<div th:replace="~{fragments/bank-footer :: bank-footer}"></div>
+
+<script>
+    document.querySelector('.mobile-menu-btn')?.addEventListener('click', function() {
+        document.querySelector('.nav').classList.toggle('active');
+    });
+</script>
+</body>
+</html>
