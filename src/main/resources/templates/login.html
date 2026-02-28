@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Подтверждение доступа | Loregard</title>
+  <link rel="stylesheet" href="/css/login.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Фоновые декоративные элементы -->
+<div class="bg-decoration">
+  <div class="rune rune-1"></div>
+  <div class="rune rune-2"></div>
+  <div class="rune rune-3"></div>
+  <div class="rune rune-4"></div>
+  <div class="mist mist-1"></div>
+  <div class="mist mist-2"></div>
+  <div class="ancient-symbol symbol-1">ᛉ</div>
+  <div class="ancient-symbol symbol-2">ᛟ</div>
+  <div class="ancient-symbol symbol-3">ᚨ</div>
+  <div class="ancient-symbol symbol-4">ᚱ</div>
+</div>
+
+<!-- Шапка сайта -->
+<header class="header">
+  <div class="container header-container">
+    <div class="logo">
+      <span class="logo-icon">⚔️</span>
+      <span class="logo-text">Loregard</span>
+    </div>
+    <nav class="nav">
+      <a href="/" class="nav-link">Главная</a>
+      <a href="/profile" class="nav-link">Профиль</a>
+      <a href="/guilds" class="nav-link">Гильдии</a>
+      <a href="/forum" class="nav-link">Форум</a>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+  <div class="container">
+    <!-- Хлебные крошки -->
+    <div class="breadcrumbs">
+      <a href="/">Главная</a> <span>/</span> <span>Подтверждение доступа</span>
+    </div>
+
+    <!-- Основной блок подтверждения -->
+    <section class="consent-section">
+      <!-- Магический круг/портал -->
+      <div class="magic-portal">
+        <div class="portal-ring ring-1"></div>
+        <div class="portal-ring ring-2"></div>
+        <div class="portal-ring ring-3"></div>
+        <div class="portal-core">
+          <span class="portal-rune">ᛉ</span>
+        </div>
+        <div class="portal-particles">
+          <span>⚔️</span>
+          <span>🛡️</span>
+          <span>🔮</span>
+          <span>💎</span>
+        </div>
+      </div>
+
+      <div class="consent-card">
+        <h1 class="consent-title">
+          <span class="gradient-text">Подтверждение доступа</span>
+        </h1>
+
+        <div class="user-info">
+          <span class="user-label">Воин</span>
+          <span class="user-name" th:text="${principalName}">Asuna's Knight</span>
+        </div>
+
+        <div class="client-info">
+          <p>
+            <span class="client-name" th:text="${clientName}">Кристальный Банк</span>
+            <span class="client-id" th:text="'(' + ${clientId} + ')'">(bank-client)</span>
+          </p>
+          <p class="info-text">запрашивает доступ к вашему аккаунту</p>
+        </div>
+
+        <!-- Форма подтверждения -->
+        <form th:action="@{/oauth2/authorize}" method="post" class="consent-form">
+          <input type="hidden" name="client_id" th:value="${clientId}">
+          <input type="hidden" name="state" th:value="${state}">
+
+          <!-- Scopes для подтверждения -->
+          <div class="scopes-section" th:if="${not #lists.isEmpty(scopes)}">
+            <h2 class="scopes-title">🔮 Запрашиваемые права</h2>
+            <p class="scopes-description">
+              Приложение запрашивает доступ к следующим данным:
+            </p>
+
+            <div class="scopes-list">
+              <div class="scope-item" th:each="scope : ${scopes}">
+                <label class="scope-label">
+                  <input type="checkbox"
+                         name="scope"
+                         th:value="${scope}"
+                         class="scope-checkbox"
+                         checked>
+                  <span class="scope-name" th:text="${scope}">profile</span>
+                  <span class="scope-description" th:text="${scopeDescriptions[scope]}">Доступ к профилю</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Уже одобренные scopes -->
+          <div class="scopes-section" th:if="${not #lists.isEmpty(previouslyApprovedScopes)}">
+            <h2 class="scopes-title">✓ Уже одобренные права</h2>
+            <p class="scopes-description">
+              Ранее вы уже предоставили доступ к:
+            </p>
+
+            <div class="scopes-list approved">
+              <div class="scope-item approved" th:each="scope : ${previouslyApprovedScopes}">
+                <span class="scope-name approved" th:text="${scope}">profile</span>
+                <span class="approved-badge">✓ Одобрено</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Кнопки действий -->
+          <div class="consent-actions">
+            <button type="submit" class="btn btn-primary btn-large">
+              <span class="btn-icon">⚔️</span>
+              <span class="btn-text">Подтвердить доступ</span>
+            </button>
+
+            <button type="submit" name="deny" value="true" class="btn btn-outline btn-large">
+              <span class="btn-icon">✕</span>
+              <span class="btn-text">Отказать</span>
+            </button>
+          </div>
+        </form>
+
+        <!-- Предупреждение о безопасности -->
+        <div class="security-note">
+          <span class="note-icon">🛡️</span>
+          <div class="note-text">
+            <strong>Важно:</strong> Предоставляя доступ, вы разрешаете приложению
+            просматривать и использовать указанные данные. Убедитесь, что доверяете этому приложению.
+          </div>
+        </div>
+
+        <!-- Магическая подпись -->
+        <div class="magic-signature">
+          <span>✦ Да хранят вас древние руны ✦</span>
+        </div>
+      </div>
+
+      <!-- Декоративные кристаллы -->
+      <div class="consent-crystals">
+        <div class="crystal-float orange"></div>
+        <div class="crystal-float blue"></div>
+        <div class="crystal-float orange-small"></div>
+        <div class="crystal-float blue-small"></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- Подвал сайта -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-logo">
+          <span class="logo-icon">⚔️</span>
+          <span class="logo-text">Loregard</span>
+        </div>
+        <p class="footer-description">
+          Мир магии, сражений и древних легенд
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Информация</h4>
+        <ul>
+          <li><a href="/about">О проекте</a></li>
+          <li><a href="/rules">Правила</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Поддержка</h4>
+        <ul>
+          <li><a href="/faq">FAQ</a></li>
+          <li><a href="/contacts">Контакты</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="copyright">© 2026 Loregard. Да хранят вас древние руны</div>
+      <div class="magic-signature">✦ Хранители равновесия ✦</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Подсветка чекбоксов
+  document.querySelectorAll('.scope-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      const scopeItem = this.closest('.scope-item');
+      if (this.checked) {
+        scopeItem.style.opacity = '1';
+      } else {
+        scopeItem.style.opacity = '0.6';
+      }
+    });
+  });
+</script>
+</body>
+</html>

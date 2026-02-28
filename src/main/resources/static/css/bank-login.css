@@ -1,0 +1,944 @@
+/* ========== СТРАНИЦА ВХОДА В КРИСТАЛЬНЫЙ БАНК ========== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --orange-primary: #ff8c42;
+    --orange-dark: #e67a2e;
+    --orange-light: #ffb085;
+    --orange-glow: rgba(255, 140, 66, 0.3);
+
+    --blue-primary: #3a6ea5;
+    --blue-dark: #2c5290;
+    --blue-light: #6c9bd2;
+    --blue-glow: rgba(58, 110, 165, 0.3);
+
+    --dark-bg: #0a0f1a;
+    --darker-bg: #05080f;
+    --card-bg: rgba(20, 30, 45, 0.7);
+    --text-primary: #e5e9f0;
+    --text-secondary: #a0b3d9;
+    --text-muted: #6c7a96;
+
+    --gradient-orange: linear-gradient(135deg, var(--orange-primary), var(--orange-dark));
+    --gradient-blue: linear-gradient(135deg, var(--blue-primary), var(--blue-dark));
+    --gradient-mixed: linear-gradient(135deg, var(--orange-primary), var(--blue-primary));
+
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.4);
+    --shadow-orange: 0 8px 24px var(--orange-glow);
+    --shadow-blue: 0 8px 24px var(--blue-glow);
+
+    --border-radius-sm: 8px;
+    --border-radius-md: 16px;
+    --border-radius-lg: 24px;
+    --border-radius-xl: 32px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle at 20% 30%, #1a2538, var(--dark-bg), var(--darker-bg));
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* ========== ДЕКОР ========== */
+.bg-decoration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.crystal {
+    position: absolute;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent);
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    animation: float 20s infinite ease-in-out;
+}
+
+.crystal-1 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle at 30% 30%, var(--orange-glow), transparent);
+    top: -100px;
+    right: -100px;
+    animation-delay: 0s;
+}
+
+.crystal-2 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle at 70% 70%, var(--blue-glow), transparent);
+    bottom: -200px;
+    left: -200px;
+    animation-delay: -5s;
+}
+
+.crystal-3 {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 140, 66, 0.2), transparent);
+    top: 30%;
+    left: 10%;
+    animation-delay: -2s;
+}
+
+.crystal-4 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle at 70% 70%, rgba(58, 110, 165, 0.2), transparent);
+    bottom: 20%;
+    right: 10%;
+    animation-delay: -7s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+    33% {
+        transform: translate(30px, -30px) rotate(120deg) scale(1.05);
+    }
+    66% {
+        transform: translate(-20px, 20px) rotate(240deg) scale(0.95);
+    }
+}
+
+/* ========== ШАПКА ========== */
+.header {
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(12px);
+    background: rgba(10, 15, 26, 0.7);
+    border-bottom: 1px solid rgba(255, 140, 66, 0.2);
+    z-index: 100;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-icon {
+    font-size: 32px;
+    filter: drop-shadow(0 0 8px var(--orange-primary));
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { filter: drop-shadow(0 0 8px var(--orange-primary)); }
+    50% { filter: drop-shadow(0 0 16px var(--orange-primary)); }
+}
+
+.logo-text {
+    font-size: 22px;
+    font-weight: 700;
+    background: var(--gradient-mixed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav {
+    display: flex;
+    gap: 32px;
+}
+
+@media (max-width: 768px) {
+    .nav {
+        display: none;
+    }
+}
+
+.nav-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gradient-mixed);
+    transition: width 0.3s;
+}
+
+.nav-link:hover {
+    color: var(--text-primary);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-link.active {
+    color: var(--text-primary);
+}
+
+.nav-link.active::after {
+    width: 100%;
+}
+
+.header-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* ========== КНОПКИ ========== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 24px;
+    border-radius: var(--border-radius-md);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-primary {
+    background: var(--gradient-orange);
+    color: white;
+    box-shadow: var(--shadow-orange);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px var(--orange-glow);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--orange-primary);
+    color: var(--orange-primary);
+}
+
+.btn-outline:hover {
+    background: rgba(255, 140, 66, 0.1);
+    border-color: var(--orange-light);
+    color: var(--orange-light);
+    transform: translateY(-2px);
+}
+
+.btn-large {
+    padding: 14px 32px;
+    font-size: 16px;
+}
+
+.btn-small {
+    padding: 6px 16px;
+    font-size: 13px;
+}
+
+/* ========== ХЛЕБНЫЕ КРОШКИ ========== */
+.breadcrumbs {
+    margin: 30px 0;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.breadcrumbs a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.breadcrumbs a:hover {
+    color: var(--orange-primary);
+}
+
+/* ========== ЗАГОЛОВОК ========== */
+.page-header {
+    text-align: center;
+    margin: 40px 0 20px;
+}
+
+.page-title {
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 16px;
+}
+
+.gradient-text {
+    background: var(--gradient-mixed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.page-description {
+    color: var(--text-secondary);
+    font-size: 18px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* ========== СЕКЦИЯ ВХОДА ========== */
+.login-section {
+    margin: 40px 0 60px;
+    display: flex;
+    justify-content: center;
+}
+
+.login-card {
+    position: relative;
+    max-width: 700px;
+    width: 100%;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 140, 66, 0.3);
+    border-radius: var(--border-radius-xl);
+    padding: 50px;
+    overflow: hidden;
+    box-shadow: var(--shadow-orange);
+}
+
+/* Летающие кристаллы вокруг карточки */
+.login-crystals {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.floating-crystal {
+    position: absolute;
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    animation: float-crystal 10s infinite alternate;
+    opacity: 0.4;
+}
+
+.crystal-orange-medium {
+    width: 100px;
+    height: 100px;
+    background: var(--gradient-orange);
+    top: -30px;
+    right: -20px;
+    animation-duration: 12s;
+}
+
+.crystal-blue-medium {
+    width: 120px;
+    height: 120px;
+    background: var(--gradient-blue);
+    bottom: -40px;
+    left: -30px;
+    animation-duration: 15s;
+    animation-delay: -3s;
+}
+
+.crystal-orange-small {
+    width: 60px;
+    height: 60px;
+    background: var(--gradient-orange);
+    bottom: 30px;
+    right: 40px;
+    animation-duration: 8s;
+    animation-delay: -5s;
+}
+
+.crystal-blue-small {
+    width: 50px;
+    height: 50px;
+    background: var(--gradient-blue);
+    top: 40px;
+    left: 30px;
+    animation-duration: 10s;
+    animation-delay: -2s;
+}
+
+@keyframes float-crystal {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    100% {
+        transform: translate(20px, -20px) rotate(15deg);
+    }
+}
+
+.login-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.login-icon {
+    margin-bottom: 20px;
+}
+
+.bank-icon-large {
+    font-size: 80px;
+    filter: drop-shadow(0 0 20px var(--orange-primary));
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { filter: drop-shadow(0 0 20px var(--orange-primary)); }
+    50% { filter: drop-shadow(0 0 40px var(--orange-primary)); }
+}
+
+.login-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
+.login-description {
+    color: var(--text-secondary);
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    max-width: 500px;
+}
+
+.login-description strong {
+    color: var(--orange-light);
+}
+
+.login-features {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.login-feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.feature-icon {
+    font-size: 32px;
+    filter: drop-shadow(0 0 10px var(--orange-primary));
+}
+
+.feature-text {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.btn-login-large {
+    padding: 18px 36px;
+    font-size: 18px;
+    margin-bottom: 30px;
+    min-width: 300px;
+}
+
+.btn-login-large .btn-icon {
+    font-size: 20px;
+}
+
+.login-note {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 20px;
+    background: rgba(58, 110, 165, 0.1);
+    border: 1px solid var(--blue-primary);
+    border-radius: var(--border-radius-lg);
+    margin-bottom: 30px;
+    max-width: 450px;
+}
+
+.note-icon {
+    font-size: 24px;
+}
+
+.note-text {
+    color: var(--text-secondary);
+    font-size: 14px;
+    text-align: left;
+}
+
+.login-info {
+    background: rgba(0, 0, 0, 0.3);
+    border-left: 4px solid var(--orange-primary);
+    padding: 20px;
+    border-radius: var(--border-radius-md);
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.info-heading {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--orange-light);
+    margin-bottom: 8px;
+}
+
+.info-text {
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.register-hint {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.hint-text {
+    color: var(--text-muted);
+    margin-right: 5px;
+}
+
+.register-link {
+    color: var(--blue-light);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.register-link:hover {
+    color: var(--orange-primary);
+    text-decoration: underline;
+}
+
+/* ========== ПРЕИМУЩЕСТВА ========== */
+.benefits-section {
+    margin: 80px 0;
+}
+
+.section-title {
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+.benefit-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 140, 66, 0.2);
+    border-radius: var(--border-radius-lg);
+    padding: 30px 20px;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.benefit-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--orange-primary);
+    box-shadow: var(--shadow-orange);
+}
+
+.benefit-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 10px var(--orange-primary));
+}
+
+.benefit-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--orange-light);
+}
+
+.benefit-description {
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ========== КАК ЭТО РАБОТАЕТ ========== */
+.how-it-works {
+    margin: 80px 0;
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.step-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 140, 66, 0.2);
+    border-radius: var(--border-radius-xl);
+    padding: 30px;
+    text-align: center;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.step-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--orange-primary);
+    box-shadow: var(--shadow-orange);
+}
+
+.step-number {
+    width: 60px;
+    height: 60px;
+    background: var(--gradient-orange);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+    margin: 0 auto 20px;
+}
+
+.step-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--orange-light);
+}
+
+.step-description {
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ========== ПОДВАЛ ========== */
+.footer {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 140, 66, 0.2);
+    padding: 60px 0 30px;
+    margin-top: 40px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-col h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
+.footer-col ul {
+    list-style: none;
+}
+
+.footer-col li {
+    margin-bottom: 12px;
+}
+
+.footer-col a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.footer-col a:hover {
+    color: var(--orange-primary);
+    padding-left: 5px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.footer-description {
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.social-links {
+    display: flex;
+    gap: 12px;
+}
+
+.social-link {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 140, 66, 0.1);
+    border: 1px solid rgba(255, 140, 66, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.3s;
+    font-size: 18px;
+}
+
+.social-link:hover {
+    background: var(--orange-primary);
+    color: white;
+    transform: translateY(-3px);
+}
+
+.footer-bottom {
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 140, 66, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.magic-signature {
+    color: var(--orange-primary);
+    font-style: italic;
+}
+
+/* ========== АНИМАЦИИ ========== */
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { filter: drop-shadow(0 0 20px var(--orange-primary)); }
+    50% { filter: drop-shadow(0 0 40px var(--orange-primary)); }
+}
+
+@keyframes float-crystal {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    100% {
+        transform: translate(20px, -20px) rotate(15deg);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========== АДАПТАЦИЯ ========== */
+@media (max-width: 1024px) {
+    .benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav {
+        display: none;
+    }
+
+    .nav.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        right: 0;
+        background: rgba(10, 15, 26, 0.95);
+        backdrop-filter: blur(12px);
+        padding: 20px;
+        border-bottom: 1px solid rgba(255, 140, 66, 0.2);
+        z-index: 99;
+    }
+
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    .page-title {
+        font-size: 32px;
+    }
+
+    .login-card {
+        padding: 30px 20px;
+    }
+
+    .login-title {
+        font-size: 28px;
+    }
+
+    .btn-login-large {
+        min-width: auto;
+        width: 100%;
+        padding: 15px 20px;
+        font-size: 16px;
+    }
+
+    .login-features {
+        gap: 15px;
+    }
+
+    .benefits-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .footer-logo {
+        justify-content: center;
+    }
+
+    .social-links {
+        justify-content: center;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title {
+        font-size: 28px;
+    }
+
+    .login-description {
+        font-size: 14px;
+    }
+
+    .login-feature {
+        width: 100%;
+    }
+
+    .note-icon {
+        font-size: 20px;
+    }
+
+    .note-text {
+        font-size: 13px;
+    }
+
+    .benefit-card {
+        padding: 20px 15px;
+    }
+
+    .benefit-icon {
+        font-size: 40px;
+    }
+
+    .benefit-title {
+        font-size: 16px;
+    }
+
+    .benefit-description {
+        font-size: 13px;
+    }
+
+    .step-card {
+        padding: 20px;
+    }
+
+    .step-number {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+
+    .step-title {
+        font-size: 16px;
+    }
+
+    .step-description {
+        font-size: 13px;
+    }
+}
+
+/* Анимация появления для карточек */
+.login-card,
+.benefit-card,
+.step-card {
+    animation: fadeInUp 0.6s ease-out forwards;
+}

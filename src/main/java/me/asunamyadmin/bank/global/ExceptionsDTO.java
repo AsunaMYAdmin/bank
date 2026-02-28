@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public record ExceptionsDTO(
         String title,
-        String fullMassage,
+        StackTraceElement[] stackTrace,
         LocalDateTime errorTime
 ) {
 }

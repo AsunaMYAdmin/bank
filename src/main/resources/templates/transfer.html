@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Перевод | Кристальный Банк</title>
+  <link rel="stylesheet" href="/css/transfer.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Фоновые кристаллы -->
+<div class="bg-decoration">
+  <div class="crystal crystal-1"></div>
+  <div class="crystal crystal-2"></div>
+  <div class="crystal crystal-3"></div>
+  <div class="crystal crystal-4"></div>
+</div>
+
+<!-- Шапка банка -->
+<div th:replace="~{fragments/bank-header :: bank-header('transfers')}"></div>
+
+<main class="main">
+  <div class="container">
+    <!-- Хлебные крошки -->
+    <div class="breadcrumbs">
+      <a href="/">Главная</a> <span>/</span> <a href="/accounts">Счета</a> <span>/</span> <span>Перевод</span>
+    </div>
+
+    <!-- Заголовок -->
+    <section class="page-header">
+      <h1 class="page-title">Магический <span class="gradient-text">перевод</span></h1>
+      <p class="page-description">
+        Переводите кристаллы, золото, серебро и другие ценности между счетами игроков
+      </p>
+    </section>
+
+    <!-- Основной блок перевода -->
+    <section class="transfer-section">
+      <div class="transfer-card">
+        <!-- Летающие кристаллы вокруг карточки -->
+        <div class="transfer-crystals">
+          <div class="floating-crystal crystal-orange-1"></div>
+          <div class="floating-crystal crystal-blue-1"></div>
+          <div class="floating-crystal crystal-orange-2"></div>
+          <div class="floating-crystal crystal-blue-2"></div>
+        </div>
+
+        <div class="transfer-content">
+          <h2 class="transfer-title">Новый перевод</h2>
+
+          <form class="transfer-form">
+            <!-- Блок отправителя -->
+            <div class="transfer-block from-block">
+              <h3 class="block-title">Отправитель</h3>
+
+              <div class="form-group">
+                <label for="fromAccount" class="form-label">
+                  <span class="label-icon">📤</span>
+                  Ваш счёт
+                </label>
+                <select id="fromAccount" name="fromAccount" class="form-select" required>
+                  <option value="" disabled selected>Выберите счёт для списания</option>
+                  <option value="40817810099900123456">4081 7810 0999 0012 3456 (1,245,800 💎)</option>
+                  <option value="40817810099900234567">4081 7810 0999 0023 4567 (542,800 💰)</option>
+                  <option value="40817810099900345678">4081 7810 0999 0034 5678 (987,500 ✨)</option>
+                </select>
+              </div>
+
+              <div class="account-preview" id="fromAccountPreview" style="display: none;">
+                <div class="preview-row">
+                  <span class="preview-label">Баланс:</span>
+                  <span class="preview-value">1,245,800 💎</span>
+                </div>
+                <div class="preview-row">
+                  <span class="preview-label">Доступно:</span>
+                  <span class="preview-value">1,245,800 💎</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Стрелка перевода -->
+            <div class="transfer-arrow">
+              <span class="arrow-line"></span>
+              <span class="arrow-icon">⬇️</span>
+              <span class="arrow-line"></span>
+            </div>
+
+            <!-- Блок получателя -->
+            <div class="transfer-block to-block">
+              <h3 class="block-title">Получатель</h3>
+
+              <div class="form-group">
+                <label for="recipientName" class="form-label">
+                  <span class="label-icon">👤</span>
+                  Игрок
+                </label>
+                <input type="text"
+                       id="recipientName"
+                       name="recipientName"
+                       class="form-input"
+                       placeholder="Введите ник получателя"
+                       required>
+                <small class="form-hint">Например: ShadowDragon</small>
+              </div>
+
+              <div class="form-group">
+                <label for="toAccount" class="form-label">
+                  <span class="label-icon">📥</span>
+                  Счёт получателя
+                </label>
+                <input type="text"
+                       id="toAccount"
+                       name="toAccount"
+                       class="form-input"
+                       placeholder="20-значный номер счёта"
+                       maxlength="20"
+                       pattern="\d*"
+                       title="Только цифры, 20 знаков"
+                       required>
+                <small class="form-hint">20 цифр, без пробелов</small>
+              </div>
+
+              <!-- Кнопка поиска получателя (для демо) -->
+              <button type="button" class="btn btn-outline btn-small btn-lookup">
+                <span class="btn-icon">🔍</span>
+                <span>Проверить получателя</span>
+              </button>
+
+              <div class="recipient-preview" id="recipientPreview" style="display: none;">
+                <div class="preview-row">
+                  <span class="preview-label">Найдено:</span>
+                  <span class="preview-value">ShadowDragon</span>
+                </div>
+                <div class="preview-row">
+                  <span class="preview-label">Счёт:</span>
+                  <span class="preview-value">4081 7810 0999 0088 7766</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Параметры перевода -->
+            <div class="transfer-params">
+              <h3 class="params-title">Параметры перевода</h3>
+
+              <div class="params-grid">
+                <!-- Валюта перевода -->
+                <div class="form-group">
+                  <label for="currency" class="form-label">
+                    <span class="label-icon">💱</span>
+                    Валюта
+                  </label>
+                  <select id="currency" name="currency" class="form-select" required>
+                    <option value="" disabled selected>Выберите валюту</option>
+                    <option value="crystal">💎 Кристаллы</option>
+                    <option value="gold">💰 Гномье золото</option>
+                    <option value="silver">✨ Эльфийское серебро</option>
+                  </select>
+                </div>
+
+                <!-- Сумма -->
+                <div class="form-group">
+                  <label for="amount" class="form-label">
+                    <span class="label-icon">💰</span>
+                    Сумма
+                  </label>
+                  <input type="number"
+                         id="amount"
+                         name="amount"
+                         class="form-input"
+                         placeholder="0"
+                         min="1"
+                         step="1"
+                         required>
+                </div>
+
+                <!-- Комментарий (опционально) -->
+                <div class="form-group full-width">
+                  <label for="comment" class="form-label">
+                    <span class="label-icon">📝</span>
+                    Комментарий (необязательно)
+                  </label>
+                  <input type="text"
+                         id="comment"
+                         name="comment"
+                         class="form-input"
+                         placeholder="Например: Спасибо за помощь!">
+                </div>
+              </div>
+            </div>
+
+            <!-- Информация о комиссии -->
+            <div class="fee-info">
+              <div class="fee-row">
+                <span class="fee-label">Комиссия за перевод:</span>
+                <span class="fee-value">0% (бесплатно)</span>
+              </div>
+              <div class="fee-row">
+                <span class="fee-label">К получению:</span>
+                <span class="fee-value" id="netAmount">-</span>
+              </div>
+            </div>
+
+            <!-- Предупреждение (если нужно) -->
+            <div class="warning-message" style="display: none;">
+              <span class="warning-icon">⚠️</span>
+              <span class="warning-text">Недостаточно средств на счёте</span>
+            </div>
+
+            <!-- Кнопки -->
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary btn-large btn-submit">
+                <span class="btn-text">Выполнить перевод</span>
+                <span class="btn-icon">⚡</span>
+              </button>
+              <a href="/accounts" class="btn btn-outline btn-large">Отмена</a>
+            </div>
+          </form>
+
+          <!-- Примечание по безопасности -->
+          <div class="security-note">
+            <span class="note-icon">🛡️</span>
+            <div class="note-text">
+              <strong>Безопасность:</strong> Все переводы защищены магической криптографией.
+              Проверьте номер счёта получателя перед подтверждением.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Последние переводы -->
+    <section class="recent-transfers">
+      <h2 class="section-title">Последние <span class="gradient-text">переводы</span></h2>
+
+      <div class="transfers-table">
+        <div class="table-header">
+          <div class="col-date">Дата</div>
+          <div class="col-from">Отправитель</div>
+          <div class="col-to">Получатель</div>
+          <div class="col-amount">Сумма</div>
+          <div class="col-status">Статус</div>
+        </div>
+
+        <div class="table-body">
+          <div class="table-row">
+            <div class="col-date">26.02.2026</div>
+            <div class="col-from">Asuna's Knight</div>
+            <div class="col-to">ShadowDragon</div>
+            <div class="col-amount">5,000 💎</div>
+            <div class="col-status"><span class="status-badge completed">Завершён</span></div>
+          </div>
+
+          <div class="table-row">
+            <div class="col-date">25.02.2026</div>
+            <div class="col-from">MoonElf</div>
+            <div class="col-to">Ironbeard</div>
+            <div class="col-amount">1,200 💰</div>
+            <div class="col-status"><span class="status-badge completed">Завершён</span></div>
+          </div>
+
+          <div class="table-row">
+            <div class="col-date">25.02.2026</div>
+            <div class="col-from">FrostMage</div>
+            <div class="col-to">Paladin</div>
+            <div class="col-amount">10,000 ✨</div>
+            <div class="col-status"><span class="status-badge pending">В обработке</span></div>
+          </div>
+
+          <div class="table-row">
+            <div class="col-date">24.02.2026</div>
+            <div class="col-from">Nightblade</div>
+            <div class="col-to">Ragnar</div>
+            <div class="col-amount">3,500 💎</div>
+            <div class="col-status"><span class="status-badge completed">Завершён</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-footer">
+        <a href="/transfer/history" class="btn btn-outline btn-small">Все переводы →</a>
+      </div>
+    </section>
+
+    <!-- FAQ по переводам -->
+    <section class="faq-section">
+      <h2 class="section-title">Частые вопросы о <span class="gradient-text">переводах</span></h2>
+
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h3 class="faq-question">❓ Сколько времени идёт перевод?</h3>
+          <p class="faq-answer">Переводы между счетами игроков происходят мгновенно — обычно не более 30 секунд.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3 class="faq-question">❓ Есть ли комиссия за перевод?</h3>
+          <p class="faq-answer">Внутри Кристального банка переводы бесплатны. Комиссия взимается только за межмировые переводы (2%).</p>
+        </div>
+
+        <div class="faq-item">
+          <h3 class="faq-question">❓ Можно ли отменить перевод?</h3>
+          <p class="faq-answer">После подтверждения перевод отменить нельзя. Пожалуйста, проверяйте номер счёта получателя.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3 class="faq-question">❓ Как узнать номер счёта другого игрока?</h3>
+          <p class="faq-answer">Игрок должен сообщить вам свой 20-значный номер счёта. Вы также можете найти его через поиск по нику.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- Подвал банка -->
+<div th:replace="~{fragments/bank-footer :: bank-footer}"></div>
+
+<script>
+  // Демо-функции для предпросмотра
+  document.addEventListener('DOMContentLoaded', function() {
+    // Показ информации о выбранном счёте
+    const fromAccount = document.getElementById('fromAccount');
+    const fromPreview = document.getElementById('fromAccountPreview');
+
+    if (fromAccount) {
+      fromAccount.addEventListener('change', function() {
+        if (this.value) {
+          fromPreview.style.display = 'block';
+
+          // Обновляем информацию в зависимости от выбора (для демо)
+          const previewValue = fromPreview.querySelector('.preview-value');
+          if (this.value.includes('3456')) {
+            previewValue.textContent = '1,245,800 💎';
+          } else if (this.value.includes('4567')) {
+            previewValue.textContent = '542,800 💰';
+          } else if (this.value.includes('5678')) {
+            previewValue.textContent = '987,500 ✨';
+          }
+        } else {
+          fromPreview.style.display = 'none';
+        }
+      });
+    }
+
+    // Кнопка проверки получателя
+    const lookupBtn = document.querySelector('.btn-lookup');
+    const recipientPreview = document.getElementById('recipientPreview');
+
+    if (lookupBtn && recipientPreview) {
+      lookupBtn.addEventListener('click', function() {
+        const recipientName = document.getElementById('recipientName').value;
+        const toAccount = document.getElementById('toAccount').value;
+
+        if (recipientName || toAccount) {
+          recipientPreview.style.display = 'block';
+
+          // Обновляем информацию (для демо)
+          const previewName = recipientPreview.querySelector('.preview-value:first-of-type');
+          const previewAccount = recipientPreview.querySelector('.preview-value:last-of-type');
+
+          if (recipientName) {
+            previewName.textContent = recipientName;
+          } else {
+            previewName.textContent = 'ShadowDragon';
+          }
+
+          // Форматируем номер счёта для отображения
+          let account = toAccount || '40817810099900887766';
+          if (account.length === 20) {
+            account = account.replace(/(\d{4})(?=\d)/g, '$1 ');
+          }
+          previewAccount.textContent = account;
+        }
+      });
+    }
+
+    // Калькулятор суммы после комиссии
+    const amountInput = document.getElementById('amount');
+    const currencySelect = document.getElementById('currency');
+    const netAmount = document.getElementById('netAmount');
+
+    function updateNetAmount() {
+      if (amountInput && netAmount) {
+        const amount = parseFloat(amountInput.value) || 0;
+        const currency = currencySelect?.value || 'crystal';
+
+        let symbol = '💎';
+        if (currency === 'gold') symbol = '💰';
+        if (currency === 'silver') symbol = '✨';
+
+        netAmount.textContent = amount > 0 ? `${amount.toLocaleString()} ${symbol}` : '-';
+      }
+    }
+
+    if (amountInput) {
+      amountInput.addEventListener('input', updateNetAmount);
+    }
+
+    if (currencySelect) {
+      currencySelect.addEventListener('change', updateNetAmount);
+    }
+
+    // Обработка отправки формы (демо)
+    const transferForm = document.querySelector('.transfer-form');
+    if (transferForm) {
+      transferForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Перевод отправлен! (Демо-режим)');
+      });
+    }
+  });
+</script>
+</body>
+</html>

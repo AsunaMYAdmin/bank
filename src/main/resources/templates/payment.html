@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оплата услуг | Кристальный Банк</title>
+    <link rel="stylesheet" href="/css/payment.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Фоновые кристаллы -->
+<div class="bg-decoration">
+    <div class="crystal crystal-1"></div>
+    <div class="crystal crystal-2"></div>
+    <div class="crystal crystal-3"></div>
+    <div class="crystal crystal-4"></div>
+</div>
+
+<!-- Шапка банка -->
+<div th:replace="~{fragments/bank-header :: bank-header('payment')}"></div>
+
+<main class="main">
+    <div class="container">
+        <!-- Хлебные крошки -->
+        <div class="breadcrumbs">
+            <a href="/">Главная</a> <span>/</span> <span>Оплата услуг</span>
+        </div>
+
+        <!-- Заголовок -->
+        <section class="page-header">
+            <h1 class="page-title">Оплата <span class="gradient-text">услуг</span></h1>
+            <p class="page-description">
+                Оплачивайте услуги в мире Loregard кристаллами, золотом или серебром
+            </p>
+        </section>
+
+        <!-- Баланс пользователя -->
+        <section class="balance-section">
+            <div class="balance-card">
+                <div class="balance-icon">💎</div>
+                <div class="balance-info">
+                    <span class="balance-label">Ваш баланс</span>
+                    <span class="balance-amount">1,245,800</span>
+                    <span class="balance-currency">кристаллов</span>
+                </div>
+                <div class="balance-details">
+                    <div class="balance-detail">
+                        <span>💰 Золото:</span>
+                        <span>12,450</span>
+                    </div>
+                    <div class="balance-detail">
+                        <span>✨ Серебро:</span>
+                        <span>45,200</span>
+                    </div>
+                </div>
+                <div class="balance-crystals">
+                    <span>💎</span>
+                    <span>💎</span>
+                    <span>💎</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Категории услуг -->
+        <section class="categories-section">
+            <h2 class="section-title">Категории <span class="gradient-text">услуг</span></h2>
+
+            <div class="categories-grid">
+                <button class="category-btn active" data-category="all">Все услуги</button>
+                <button class="category-btn" data-category="guild">🏰 Гильдии</button>
+                <button class="category-btn" data-category="shop">🛒 Магазин</button>
+                <button class="category-btn" data-category="vault">🔒 Сейфы</button>
+                <button class="category-btn" data-category="travel">🌍 Путешествия</button>
+                <button class="category-btn" data-category="magic">🔮 Магия</button>
+            </div>
+        </section>
+
+        <!-- Основной блок оплаты -->
+        <section class="payment-section">
+            <div class="payment-grid">
+                <!-- Левая часть: список услуг -->
+                <div class="services-list">
+                    <h3 class="list-title">Доступные услуги</h3>
+
+                    <div class="services-grid">
+                        <!-- Гильдии -->
+                        <div class="service-card" data-category="guild">
+                            <div class="service-icon">🏰</div>
+                            <div class="service-info">
+                                <h4 class="service-name">Аренда гильдейского замка</h4>
+                                <p class="service-description">Аренда замка для гильдии на 30 дней</p>
+                                <div class="service-meta">
+                                    <span class="service-price" data-price="5000">5,000 💎</span>
+                                    <span class="service-duration">30 дней</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline btn-small btn-select-service" type="button">Выбрать</button>
+                        </div>
+
+                        <div class="service-card" data-category="guild">
+                            <div class="service-icon">⚔️</div>
+                            <div class="service-info">
+                                <h4 class="service-name">Создание гильдии</h4>
+                                <p class="service-description">Регистрация новой гильдии</p>
+                                <div class="service-meta">
+                                    <span class="service-price" data-price="2500">2,500 💎</span>
+                                    <span class="service-duration">Разово</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline btn-small btn-select-service" type="button">Выбрать</button>
+                        </div>
+
+                        <div class="service-card" data-category="guild">
+                            <div class="service-icon">🏷️</div>
+                            <div class="service-info">
+                                <h4 class="service-name">Смена названия гильдии</h4>
+                                <p class="service-description">Изменение названия гильдии</p>
+                                <div class="service-meta">
+                                    <span class="service-price" data-price="1000">1,000 💎</span>
+                                    <span class="service-duration">Разово</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline btn-small btn-select-service" type="button">Выбрать</button>
+                        </div>
+
+                        <!-- Магазин -->
+                        <div class="service-card" data-category="shop">
+                            <div class="service-icon">🛒</div>
+                            <div class="service-info">
+                                <h4 class="service-name">Аренда торговой точки</h4>
+                                <p class="service-description">Аренда места на рынке на 7 дней</p>
+                                <div class="service-meta">
+                                    <span class="service-price" data-price="1200">1,200 💎</span>
+                                    <span class="service-duration">7 дней</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline btn-small btn-select-service" type="button">Выбрать</button>
+                        </div>
+
+                        <div class="service-card" data-category="shop">
+                            <div class="service-icon">📦</div>
+                            <div class="service-info">
+                                <h4 class="service-name">Расширение инвентаря</h4>
+                                <p class="service-description">+10 слотов в инвентаре (навсегда)</p>
+                                <div class="service-meta">
+                                    <span class="service-price" data-price="3000">3,000 💎</span>
+                                    <span class="service-duration">Навсегда</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline btn-small btn-select-service" type="button">Выбрать</button>
+                        </div>
+
+                        <!-- Сейфы -->
+                        <div class="service-card" data-category="vault">
+                            <div class="service-icon">🔒</div>
+                            <div class="service-info">
+                                <h4 class="service-name">Аренда сейфа (малый)</h4>
+                                <p class="service-description">Индивидуальный сейф на 30 дней</p>
+                                <div class="service-meta">
+                                    <span class="service-price" data-price="500">500 💎</span>
+                                    <span class="service-duration">30 дней</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline btn-small btn-select-service" type="button">Выбрать</button>
+                        </div>
+
+                        <div class="service-card" data-category="vault">
+                            <div class="service-icon">🔐</div>
+                            <div class="service-info">
+                                <h4 class="service-name">Аренда сейфа (большой)</h4>
+                                <p class="service-description">Большой сейф на 30 дней</p>
+                                <div class="service-meta">
+                                    <span class="service-price" data-price="1500">1,500 💎</span>
+                                    <span class="service-duration">30 дней</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline btn-small btn-select-service" type="button">Выбрать</button>
+                        </div>
+
+                        <!-- Путешествия -->
+                        <div class="service-card" data-category="travel">
+                            <div class="service-icon">🌍</div>
+                            <div class="service-info">
+                                <h4 class="service-name">Межмировой портал</h4>
+                                <p class="service-description">Мгновенное перемещение между мирами</p>
+                                <div class="service-meta">
+                                    <span class="service-price" data-price="800">800 💎</span>
+                                    <span class="service-duration">Разово</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline btn-small btn-select-service" type="button">Выбрать</button>
+                        </div>
+
+                        <div class="service-card" data-category="travel">
+                            <div class="service-icon">🐉</div>
+                            <div class="service-info">
+                                <h4 class="service-name">Полёт на драконе</h4>
+                                <p class="service-description">Услуга полёта на драконе (1 час)</p>
+                                <div class="service-meta">
+                                    <span class="service-price" data-price="2000">2,000 💎</span>
+                                    <span class="service-duration">1 час</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline btn-small btn-select-service" type="button">Выбрать</button>
+                        </div>
+
+                        <!-- Магия -->
+                        <div class="service-card" data-category="magic">
+                            <div class="service-icon">🔮</div>
+                            <div class="service-info">
+                                <h4 class="service-name">Зачарование предмета</h4>
+                                <p class="service-description">Наложение магического заклинания</p>
+                                <div class="service-meta">
+                                    <span class="service-price" data-price="3500">3,500 💎</span>
+                                    <span class="service-duration">Разово</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline btn-small btn-select-service" type="button">Выбрать</button>
+                        </div>
+
+                        <div class="service-card" data-category="magic">
+                            <div class="service-icon">📜</div>
+                            <div class="service-info">
+                                <h4 class="service-name">Свиток телепортации</h4>
+                                <p class="service-description">5 свитков телепортации</p>
+                                <div class="service-meta">
+                                    <span class="service-price" data-price="1000">1,000 💎</span>
+                                    <span class="service-duration">5 шт</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline btn-small btn-select-service" type="button">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Правая часть: форма оплаты -->
+                <div class="payment-form-container">
+                    <div class="payment-card">
+                        <h3 class="payment-title">Оплата услуги</h3>
+
+                        <!-- Выбранная услуга -->
+                        <div class="selected-service" id="selectedService" style="display: none;">
+                            <h4 class="selected-title">Выбранная услуга:</h4>
+                            <div class="selected-details">
+                                <span class="selected-name" id="selectedServiceName"></span>
+                                <span class="selected-price" id="selectedServicePrice"></span>
+                            </div>
+                        </div>
+
+                        <form class="payment-form" id="paymentForm">
+                            <!-- Счёт списания -->
+                            <div class="form-group">
+                                <label for="paymentAccount" class="form-label">
+                                    <span class="label-icon">💳</span>
+                                    Счёт списания
+                                </label>
+                                <select id="paymentAccount" name="account" class="form-select" required>
+                                    <option value="" disabled selected>Выберите счёт для оплаты</option>
+                                    <option value="40817810099900123456">4081 7810 0999 0012 3456 (1,245,800 💎)</option>
+                                    <option value="40817810099900234567">4081 7810 0999 0023 4567 (542,800 💰)</option>
+                                    <option value="40817810099900345678">4081 7810 0999 0034 5678 (987,500 ✨)</option>
+                                </select>
+                            </div>
+
+                            <!-- Сумма оплаты -->
+                            <div class="form-group">
+                                <label for="paymentAmount" class="form-label">
+                                    <span class="label-icon">💰</span>
+                                    Сумма оплаты
+                                </label>
+                                <div class="amount-field">
+                                    <input type="number"
+                                           id="paymentAmount"
+                                           name="amount"
+                                           class="amount-input"
+                                           placeholder="0"
+                                           min="1"
+                                           step="1"
+                                           value=""
+                                           required>
+                                    <span class="amount-currency" id="paymentCurrencySymbol">💎</span>
+                                </div>
+                            </div>
+
+                            <!-- Валюта оплаты -->
+                            <div class="form-group">
+                                <label for="paymentCurrency" class="form-label">
+                                    <span class="label-icon">💱</span>
+                                    Валюта
+                                </label>
+                                <select id="paymentCurrency" name="currency" class="form-select" required>
+                                    <option value="crystal">💎 Кристаллы</option>
+                                    <option value="gold">💰 Гномье золото</option>
+                                    <option value="silver">✨ Эльфийское серебро</option>
+                                </select>
+                            </div>
+
+                            <!-- Информация о балансе -->
+                            <div class="balance-info-mini" id="balanceInfo">
+                                <div class="info-row">
+                                    <span>Доступно на счёте:</span>
+                                    <span class="available-amount" id="availableAmount">0 💎</span>
+                                </div>
+                                <div class="info-row warning" id="insufficientWarning" style="display: none;">
+                                    <span class="warning-icon">⚠️</span>
+                                    <span>Недостаточно средств</span>
+                                </div>
+                            </div>
+
+                            <!-- Комментарий -->
+                            <div class="form-group">
+                                <label for="paymentComment" class="form-label">
+                                    <span class="label-icon">📝</span>
+                                    Комментарий (необязательно)
+                                </label>
+                                <input type="text"
+                                       id="paymentComment"
+                                       name="comment"
+                                       class="form-input"
+                                       placeholder="Например: Оплата аренды замка">
+                            </div>
+
+                            <!-- Итого -->
+                            <div class="total-section">
+                                <div class="total-row">
+                                    <span class="total-label">К оплате:</span>
+                                    <span class="total-amount" id="totalAmount">0 💎</span>
+                                </div>
+                            </div>
+
+                            <!-- Кнопки -->
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary btn-large btn-submit" id="submitPayment">
+                                    <span class="btn-text">Оплатить</span>
+                                    <span class="btn-icon">⚡</span>
+                                </button>
+                                <a href="/" class="btn btn-outline btn-large">Отмена</a>
+                            </div>
+                        </form>
+
+                        <!-- Примечание по безопасности -->
+                        <div class="security-note">
+                            <span class="note-icon">🛡️</span>
+                            <span class="note-text">Услуга будет активирована мгновенно после оплаты</span>
+                        </div>
+                    </div>
+
+                    <!-- Декоративные кристаллы -->
+                    <div class="payment-decoration">
+                        <div class="decor-crystal orange"></div>
+                        <div class="decor-crystal blue"></div>
+                        <div class="decor-crystal orange-small"></div>
+                        <div class="decor-crystal blue-small"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- История платежей -->
+        <section class="history-section">
+            <h2 class="section-title">История <span class="gradient-text">платежей</span></h2>
+
+            <div class="history-table">
+                <div class="table-header">
+                    <div class="col-date">Дата</div>
+                    <div class="col-service">Услуга</div>
+                    <div class="col-amount">Сумма</div>
+                    <div class="col-status">Статус</div>
+                </div>
+
+                <div class="table-body">
+                    <div class="table-row">
+                        <div class="col-date">26.02.2026</div>
+                        <div class="col-service">Аренда гильдейского замка</div>
+                        <div class="col-amount">5,000 💎</div>
+                        <div class="col-status"><span class="status-badge completed">Активно</span></div>
+                    </div>
+
+                    <div class="table-row">
+                        <div class="col-date">24.02.2026</div>
+                        <div class="col-service">Создание гильдии</div>
+                        <div class="col-amount">2,500 💎</div>
+                        <div class="col-status"><span class="status-badge completed">Завершено</span></div>
+                    </div>
+
+                    <div class="table-row">
+                        <div class="col-date">22.02.2026</div>
+                        <div class="col-service">Аренда сейфа (малый)</div>
+                        <div class="col-amount">500 💎</div>
+                        <div class="col-status"><span class="status-badge completed">Активно</span></div>
+                    </div>
+
+                    <div class="table-row">
+                        <div class="col-date">20.02.2026</div>
+                        <div class="col-service">Зачарование предмета</div>
+                        <div class="col-amount">3,500 💎</div>
+                        <div class="col-status"><span class="status-badge completed">Завершено</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-footer">
+                <a href="/payment/history" class="btn btn-outline btn-small">Все платежи →</a>
+            </div>
+        </section>
+
+        <!-- FAQ по оплате -->
+        <section class="faq-section">
+            <h2 class="section-title">Частые вопросы об <span class="gradient-text">оплате</span></h2>
+
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3 class="faq-question">❓ Как быстро активируется услуга?</h3>
+                    <p class="faq-answer">Услуга активируется мгновенно после подтверждения платежа.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3 class="faq-question">❓ Можно ли оплатить разными валютами?</h3>
+                    <p class="faq-answer">Да, вы можете оплачивать кристаллами, золотом или серебром с любого своего счёта.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3 class="faq-question">❓ Можно ли вернуть деньги?</h3>
+                    <p class="faq-answer">Возврат возможен в течение 24 часов, если услуга ещё не была активирована.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3 class="faq-question">❓ Где посмотреть историю платежей?</h3>
+                    <p class="faq-answer">История всех платежей доступна в разделе "История платежей" ниже.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- Подвал банка -->
+<div th:replace="~{fragments/bank-footer :: bank-footer}"></div>
+
+<script>
+    (function() {
+        'use strict';
+
+        // Данные для демо
+        const accounts = {
+            '40817810099900123456': { balance: 1245800, currency: 'crystal' },
+            '40817810099900234567': { balance: 542800, currency: 'gold' },
+            '40817810099900345678': { balance: 987500, currency: 'silver' }
+        };
+
+        // Получаем элементы DOM
+        const selectedService = document.getElementById('selectedService');
+        const selectedServiceName = document.getElementById('selectedServiceName');
+        const selectedServicePrice = document.getElementById('selectedServicePrice');
+        const paymentAmount = document.getElementById('paymentAmount');
+        const paymentCurrency = document.getElementById('paymentCurrency');
+        const paymentCurrencySymbol = document.getElementById('paymentCurrencySymbol');
+        const paymentAccount = document.getElementById('paymentAccount');
+        const totalAmount = document.getElementById('totalAmount');
+        const availableAmount = document.getElementById('availableAmount');
+        const insufficientWarning = document.getElementById('insufficientWarning');
+        const submitButton = document.getElementById('submitPayment');
+
+        // Проверка существования элементов
+        if (!selectedService || !selectedServiceName || !selectedServicePrice || !paymentAmount ||
+            !paymentCurrency || !paymentCurrencySymbol || !paymentAccount || !totalAmount ||
+            !availableAmount || !insufficientWarning || !submitButton) {
+            console.error('Не удалось найти необходимые элементы DOM');
+            return;
+        }
+
+        // Выбор услуги
+        document.querySelectorAll('.btn-select-service').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const serviceCard = this.closest('.service-card');
+                if (!serviceCard) return;
+
+                const serviceNameElem = serviceCard.querySelector('.service-name');
+                const servicePriceElem = serviceCard.querySelector('.service-price');
+
+                if (!serviceNameElem || !servicePriceElem) return;
+
+                const serviceName = serviceNameElem.textContent;
+                const servicePriceText = servicePriceElem.textContent;
+                const priceMatch = servicePriceText.match(/\d+/g);
+
+                if (!priceMatch) return;
+
+                const price = parseInt(priceMatch.join(''), 10);
+
+                selectedServiceName.textContent = serviceName;
+                selectedServicePrice.textContent = servicePriceText;
+
+                // Устанавливаем сумму
+                paymentAmount.value = price;
+
+                // Показываем блок выбранной услуги
+                selectedService.style.display = 'block';
+
+                // Убираем выделение с других карточек
+                document.querySelectorAll('.service-card').forEach(card => {
+                    card.classList.remove('selected');
+                });
+                serviceCard.classList.add('selected');
+
+                // Обновляем отображение
+                updateTotal();
+                checkBalance();
+            });
+        });
+
+        // Фильтр категорий
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                const category = this.dataset.category;
+
+                document.querySelectorAll('.service-card').forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Обновление информации о балансе при выборе счёта
+        paymentAccount.addEventListener('change', function() {
+            updateBalanceInfo();
+            checkBalance();
+        });
+
+        // Обновление при смене валюты
+        paymentCurrency.addEventListener('change', function() {
+            const currency = this.value;
+            let symbol = '💎';
+            if (currency === 'gold') symbol = '💰';
+            if (currency === 'silver') symbol = '✨';
+            paymentCurrencySymbol.textContent = symbol;
+            updateTotal();
+            checkBalance();
+        });
+
+        // Обновление суммы
+        paymentAmount.addEventListener('input', function() {
+            updateTotal();
+            checkBalance();
+        });
+
+        function updateBalanceInfo() {
+            const account = paymentAccount.value;
+            if (account && accounts[account]) {
+                const balance = accounts[account].balance;
+                const currency = accounts[account].currency;
+                let symbol = '💎';
+                if (currency === 'gold') symbol = '💰';
+                if (currency === 'silver') symbol = '✨';
+
+                availableAmount.textContent = balance.toLocaleString() + ' ' + symbol;
+            } else {
+                availableAmount.textContent = '0 💎';
+            }
+        }
+
+        function updateTotal() {
+            const amount = parseInt(paymentAmount.value, 10) || 0;
+            const currency = paymentCurrency.value;
+            let symbol = '💎';
+            if (currency === 'gold') symbol = '💰';
+            if (currency === 'silver') symbol = '✨';
+
+            totalAmount.textContent = amount.toLocaleString() + ' ' + symbol;
+        }
+
+        function checkBalance() {
+            const account = paymentAccount.value;
+            const amount = parseInt(paymentAmount.value, 10) || 0;
+
+            if (account && accounts[account] && amount > 0) {
+                if (amount > accounts[account].balance) {
+                    insufficientWarning.style.display = 'flex';
+                    submitButton.disabled = true;
+                } else {
+                    insufficientWarning.style.display = 'none';
+                    submitButton.disabled = false;
+                }
+            } else {
+                insufficientWarning.style.display = 'none';
+                submitButton.disabled = true;
+            }
+        }
+
+        // Отправка формы
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!selectedService.style.display || selectedService.style.display === 'none') {
+                alert('Пожалуйста, выберите услугу для оплаты');
+                return;
+            }
+
+            if (insufficientWarning.style.display === 'flex') {
+                alert('Недостаточно средств на счёте');
+                return;
+            }
+
+            alert('Платёж выполнен! Услуга активирована.');
+
+            // Сброс формы (для демо)
+            selectedService.style.display = 'none';
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            paymentAmount.value = '';
+        });
+
+        // Инициализация
+        updateBalanceInfo();
+    })();
+
+
+</script>
+</body>
+</html>
