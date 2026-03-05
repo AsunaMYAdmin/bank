@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="ru">
 <head>
     <meta charset="UTF-8">
     <title></title>
@@ -17,12 +19,32 @@
             <a href="/transactions" class="nav-link" th:classappend="${activePage == 'transactions'} ? 'active' : ''">Операции</a>
             <a href="/exchange" class="nav-link" th:classappend="${activePage == 'exchange'} ? 'active' : ''">Обмен валют</a>
             <a href="/bank-about" class="nav-link" th:classappend="${activePage == 'bank-about'} ? 'active' : ''">О банке</a>
-            <a href="/site" class="nav-link" th:classappend="${activePage == 'loregard.ru'} ? 'active' : ''">LOREGARD</a>
+            <a href="https://loregard.ru" class="nav-link" th:classappend="${activePage == 'loregard.ru'} ? 'active' : ''">LOREGARD</a>
         </nav>
         <div class="header-actions">
-            <a href="/login" class="btn btn-primary">Войти в банк</a>
+            <!-- Блок для авторизованного пользователя (не аноним) -->
+            <div sec:authorize="isAuthenticated()" class="auth-actions">
+                <span class="user-greeting" sec:authentication="name">Пользователь</span>
+                <!-- Форма для выхода (POST с CSRF) -->
+                <form th:action="@{/logout}" method="post" class="logout-form">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <button type="submit" class="btn btn-outline">
+                        <span class="btn-icon">👋</span>
+                        <span class="btn-text">Выйти</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Блок для неавторизованного пользователя (аноним) -->
+            <div sec:authorize="!isAuthenticated()" class="guest-actions">
+                <a href="/login" class="btn btn-primary">Войти в банк</a>
+            </div>
         </div>
     </div>
+
+    <!-- CSRF токен в meta для AJAX запросов (опционально) -->
+    <meta name="_csrf" th:content="${_csrf.token}" th:if="${_csrf}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" th:if="${_csrf}"/>
 </header>
 </body>
 </html>
