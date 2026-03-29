@@ -6,7 +6,6 @@ import lombok.Setter;
 import me.asunamyadmin.bank.bank_profile.service.Status;
 import me.asunamyadmin.bank.security.domain.Role;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,7 +17,6 @@ public class BankProfileEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     String username;
-    BigDecimal balance;
     @Enumerated(value = EnumType.STRING)
     Role role;
     @Enumerated(value = EnumType.STRING)
