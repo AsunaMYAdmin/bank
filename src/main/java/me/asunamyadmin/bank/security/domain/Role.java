@@ -1,13 +1,11 @@
-package me.asunamyadmin.bank.security;
+package me.asunamyadmin.bank.security.domain;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-public enum UserRole {
+public enum Role {
     USER,
-    MODERATOR,
-    ADMIN,
-    GAME_MASTER,
-    CARDINAL_SYSTEM;
+    HEAD,
+    SYSTEM;
 
     public SimpleGrantedAuthority getSimpleGrantedAuthority() {
         return new SimpleGrantedAuthority("ROLE_" + this.name());
