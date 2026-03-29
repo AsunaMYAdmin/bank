@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import me.asunamyadmin.bank.bank_account.data.AccountEntity;
 import me.asunamyadmin.bank.bank_account.data.AccountRepository;
 import me.asunamyadmin.bank.bank_account.exception.AccountNotFoundException;
+import me.asunamyadmin.bank.bank_transaction.exception.InsufficientFundsException;
+import me.asunamyadmin.bank.bank_transaction.exception.WrongAmountException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -40,5 +42,28 @@ public class AccountService {
     public void deleteAccount(Integer id) {
         AccountEntity entity = repository.findByUserId(id).orElseThrow(AccountNotFoundException::new);
         repository.delete(entity);
+    }
+
+    @Transactional
+    public void withDraw(Integer id, BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new WrongAmountException();
+        }
+        AccountEntity entity = repository.findByUserId(id).orElseThrow(AccountNotFoundException::new);
+        if (entity.getBalance().compareTo(amount) < 0) {
+            throw new InsufficientFundsException();
+        }
+        entity.setBalance(entity.getBalance().subtract(amount));
+        repository.save(entity);
+    }
+
+    @Transactional
+    public void replenishment(Integer id, BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new WrongAmountException();
+        }
+        AccountEntity entity = repository.findByUserId(id).orElseThrow(AccountNotFoundException::new);
+        entity.setBalance(entity.getBalance().add(amount));
+        repository.save(entity);
     }
 }

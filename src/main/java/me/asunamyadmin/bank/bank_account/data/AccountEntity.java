@@ -22,7 +22,6 @@ public class AccountEntity {
     Integer userId;
     @Column(name = "account_number")
     String accountNumber;
-    @Version
     BigDecimal balance;
     @Enumerated(value = EnumType.STRING)
     Currency currency;
@@ -33,6 +32,8 @@ public class AccountEntity {
     AccountStatus status;
     @Column(name = "created_At")
     LocalDateTime createdAt;
+    @Version
+    Long version;
 
     @PrePersist
     void onCreate() {
