@@ -40,7 +40,7 @@ public class AccountService {
 
     @Transactional
     public void deleteAccount(Integer id) {
-        AccountEntity entity = repository.findByUserId(id).orElseThrow(AccountNotFoundException::new);
+        AccountEntity entity = repository.findById(id).orElseThrow(AccountNotFoundException::new);
         repository.delete(entity);
     }
 
@@ -49,7 +49,7 @@ public class AccountService {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new WrongAmountException();
         }
-        AccountEntity entity = repository.findByUserId(id).orElseThrow(AccountNotFoundException::new);
+        AccountEntity entity = repository.findById(id).orElseThrow(AccountNotFoundException::new);
         if (entity.getBalance().compareTo(amount) < 0) {
             throw new InsufficientFundsException();
         }
@@ -62,7 +62,7 @@ public class AccountService {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new WrongAmountException();
         }
-        AccountEntity entity = repository.findByUserId(id).orElseThrow(AccountNotFoundException::new);
+        AccountEntity entity = repository.findById(id).orElseThrow(AccountNotFoundException::new);
         entity.setBalance(entity.getBalance().add(amount));
         repository.save(entity);
     }
