@@ -1043,3 +1043,25 @@ body {
 .table-row {
     animation: fadeInUp 0.5s ease-out forwards;
 }
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--card-bg);
+    border: 1px dashed rgba(255, 140, 66, 0.3);
+    border-radius: var(--border-radius-xl);
+    color: var(--text-muted);
+    font-size: 16px;
+}
+
+.empty-state a {
+    color: var(--orange-primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.empty-state a:hover {
+    color: var(--orange-light);
+    text-decoration: underline;
+}

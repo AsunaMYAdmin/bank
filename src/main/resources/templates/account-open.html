@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Открытие счёта | Кристальный Банк</title>
-    <link rel="stylesheet" href="/css/account-open.css">
+    <link rel="stylesheet" th:href="@{/css/account-open.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-<!-- Фоновые кристаллы -->
 <div class="bg-decoration">
     <div class="crystal crystal-1"></div>
     <div class="crystal crystal-2"></div>
@@ -18,17 +17,17 @@
     <div class="crystal crystal-4"></div>
 </div>
 
-<!-- Шапка банка -->
 <div th:replace="~{fragments/bank-header :: bank-header('accounts')}"></div>
 
 <main class="main">
     <div class="container">
-        <!-- Хлебные крошки -->
+
         <div class="breadcrumbs">
-            <a href="/">Главная</a> <span>/</span> <a href="/accounts">Счета</a> <span>/</span> <span>Открытие счёта</span>
+            <a th:href="@{/}">Главная</a> <span>/</span>
+            <a th:href="@{/accounts}">Счета</a> <span>/</span>
+            <span>Открытие счёта</span>
         </div>
 
-        <!-- Заголовок -->
         <section class="page-header">
             <h1 class="page-title">Открытие <span class="gradient-text">счёта</span></h1>
             <p class="page-description">
@@ -36,32 +35,40 @@
             </p>
         </section>
 
+        <!-- Flash -->
+        <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
+
         <div class="open-account-wrapper">
-            <!-- Левая часть с информацией -->
+
+            <!-- Левая часть — информация -->
             <div class="account-info-side">
                 <div class="info-card">
-                    <h2 class="info-title">Универсальный счёт</h2>
+                    <h2 class="info-title">Типы счетов</h2>
                     <p class="info-text">
-                        В Кристальном Банке каждый счёт может хранить любую валюту.
-                        Номер счёта генерируется автоматически и состоит только из цифр.
+                        Выберите тип счёта под нужную валюту. Каждый тип привязан к своей валюте.
+                        Номер генерируется автоматически в формате <strong>ТИП-XXXX-XXXX-XXXX-XXXX</strong>.
                     </p>
 
                     <div class="info-features">
                         <div class="feature">
                             <span class="feature-icon">💎</span>
-                            <span class="feature-text">Кристаллы</span>
+                            <span class="feature-text">CRY — Кристальный</span>
                         </div>
                         <div class="feature">
                             <span class="feature-icon">💰</span>
-                            <span class="feature-text">Гномье золото</span>
+                            <span class="feature-text">GNM — Гномий золотой</span>
                         </div>
                         <div class="feature">
                             <span class="feature-icon">✨</span>
-                            <span class="feature-text">Эльфийское серебро</span>
+                            <span class="feature-text">ELF — Эльфийский серебряный</span>
                         </div>
                         <div class="feature">
-                            <span class="feature-icon">📦</span>
-                            <span class="feature-text">Другие ценности</span>
+                            <span class="feature-icon">🏦</span>
+                            <span class="feature-text">SAFE — Сберегательный</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">⚔️</span>
+                            <span class="feature-text">GUILD — Гильдейский</span>
                         </div>
                     </div>
 
@@ -78,204 +85,120 @@
                             <span class="benefit-badge">✓</span>
                             <span>Мгновенная активация</span>
                         </div>
-                        <div class="benefit">
-                            <span class="benefit-badge">✓</span>
-                            <span>Доступ к любым валютам</span>
-                        </div>
                     </div>
 
-                    <!-- Пример номера счёта -->
                     <div class="example-account">
                         <span class="example-label">Пример номера счёта:</span>
-                        <div class="example-number">40817810099900123456</div>
-                        <span class="example-note">20 цифр, уникальный для каждого клиента</span>
+                        <div class="example-number">CRY-A3F2-9K1X-7B4M-2P8Q</div>
+                        <span class="example-note">Тип + 4 блока по 4 символа</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Правая часть с формой -->
+            <!-- Правая часть — форма -->
             <div class="account-form-side">
                 <div class="form-card">
                     <h2 class="form-title">Параметры счёта</h2>
 
-                    <form class="account-form">
-                        <!-- Название счёта -->
-                        <div class="form-group">
-                            <label for="accountName" class="form-label">
-                                <span class="label-icon">🏷️</span>
-                                Название счёта
-                            </label>
-                            <input type="text"
-                                   id="accountName"
-                                   name="accountName"
-                                   class="form-input"
-                                   placeholder="Например: Основной, Сберегательный, Для торговли"
-                                   required>
-                            <small class="form-hint">Придумайте название, чтобы легко отличать счета</small>
-                        </div>
+                    <form th:action="@{/accounts/open}" method="post" class="account-form">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
-                        <!-- Тип счёта (необязательно, для визуального разделения) -->
+                        <!-- Тип счёта -->
                         <div class="form-group">
                             <label class="form-label">
                                 <span class="label-icon">🔮</span>
-                                Тип счёта (необязательно)
+                                Тип счёта
                             </label>
                             <div class="account-type-selector">
                                 <label class="type-option">
-                                    <input type="radio" name="accountType" value="standard" checked>
-                                    <span class="type-card standard">
-                                        <span class="type-icon">📋</span>
-                                        <span class="type-name">Стандартный</span>
+                                    <input type="radio" name="accountType" value="CRY" required checked>
+                                    <span class="type-card crystal-card">
+                                        <span class="type-icon">💎</span>
+                                        <span class="type-name">Кристальный</span>
+                                        <span class="type-currency">CRYSTAL</span>
                                     </span>
                                 </label>
                                 <label class="type-option">
-                                    <input type="radio" name="accountType" value="savings">
+                                    <input type="radio" name="accountType" value="GNM">
+                                    <span class="type-card gold">
+                                        <span class="type-icon">💰</span>
+                                        <span class="type-name">Гномий</span>
+                                        <span class="type-currency">GOLD</span>
+                                    </span>
+                                </label>
+                                <label class="type-option">
+                                    <input type="radio" name="accountType" value="ELF">
+                                    <span class="type-card silver">
+                                        <span class="type-icon">✨</span>
+                                        <span class="type-name">Эльфийский</span>
+                                        <span class="type-currency">SILVER</span>
+                                    </span>
+                                </label>
+                                <label class="type-option">
+                                    <input type="radio" name="accountType" value="SAFE">
                                     <span class="type-card savings">
                                         <span class="type-icon">🏦</span>
                                         <span class="type-name">Сберегательный</span>
+                                        <span class="type-currency">ANY</span>
                                     </span>
                                 </label>
                                 <label class="type-option">
-                                    <input type="radio" name="accountType" value="business">
-                                    <span class="type-card business">
-                                        <span class="type-icon">⚖️</span>
-                                        <span class="type-name">Для гильдии</span>
+                                    <input type="radio" name="accountType" value="GUILD">
+                                    <span class="type-card guild">
+                                        <span class="type-icon">⚔️</span>
+                                        <span class="type-name">Гильдейский</span>
+                                        <span class="type-currency">ANY</span>
                                     </span>
                                 </label>
                             </div>
                         </div>
 
-                        <!-- Валюта по умолчанию (необязательно) -->
-                        <div class="form-group">
-                            <label for="defaultCurrency" class="form-label">
-                                <span class="label-icon">💱</span>
-                                Основная валюта (необязательно)
-                            </label>
-                            <select id="defaultCurrency" name="defaultCurrency" class="form-select">
-                                <option value="any">Любая (счёт универсальный)</option>
-                                <option value="crystal">💎 Кристаллы</option>
-                                <option value="gold">💰 Гномье золото</option>
-                                <option value="silver">✨ Эльфийское серебро</option>
-                            </select>
-                            <small class="form-hint">Можно хранить любые валюты, это только для отображения</small>
-                        </div>
-
-                        <!-- Начальный баланс -->
-                        <div class="form-group">
-                            <label for="initialBalance" class="form-label">
-                                <span class="label-icon">💰</span>
-                                Начальный баланс
-                            </label>
-                            <input type="number"
-                                   id="initialBalance"
-                                   name="initialBalance"
-                                   class="form-input"
-                                   value="0"
-                                   min="0"
-                                   step="1">
-                            <small class="form-hint">Можно оставить 0 и пополнить позже</small>
-                        </div>
-
-                        <!-- Дополнительные опции -->
-                        <div class="form-options">
-                            <label class="checkbox-label">
-                                <input type="checkbox" name="autoGenerate" checked>
-                                <span class="checkbox-text">Автоматически генерировать номер счёта</span>
-                            </label>
-
-                            <label class="checkbox-label">
-                                <input type="checkbox" name="makeDefault">
-                                <span class="checkbox-text">Сделать основным счётом</span>
-                            </label>
-                        </div>
-
-                        <!-- Сгенерированный номер счёта (будет показан после создания) -->
-                        <div class="generated-number-preview" style="display: none;">
-                            <span class="preview-label">Номер нового счёта:</span>
-                            <div class="preview-number">40817810990012345678</div>
-                        </div>
-
-                        <!-- Кнопки -->
                         <div class="form-actions">
                             <button type="submit" class="btn btn-primary btn-large btn-submit">
                                 <span class="btn-text">Открыть счёт</span>
                                 <span class="btn-icon">✨</span>
                             </button>
-                            <a href="/accounts" class="btn btn-outline btn-large">Отмена</a>
+                            <a th:href="@{/accounts}" class="btn btn-outline btn-large">Отмена</a>
                         </div>
                     </form>
 
-                    <!-- Примечание -->
                     <div class="form-note">
                         <span class="note-icon">ℹ️</span>
                         <span class="note-text">
-                            Номер счёта будет сгенерирован автоматически. Он состоит из 20 цифр и уникален для каждого счёта.
-                            Вы сможете пополнять счёт любой валютой в любое время.
+                            Номер счёта генерируется автоматически в формате ТИП-XXXX-XXXX-XXXX-XXXX.
+                            Пополнить счёт можно сразу после открытия.
                         </span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Часто задаваемые вопросы об открытии счетов -->
+        <!-- FAQ -->
         <section class="faq-section">
             <h2 class="section-title">Частые вопросы об <span class="gradient-text">открытии счетов</span></h2>
-
             <div class="faq-grid">
                 <div class="faq-item">
                     <h3 class="faq-question">❓ Сколько стоит открыть счёт?</h3>
-                    <p class="faq-answer">Открытие счёта абсолютно бесплатно. Первые 7 дней обслуживания также бесплатны.</p>
+                    <p class="faq-answer">Открытие счёта абсолютно бесплатно.</p>
                 </div>
-
                 <div class="faq-item">
                     <h3 class="faq-question">❓ Сколько счетов можно открыть?</h3>
-                    <p class="faq-answer">Ограничений нет. Вы можете открыть любое количество счетов для разных целей.</p>
+                    <p class="faq-answer">Ограничений нет. Открывай сколько нужно.</p>
                 </div>
-
-                <div class="faq-item">
-                    <h3 class="faq-question">❓ Можно ли хранить разные валюты на одном счёте?</h3>
-                    <p class="faq-answer">Да, счёт универсальный. Вы можете хранить кристаллы, золото и серебро на одном счету.</p>
-                </div>
-
                 <div class="faq-item">
                     <h3 class="faq-question">❓ Как узнать номер нового счёта?</h3>
-                    <p class="faq-answer">Номер генерируется автоматически и отобразится после открытия. Вы также получите уведомление.</p>
+                    <p class="faq-answer">Номер отобразится сразу после открытия и будет виден на странице счетов.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">❓ Можно ли закрыть счёт?</h3>
+                    <p class="faq-answer">Да, закрыть счёт можно в деталях счёта, если баланс равен нулю.</p>
                 </div>
             </div>
         </section>
+
     </div>
 </main>
 
-<!-- Подвал банка -->
 <div th:replace="~{fragments/bank-footer :: bank-footer}"></div>
-
-<script>
-    // Простая валидация и демо-генерация номера счёта
-    document.querySelector('.account-form')?.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        // Здесь будет отправка формы на сервер
-        // Для демо просто показываем сгенерированный номер
-
-        const preview = document.querySelector('.generated-number-preview');
-        const previewNumber = document.querySelector('.preview-number');
-
-        // Генерируем случайный 20-значный номер
-        const generateAccountNumber = () => {
-            let number = '';
-            for (let i = 0; i < 20; i++) {
-                number += Math.floor(Math.random() * 10);
-            }
-            // Форматируем группами по 4 цифры
-            return number.replace(/(\d{4})(?=\d)/g, '$1 ');
-        };
-
-        previewNumber.textContent = generateAccountNumber();
-        preview.style.display = 'block';
-
-        // Прокручиваем к превью
-        preview.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
-</script>
 </body>
 </html>

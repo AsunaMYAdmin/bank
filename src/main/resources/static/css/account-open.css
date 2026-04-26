@@ -112,6 +112,12 @@ body {
     animation-delay: -7s;
 }
 
+.crystal-card {
+    position: absolute;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent);
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+
 @keyframes float {
     0%, 100% {
         transform: translate(0, 0) rotate(0deg) scale(1);

@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Счета | Кристальный Банк</title>
-    <link rel="stylesheet" href="/css/bank-accounts.css">
+    <link rel="stylesheet" th:href="@{/css/bank-accounts.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-<!-- Фоновые кристаллы -->
 <div class="bg-decoration">
     <div class="crystal crystal-1"></div>
     <div class="crystal crystal-2"></div>
@@ -18,17 +17,15 @@
     <div class="crystal crystal-4"></div>
 </div>
 
-<!-- Шапка -->
 <div th:replace="~{fragments/bank-header :: bank-header('accounts')}"></div>
 
 <main class="main">
     <div class="container">
-        <!-- Хлебные крошки -->
+
         <div class="breadcrumbs">
-            <a href="/">Главная</a> <span>/</span> <span>Счета</span>
+            <a th:href="@{/}">Главная</a> <span>/</span> <span>Счета</span>
         </div>
 
-        <!-- Заголовок -->
         <section class="page-header">
             <h1 class="page-title">Мои <span class="gradient-text">счета</span></h1>
             <p class="page-description">
@@ -36,250 +33,147 @@
             </p>
         </section>
 
-        <!-- Общий баланс -->
+        <!-- Общий баланс (только кристаллы — основная валюта) -->
         <section class="total-balance">
             <div class="balance-card">
                 <div class="balance-icon">💎</div>
                 <div class="balance-info">
-                    <span class="balance-label">Общий баланс</span>
-                    <span class="balance-value">1,234,567</span>
+                    <span class="balance-label">Баланс кристаллов</span>
+                    <span class="balance-value" th:text="${#numbers.formatInteger(totalCrystals, 1, 'COMMA')}">0</span>
                     <span class="balance-currency">кристаллов</span>
                 </div>
                 <div class="balance-crystals">
-                    <span>💎</span>
-                    <span>💎</span>
-                    <span>💎</span>
+                    <span>💎</span><span>💎</span><span>💎</span>
                 </div>
             </div>
         </section>
 
         <!-- Кнопка открытия счёта -->
         <section class="action-bar">
-            <a href="/accounts/open" class="btn btn-primary btn-large">
+            <a th:href="@{/accounts/open}" class="btn btn-primary btn-large">
                 <span class="btn-text">Открыть новый счёт</span>
                 <span class="btn-icon">+</span>
             </a>
-            <div class="action-hint">
-                <span class="hint-icon">✨</span>
-                <span>Первое открытие счёта — бесплатно</span>
-            </div>
         </section>
+
+        <!-- Flash -->
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+        <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
 
         <!-- Список счетов -->
         <section class="accounts-section">
             <h2 class="section-title">Ваши <span class="gradient-text">счета</span></h2>
 
-            <div class="accounts-grid">
-                <!-- Счёт 1: Кристальный (основной) -->
-                <div class="account-card main-account">
-                    <div class="account-badge">Основной</div>
+            <div th:if="${#lists.isEmpty(accounts)}" class="empty-state">
+                <div style="font-size: 48px; margin-bottom: 16px;">💎</div>
+                <p>У вас пока нет счетов. <a th:href="@{/accounts/open}">Открыть первый →</a></p>
+            </div>
+            <div class="accounts-grid" th:unless="${#lists.isEmpty(accounts)}">
+                <div th:each="account : ${accounts}"
+                     class="account-card"
+                     th:classappend="${account.accountType.name() == 'CRY'} ? 'crystal-account' :
+                                    (${account.accountType.name() == 'GNM'} ? 'gold-account' :
+                                    (${account.accountType.name() == 'ELF'} ? 'silver-account' :
+                                    (${account.accountType.name() == 'SAFE'} ? 'savings-account' : 'guild-account')))">
+
                     <div class="account-header">
-                        <div class="account-icon">💎</div>
-                        <div class="account-type">Кристальный счёт</div>
+                        <!-- Иконка по типу -->
+                        <div class="account-icon"
+                             th:text="${account.accountType.name() == 'CRY'} ? '💎' :
+                                      (${account.accountType.name() == 'GNM'} ? '💰' :
+                                      (${account.accountType.name() == 'ELF'} ? '✨' :
+                                      (${account.accountType.name() == 'SAFE'} ? '🏦' : '⚔️')))">💎</div>
+                        <!-- Название типа -->
+                        <div class="account-type"
+                             th:text="${account.accountType.name() == 'CRY'} ? 'Кристальный счёт' :
+                                      (${account.accountType.name() == 'GNM'} ? 'Гномий золотой' :
+                                      (${account.accountType.name() == 'ELF'} ? 'Эльфийский серебряный' :
+                                      (${account.accountType.name() == 'SAFE'} ? 'Сберегательный' : 'Гильдейский')))">Счёт</div>
                     </div>
 
                     <div class="account-number">
                         <span class="number-label">Номер счёта:</span>
-                        <span class="number-value">CRY-4242-8888-1234</span>
+                        <span class="number-value" th:text="${account.accountNumber}">XXXX-XXXX-XXXX-XXXX-XXXX</span>
                     </div>
 
                     <div class="account-balance">
                         <span class="balance-label">Баланс:</span>
-                        <span class="balance-value">542,800</span>
-                        <span class="balance-currency">кристаллов</span>
+                        <span class="balance-value"
+                              th:text="${#numbers.formatDecimal(account.balance, 1, 'COMMA', 0, 'POINT')}">0</span>
+                        <span class="balance-currency"
+                              th:text="${account.currency.name() == 'CRYSTAL'} ? 'кристаллов' :
+                                       (${account.currency.name() == 'GOLD'} ? 'золота' :
+                                       (${account.currency.name() == 'SILVER'} ? 'серебра' : 'ед.'))">кристаллов</span>
                     </div>
 
                     <div class="account-stats">
                         <div class="stat">
                             <span class="stat-label">Открыт</span>
-                            <span class="stat-value">15.01.2026</span>
+                            <span class="stat-value"
+                                  th:text="${#temporals.format(account.createdAt, 'dd.MM.yyyy')}">—</span>
                         </div>
                         <div class="stat">
-                            <span class="stat-label">Ставка</span>
-                            <span class="stat-value">3.5%</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">Доход</span>
-                            <span class="stat-value positive">+1,240</span>
+                            <span class="stat-label">Статус</span>
+                            <span class="stat-value"
+                                  th:classappend="${account.status.name() == 'ACTIVE'} ? 'positive' : 'negative'"
+                                  th:text="${account.status.name() == 'ACTIVE'} ? 'Активен' : 'Закрыт'">Активен</span>
                         </div>
                     </div>
 
                     <div class="account-actions">
-                        <a href="/accounts/CRY-4242-8888-1234" class="btn btn-outline btn-small">Детали</a>
-                        <a href="/transfer?from=CRY-4242-8888-1234" class="btn btn-outline btn-small">Перевод</a>
-                        <a href="/history?account=CRY-4242-8888-1234" class="btn btn-outline btn-small">История</a>
+                        <a th:href="@{/accounts/{num}(num=${account.accountNumber})}"
+                           class="btn btn-outline btn-small">Детали</a>
+                        <a th:href="@{/transfer(from=${account.accountNumber})}"
+                           class="btn btn-outline btn-small">Перевод</a>
+                        <a th:href="@{/history(account=${account.accountNumber})}"
+                           class="btn btn-outline btn-small">История</a>
                     </div>
 
                     <div class="account-decoration">
-                        <span>💎</span>
-                        <span>💎</span>
-                        <span>💎</span>
-                    </div>
-                </div>
-
-                <!-- Счёт 2: Золотой (в золоте) -->
-                <div class="account-card gold-account">
-                    <div class="account-header">
-                        <div class="account-icon">💰</div>
-                        <div class="account-type">Золотой счёт</div>
-                    </div>
-
-                    <div class="account-number">
-                        <span class="number-label">Номер счёта:</span>
-                        <span class="number-value">GLD-5678-1234-5678</span>
-                    </div>
-
-                    <div class="account-balance">
-                        <span class="balance-label">Баланс:</span>
-                        <span class="balance-value">12,450</span>
-                        <span class="balance-currency">золота</span>
-                    </div>
-
-                    <div class="account-stats">
-                        <div class="stat">
-                            <span class="stat-label">Открыт</span>
-                            <span class="stat-value">03.02.2026</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">Ставка</span>
-                            <span class="stat-value">2.0%</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">Доход</span>
-                            <span class="stat-value positive">+210</span>
-                        </div>
-                    </div>
-
-                    <div class="account-actions">
-                        <a href="/accounts/GLD-5678-1234-5678" class="btn btn-outline btn-small">Детали</a>
-                        <a href="/transfer?from=GLD-5678-1234-5678" class="btn btn-outline btn-small">Перевод</a>
-                        <a href="/history?account=GLD-5678-1234-5678" class="btn btn-outline btn-small">История</a>
-                    </div>
-
-                    <div class="account-decoration">
-                        <span>💰</span>
-                        <span>💰</span>
-                        <span>💰</span>
-                    </div>
-                </div>
-
-                <!-- Счёт 3: Серебряный (эльфийский) -->
-                <div class="account-card silver-account">
-                    <div class="account-header">
-                        <div class="account-icon">✨</div>
-                        <div class="account-type">Эльфийский серебряный</div>
-                    </div>
-
-                    <div class="account-number">
-                        <span class="number-label">Номер счёта:</span>
-                        <span class="number-value">SLV-9876-5432-1098</span>
-                    </div>
-
-                    <div class="account-balance">
-                        <span class="balance-label">Баланс:</span>
-                        <span class="balance-value">45,200</span>
-                        <span class="balance-currency">серебра</span>
-                    </div>
-
-                    <div class="account-stats">
-                        <div class="stat">
-                            <span class="stat-label">Открыт</span>
-                            <span class="stat-value">20.12.2025</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">Ставка</span>
-                            <span class="stat-value">4.2%</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">Доход</span>
-                            <span class="stat-value positive">+1,870</span>
-                        </div>
-                    </div>
-
-                    <div class="account-actions">
-                        <a href="/accounts/SLV-9876-5432-1098" class="btn btn-outline btn-small">Детали</a>
-                        <a href="/transfer?from=SLV-9876-5432-1098" class="btn btn-outline btn-small">Перевод</a>
-                        <a href="/history?account=SLV-9876-5432-1098" class="btn btn-outline btn-small">История</a>
-                    </div>
-
-                    <div class="account-decoration">
-                        <span>✨</span>
-                        <span>✨</span>
-                        <span>✨</span>
-                    </div>
-                </div>
-
-                <!-- Счёт 4: Сберегательный -->
-                <div class="account-card savings-account">
-                    <div class="account-badge">Сберегательный</div>
-                    <div class="account-header">
-                        <div class="account-icon">🏦</div>
-                        <div class="account-type">Сберегательный</div>
-                    </div>
-
-                    <div class="account-number">
-                        <span class="number-label">Номер счёта:</span>
-                        <span class="number-value">SAV-1111-2222-3333</span>
-                    </div>
-
-                    <div class="account-balance">
-                        <span class="balance-label">Баланс:</span>
-                        <span class="balance-value">1,000,000</span>
-                        <span class="balance-currency">кристаллов</span>
-                    </div>
-
-                    <div class="account-stats">
-                        <div class="stat">
-                            <span class="stat-label">Открыт</span>
-                            <span class="stat-value">10.01.2026</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">Ставка</span>
-                            <span class="stat-value">5.0%</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">Доход</span>
-                            <span class="stat-value positive">+4,160</span>
-                        </div>
-                    </div>
-
-                    <div class="account-actions">
-                        <a href="/accounts/SAV-1111-2222-3333" class="btn btn-outline btn-small">Детали</a>
-                        <a href="/transfer?from=SAV-1111-2222-3333" class="btn btn-outline btn-small">Перевод</a>
-                        <a href="/history?account=SAV-1111-2222-3333" class="btn btn-outline btn-small">История</a>
-                    </div>
-
-                    <div class="account-decoration">
-                        <span>🏦</span>
-                        <span>🏦</span>
-                        <span>🏦</span>
+                        <span th:text="${account.accountType.name() == 'CRY'} ? '💎' :
+                                       (${account.accountType.name() == 'GNM'} ? '💰' :
+                                       (${account.accountType.name() == 'ELF'} ? '✨' :
+                                       (${account.accountType.name() == 'SAFE'} ? '🏦' : '⚔️')))">💎</span>
+                        <span th:text="${account.accountType.name() == 'CRY'} ? '💎' :
+                                       (${account.accountType.name() == 'GNM'} ? '💰' :
+                                       (${account.accountType.name() == 'ELF'} ? '✨' :
+                                       (${account.accountType.name() == 'SAFE'} ? '🏦' : '⚔️')))">💎</span>
+                        <span th:text="${account.accountType.name() == 'CRY'} ? '💎' :
+                                       (${account.accountType.name() == 'GNM'} ? '💰' :
+                                       (${account.accountType.name() == 'ELF'} ? '✨' :
+                                       (${account.accountType.name() == 'SAFE'} ? '🏦' : '⚔️')))">💎</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Информация о счетах -->
+        <!-- Информация о типах счетов -->
         <section class="info-section">
             <div class="info-grid">
                 <div class="info-card">
                     <div class="info-icon">💎</div>
-                    <h3>Кристальные счета</h3>
-                    <p>Основные счета для хранения кристаллов. До 3.5% годовых.</p>
+                    <h3>Кристальный</h3>
+                    <p>Основной счёт для хранения кристаллов Loregard.</p>
                 </div>
                 <div class="info-card">
                     <div class="info-icon">💰</div>
-                    <h3>Золотые счета</h3>
-                    <p>Для хранения золота гномов. Ставка до 2% годовых.</p>
+                    <h3>Гномий золотой</h3>
+                    <p>Счёт для хранения гномьего золота.</p>
                 </div>
                 <div class="info-card">
                     <div class="info-icon">✨</div>
-                    <h3>Серебряные счета</h3>
-                    <p>Эльфийское серебро. Высокая ставка до 4.2% годовых.</p>
+                    <h3>Эльфийский серебряный</h3>
+                    <p>Счёт для хранения эльфийского серебра.</p>
                 </div>
                 <div class="info-card">
                     <div class="info-icon">🏦</div>
-                    <h3>Сберегательные</h3>
-                    <p>Максимальная ставка 5% для долгосрочных вложений.</p>
+                    <h3>Сберегательный</h3>
+                    <p>Долгосрочное хранение с начислением процентов.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">⚔️</div>
+                    <h3>Гильдейский</h3>
+                    <p>Общий счёт для гильдий и объединений.</p>
                 </div>
             </div>
         </section>
@@ -297,65 +191,33 @@
                 </div>
 
                 <div class="table-body">
-                    <div class="table-row">
-                        <div class="col-date">22.02.2026</div>
-                        <div class="col-desc">Перевод от ShadowDragon</div>
-                        <div class="col-account">CRY-4242-8888-1234</div>
-                        <div class="col-amount positive">+5,000</div>
+                    <div th:if="${#lists.isEmpty(recentTransactions)}" class="table-row">
+                        <div class="col-desc" style="grid-column:1/-1;text-align:center;color:#888;">
+                            Операций пока нет
+                        </div>
                     </div>
-
-                    <div class="table-row">
-                        <div class="col-date">21.02.2026</div>
-                        <div class="col-desc">Начисление процентов</div>
-                        <div class="col-account">SAV-1111-2222-3333</div>
-                        <div class="col-amount positive">+4,160</div>
-                    </div>
-
-                    <div class="table-row">
-                        <div class="col-date">20.02.2026</div>
-                        <div class="col-desc">Оплата в магазине</div>
-                        <div class="col-account">CRY-4242-8888-1234</div>
-                        <div class="col-amount negative">-2,500</div>
-                    </div>
-
-                    <div class="table-row">
-                        <div class="col-date">19.02.2026</div>
-                        <div class="col-desc">Обмен валюты</div>
-                        <div class="col-account">GLD-5678-1234-5678</div>
-                        <div class="col-amount positive">+1,000</div>
-                    </div>
-
-                    <div class="table-row">
-                        <div class="col-date">18.02.2026</div>
-                        <div class="col-desc">Перевод в банк</div>
-                        <div class="col-account">SLV-9876-5432-1098</div>
-                        <div class="col-amount negative">-500</div>
+                    <div th:each="tx : ${recentTransactions}" class="table-row">
+                        <div class="col-date"
+                             th:text="${#temporals.format(tx.processedAt, 'dd.MM.yyyy')}">—</div>
+                        <div class="col-desc"
+                             th:text="${tx.type.name() == 'TRANSFER'} ? 'Перевод' : 'Обмен валюты'">—</div>
+                        <div class="col-account" th:text="${tx.fromAccountNumber}">—</div>
+                        <div class="col-amount"
+                             th:classappend="${tx.direction == 'IN'} ? 'positive' : 'negative'"
+                             th:text="${tx.direction == 'IN'} ? '+' + ${#numbers.formatDecimal(tx.amount, 1, 'COMMA', 0, 'POINT')}
+                                                              : '-' + ${#numbers.formatDecimal(tx.amount, 1, 'COMMA', 0, 'POINT')}">0</div>
                     </div>
                 </div>
 
                 <div class="table-footer">
-                    <a href="/history" class="btn btn-outline">Все операции →</a>
+                    <a th:href="@{/history}" class="btn btn-outline">Все операции →</a>
                 </div>
             </div>
         </section>
 
-        <!-- Призыв к действию -->
-        <section class="cta-section">
-            <div class="cta-card">
-                <h2 class="cta-title">Открой счёт с бонусом</h2>
-                <p class="cta-description">
-                    При открытии нового счёта сегодня — <span class="highlight">+500 кристаллов</span> на баланс!
-                </p>
-                <a href="/accounts/open" class="btn btn-primary btn-large">
-                    <span class="btn-text">Открыть счёт</span>
-                    <span class="btn-icon">+</span>
-                </a>
-            </div>
-        </section>
     </div>
 </main>
 
-<!-- Подвал -->
 <div th:replace="~{fragments/bank-footer :: bank-footer}"></div>
 
 <script>
