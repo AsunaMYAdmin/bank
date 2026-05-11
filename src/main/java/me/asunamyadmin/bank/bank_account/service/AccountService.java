@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import me.asunamyadmin.bank.bank_account.data.AccountEntity;
 import me.asunamyadmin.bank.bank_account.data.AccountRepository;
 import me.asunamyadmin.bank.bank_account.exception.AccountNotFoundException;
+import me.asunamyadmin.bank.bank_profile.data.BankProfileEntity;
+import me.asunamyadmin.bank.bank_profile.data.BankProfileRepository;
 import me.asunamyadmin.bank.bank_profile.service.ProfileService;
 import me.asunamyadmin.bank.bank_transaction.exception.InsufficientFundsException;
 import me.asunamyadmin.bank.bank_transaction.exception.WrongAmountException;
@@ -19,6 +21,7 @@ public class AccountService {
     private final AccountRepository repository;
     private final AccountMapper mapper;
     private final ProfileService profileService;
+    private final BankProfileRepository bankProfileRepository;
 
     public List<AccountDTO> getAllAccountsByUsername(String username) {
         int id = profileService.getIdByName(username);
@@ -29,6 +32,11 @@ public class AccountService {
         return repository.findAllByUserId(id).stream()
                 .map(mapper::getAccountFromEntity)
                 .toList();
+    }
+
+    public AccountDTO getAccountByNumber(String number) {
+        AccountEntity entity = repository.findByAccountNumber(number).orElseThrow(AccountNotFoundException::new);
+        return mapper.getAccountFromEntity(entity);
     }
 
     public BigDecimal getCrystalBalanceFromUsername(String username) {
@@ -73,8 +81,8 @@ public class AccountService {
     }
 
     @Transactional
-    public void deleteAccount(Integer id) {
-        AccountEntity entity = repository.findById(id).orElseThrow(AccountNotFoundException::new);
+    public void deleteAccount(String accountNumber) {
+        AccountEntity entity = repository.findByAccountNumber(accountNumber).orElseThrow(AccountNotFoundException::new);
         repository.delete(entity);
     }
 
@@ -99,5 +107,15 @@ public class AccountService {
         AccountEntity entity = repository.findById(id).orElseThrow(AccountNotFoundException::new);
         entity.setBalance(entity.getBalance().add(amount));
         repository.save(entity);
+    }
+
+    public boolean isNotValidAccount(String accountNumber, String username) {
+        AccountEntity entity = repository.findByAccountNumber(accountNumber).orElseThrow(AccountNotFoundException::new);
+        BankProfileEntity profile = bankProfileRepository.findByUsername(username).orElseThrow(AccountNotFoundException::new);
+        if (profile.isAdmin()) {
+            return false;
+        }
+        List<AccountDTO> allAccounts = getAllAccountsByUsername(username);
+        return !allAccounts.contains(mapper.getAccountFromEntity(entity));
     }
 }

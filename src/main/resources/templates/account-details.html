@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="'Счёт | Кристальный Банк'">Детали счёта | Кристальный Банк</title>
+  <link rel="stylesheet" th:href="@{/css/account-details.css}">
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="bg-decoration">
+  <div class="crystal crystal-1"></div>
+  <div class="crystal crystal-2"></div>
+  <div class="crystal crystal-3"></div>
+  <div class="crystal crystal-4"></div>
+</div>
+
+<div th:replace="~{fragments/bank-header :: bank-header('accounts')}"></div>
+
+<main class="main">
+  <div class="container">
+    <div class="breadcrumbs">
+      <a th:href="@{/}">Главная</a> <span>/</span>
+      <a th:href="@{/accounts}">Счета</a> <span>/</span>
+      <span th:text="${account.accountNumber()}">Детали счёта</span>
+    </div>
+
+    <!-- Flash сообщения -->
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
+
+    <div class="account-details-grid">
+      <!-- Левая колонка - информация о счёте -->
+      <div class="account-info-card">
+        <div class="card-header">
+          <div class="account-icon" th:classappend="${account.accountType.name()}">
+            <span th:if="${account.accountType.name() == 'CRY'}">💎</span>
+            <span th:if="${account.accountType.name() == 'GNM'}">💰</span>
+            <span th:if="${account.accountType.name() == 'ELF'}">✨</span>
+            <span th:if="${account.accountType.name() == 'SAFE'}">🏦</span>
+            <span th:if="${account.accountType.name() == 'GUILD'}">⚔️</span>
+          </div>
+          <h1 class="account-name" th:text="${account.accountType()}">Основной счёт</h1>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Номер счёта</span>
+          <div class="info-value-with-copy">
+            <span class="info-value account-number" th:text="${account.accountNumber}">40817810099900123456</span>
+            <button class="copy-btn" onclick="copyToClipboard('.account-number')">
+              <span class="copy-icon">📋</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Текущий баланс</span>
+          <div class="info-value balance-value">
+            <span th:text="${#numbers.formatDecimal(account.balance, 1, 'COMMA', 0, 'POINT')}">0</span>
+            <span class="balance-currency" th:text="${account.currency.name() == 'CRYSTAL'} ? 'кристаллов' :
+            (${account.currency.name() == 'GOLD'} ? 'золота' :
+            (${account.currency.name() == 'SILVER'}) ? 'серебра' : 'единиц')">кристаллов</span>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Тип счёта</span>
+          <div class="info-value">
+                        <span th:text="${account.accountType.name() == 'CRY'} ? 'Кристальный' :
+                                       (${account.accountType.name() == 'GNM'} ? 'Гномий золотой' :
+                                       (${account.accountType.name() == 'ELF'} ? 'Эльфийский серебряный' :
+                                       (${account.accountType.name() == 'SAFE'} ? 'Сберегательный' : 'Гильдейский')))">Кристальный</span>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Дата открытия</span>
+          <div class="info-value" th:text="${#temporals.format(account.createdAt, 'dd.MM.yyyy')}">15.01.2026</div>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Статус</span>
+          <div class="info-value">
+                        <span class="status-badge" th:classappend="${account.status.name() == 'ACTIVE'} ? 'active' : 'inactive'"
+                              th:text="${account.status.name() == 'ACTIVE'} ? 'Активен' : 'Закрыт'">Активен</span>
+          </div>
+        </div>
+
+        <div class="account-actions">
+          <a th:href="@{/transfer(from=${account.accountNumber})}" class="btn btn-primary">
+            <span class="btn-icon">📤</span>
+            <span>Перевести</span>
+          </a>
+        </div>
+
+        <!-- Кнопка удаления (только если баланс 0) -->
+        <div class="delete-section">
+          <form th:action="@{/accounts/delete/{number}(number=${account.accountNumber})}" method="post" class="delete-form" onsubmit="return confirmDelete()">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <button type="submit" class="btn btn-danger btn-delete"
+                    th:disabled="${account.balance != 0}"
+                    th:classappend="${account.balance != 0} ? 'disabled' : ''">
+              <span class="btn-icon">🗑️</span>
+              <span>Удалить счёт</span>
+            </button>
+          </form>
+          <p th:if="${account.balance == 0}" class="delete-hint">Счёт будет удалён безвозвратно</p>
+          <p th:unless="${account.balance == 0}" class="delete-hint warning">Сначала выведите все средства со счёта</p>
+        </div>
+      </div>
+
+      <!-- Правая колонка - история операций по счёту -->
+      <div class="account-history-card">
+        <h2 class="card-title">История операций</h2>
+
+        <div class="history-table">
+          <div class="table-header">
+            <div class="col-date">Дата</div>
+            <div class="col-desc">Описание</div>
+            <div class="col-amount">Сумма</div>
+          </div>
+
+          <div class="table-body">
+            <div th:if="${#lists.isEmpty(transactions)}" class="empty-row">
+              <span>Операций по этому счёту пока нет</span>
+            </div>
+            <div th:each="tx : ${transactions}" class="table-row">
+              <div class="col-date" th:text="${#temporals.format(tx.processedAt, 'dd.MM.yyyy HH:mm')}">—</div>
+              <div class="col-desc">
+                <span th:if="${tx.type == 'TRANSFER' and tx.direction == 'IN'}">📥 Входящий перевод</span>
+                <span th:if="${tx.type == 'TRANSFER' and tx.direction == 'OUT'}">📤 Исходящий перевод</span>
+                <span th:if="${tx.type == 'DEPOSIT'}">➕ Пополнение</span>
+                <span th:if="${tx.type == 'WITHDRAW'}">➖ Снятие</span>
+                <span th:if="${tx.type == 'EXCHANGE'}">🔄 Обмен валюты</span>
+                <span th:if="${tx.type == 'INTEREST'}">💰 Начисление процентов</span>
+                <span class="tx-from" th:if="${tx.fromName}" th:text="'от ' + ${tx.fromName}"></span>
+                <span class="tx-to" th:if="${tx.toName}" th:text="'для ' + ${tx.toName}"></span>
+              </div>
+              <div class="col-amount" th:classappend="${tx.direction == 'IN'} ? 'positive' : 'negative'"
+                   th:text="${tx.direction == 'IN'} ? '+' + ${#numbers.formatDecimal(tx.amount, 1, 'COMMA', 0, 'POINT')} : '-' + ${#numbers.formatDecimal(tx.amount, 1, 'COMMA', 0, 'POINT')}">+1,000</div>
+            </div>
+          </div>
+
+          <div class="table-footer">
+            <a th:href="@{/history(account=${account.accountNumber})}" class="btn btn-outline btn-small">Вся история →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div th:replace="~{fragments/bank-footer :: bank-footer}"></div>
+
+<script>
+  document.querySelector('.mobile-menu-btn')?.addEventListener('click', function() {
+    document.querySelector('.nav').classList.toggle('active');
+  });
+
+  function copyToClipboard(selector) {
+    const element = document.querySelector(selector);
+    const text = element.textContent.trim();
+
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      const originalHtml = btn.innerHTML;
+      btn.innerHTML = '<span class="copy-icon">✅</span>';
+      setTimeout(() => {
+        btn.innerHTML = originalHtml;
+      }, 2000);
+    }).catch(err => {
+      console.error('Ошибка копирования:', err);
+    });
+  }
+
+  function confirmDelete() {
+    return confirm('Вы уверены, что хотите удалить этот счёт? Все средства должны быть выведены, и операция необратима.');
+  }
+</script>
+</body>
+</html>

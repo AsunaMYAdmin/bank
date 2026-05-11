@@ -1,0 +1,533 @@
+/* ========== СТРАНИЦА ДЕТАЛЕЙ СЧЁТА ========== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --orange-primary: #ff8c42;
+    --orange-dark: #e67a2e;
+    --orange-light: #ffb085;
+    --orange-glow: rgba(255, 140, 66, 0.3);
+
+    --blue-primary: #3a6ea5;
+    --blue-dark: #2c5290;
+    --blue-light: #6c9bd2;
+    --blue-glow: rgba(58, 110, 165, 0.3);
+
+    --green: #4caf50;
+    --red: #f44336;
+    --dark-bg: #0a0f1a;
+    --darker-bg: #05080f;
+    --card-bg: rgba(20, 30, 45, 0.7);
+    --text-primary: #e5e9f0;
+    --text-secondary: #a0b3d9;
+    --text-muted: #6c7a96;
+
+    --gradient-orange: linear-gradient(135deg, var(--orange-primary), var(--orange-dark));
+    --gradient-blue: linear-gradient(135deg, var(--blue-primary), var(--blue-dark));
+    --gradient-mixed: linear-gradient(135deg, var(--orange-primary), var(--blue-primary));
+
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.4);
+    --shadow-orange: 0 8px 24px var(--orange-glow);
+    --shadow-blue: 0 8px 24px var(--blue-glow);
+
+    --border-radius-sm: 8px;
+    --border-radius-md: 16px;
+    --border-radius-lg: 24px;
+    --border-radius-xl: 32px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle at 20% 30%, #1a2538, var(--dark-bg), var(--darker-bg));
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* ========== ДЕКОР ========== */
+.bg-decoration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.crystal {
+    position: absolute;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent);
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    animation: float 20s infinite ease-in-out;
+}
+
+.crystal-1 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle at 30% 30%, var(--orange-glow), transparent);
+    top: -100px;
+    right: -100px;
+    animation-delay: 0s;
+}
+
+.crystal-2 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle at 70% 70%, var(--blue-glow), transparent);
+    bottom: -200px;
+    left: -200px;
+    animation-delay: -5s;
+}
+
+.crystal-3 {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 140, 66, 0.2), transparent);
+    top: 30%;
+    left: 10%;
+    animation-delay: -2s;
+}
+
+.crystal-4 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle at 70% 70%, rgba(58, 110, 165, 0.2), transparent);
+    bottom: 20%;
+    right: 10%;
+    animation-delay: -7s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+    33% {
+        transform: translate(30px, -30px) rotate(120deg) scale(1.05);
+    }
+    66% {
+        transform: translate(-20px, 20px) rotate(240deg) scale(0.95);
+    }
+}
+
+/* ========== ХЛЕБНЫЕ КРОШКИ ========== */
+.breadcrumbs {
+    margin: 30px 0;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.breadcrumbs a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.breadcrumbs a:hover {
+    color: var(--orange-primary);
+}
+
+/* ========== УВЕДОМЛЕНИЯ ========== */
+.alert {
+    padding: 12px 20px;
+    border-radius: var(--border-radius-md);
+    margin-bottom: 20px;
+}
+
+.alert-success {
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid var(--green);
+    color: #4caf50;
+}
+
+.alert-error {
+    background: rgba(244, 67, 54, 0.1);
+    border: 1px solid var(--red);
+    color: #ff8a80;
+}
+
+/* ========== ОСНОВНАЯ СЕТКА ========== */
+.account-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 30px;
+    margin: 40px 0;
+}
+
+/* ========== ЛЕВАЯ КАРТОЧКА (ИНФО О СЧЁТЕ) ========== */
+.account-info-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 140, 66, 0.2);
+    border-radius: var(--border-radius-xl);
+    padding: 30px;
+    height: fit-content;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 140, 66, 0.2);
+}
+
+.account-icon {
+    font-size: 48px;
+    filter: drop-shadow(0 0 10px var(--orange-primary));
+}
+
+.account-name {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 140, 66, 0.1);
+}
+
+.info-label {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.info-value {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.info-value-with-copy {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.account-number {
+    font-family: monospace;
+    letter-spacing: 1px;
+    color: var(--orange-light);
+}
+
+.copy-btn {
+    background: rgba(255, 140, 66, 0.1);
+    border: 1px solid rgba(255, 140, 66, 0.3);
+    border-radius: var(--border-radius-sm);
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.copy-btn:hover {
+    background: rgba(255, 140, 66, 0.2);
+    border-color: var(--orange-primary);
+}
+
+.copy-icon {
+    font-size: 14px;
+    color: var(--orange-light);
+}
+
+.balance-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--orange-primary);
+}
+
+.balance-currency {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 400;
+    margin-left: 5px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 40px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-badge.active {
+    background: rgba(76, 175, 80, 0.15);
+    color: #4caf50;
+}
+
+.status-badge.inactive {
+    background: rgba(244, 67, 54, 0.15);
+    color: #f44336;
+}
+
+/* Кнопки действий */
+.account-actions {
+    display: flex;
+    gap: 12px;
+    margin: 24px 0 20px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: var(--border-radius-md);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+    flex: 1;
+}
+
+.btn-primary {
+    background: var(--gradient-orange);
+    color: white;
+    box-shadow: var(--shadow-orange);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px var(--orange-glow);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--orange-primary);
+    color: var(--orange-primary);
+}
+
+.btn-outline:hover {
+    background: rgba(255, 140, 66, 0.1);
+    color: var(--orange-light);
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background: transparent;
+    border: 1px solid var(--red);
+    color: var(--red);
+}
+
+.btn-danger:hover:not(.disabled) {
+    background: rgba(244, 67, 54, 0.1);
+    border-color: #ff6655;
+    color: #ff6655;
+    transform: translateY(-2px);
+}
+
+.btn-danger.disabled,
+.btn-danger:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-small {
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+/* Секция удаления */
+.delete-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 140, 66, 0.2);
+}
+
+.delete-form {
+    width: 100%;
+}
+
+.btn-delete {
+    width: 100%;
+}
+
+.delete-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 10px;
+    text-align: center;
+}
+
+.delete-hint.warning {
+    color: #ff8a80;
+}
+
+/* ========== ПРАВАЯ КАРТОЧКА (ИСТОРИЯ) ========== */
+.account-history-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 140, 66, 0.2);
+    border-radius: var(--border-radius-xl);
+    padding: 30px;
+}
+
+.card-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--orange-light);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 140, 66, 0.2);
+}
+
+.history-table {
+    overflow-x: auto;
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: 100px 1fr 100px;
+    padding: 12px 0;
+    background: rgba(255, 140, 66, 0.1);
+    font-weight: 600;
+    color: var(--orange-light);
+    font-size: 13px;
+    text-transform: uppercase;
+    border-radius: var(--border-radius-md);
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 100px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 140, 66, 0.1);
+    transition: all 0.3s;
+}
+
+.table-row:hover {
+    background: rgba(255, 140, 66, 0.05);
+}
+
+.col-date {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.col-desc {
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.tx-from, .tx-to {
+    color: var(--orange-light);
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.col-amount {
+    font-weight: 600;
+    font-size: 14px;
+    text-align: right;
+}
+
+.col-amount.positive {
+    color: #4caf50;
+}
+
+.col-amount.negative {
+    color: #f44336;
+}
+
+.empty-row {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+}
+
+.table-footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* ========== АДАПТАЦИЯ ========== */
+@media (max-width: 1024px) {
+    .account-details-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .account-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .table-header {
+        display: none;
+    }
+
+    .table-row {
+        display: block;
+        padding: 15px;
+        margin-bottom: 10px;
+        border: 1px solid rgba(255, 140, 66, 0.2);
+        border-radius: var(--border-radius-lg);
+    }
+
+    .table-row .col-date,
+    .table-row .col-desc,
+    .table-row .col-amount {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
+    }
+
+    .table-row .col-date::before { content: "Дата: "; color: var(--text-muted); }
+    .table-row .col-desc::before { content: "Описание: "; color: var(--text-muted); }
+    .table-row .col-amount::before { content: "Сумма: "; color: var(--text-muted); }
+
+    .col-amount {
+        text-align: left;
+    }
+
+    .info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .account-info-card, .account-history-card {
+        padding: 20px;
+    }
+
+    .account-name {
+        font-size: 20px;
+    }
+
+    .balance-value {
+        font-size: 20px;
+    }
+}

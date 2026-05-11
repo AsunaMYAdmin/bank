@@ -3,6 +3,7 @@ package me.asunamyadmin.bank.bank_account.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.asunamyadmin.bank.bank_account.exception.AccountTypeAlreadyExistsException;
+import me.asunamyadmin.bank.bank_account.exception.NotValidAccountException;
 import me.asunamyadmin.bank.bank_account.service.AccountDTO;
 import me.asunamyadmin.bank.bank_account.service.AccountService;
 import me.asunamyadmin.bank.bank_account.service.AccountStatus;
@@ -13,10 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
@@ -69,10 +67,11 @@ public class AccountController {
                 throw new AccountTypeAlreadyExistsException();
             }
             accountService.createAccount(account);
-            redirectAttributes.addAttribute("successMessage", "Счёт успешно открыт! Номер счёта: " + account.accountNumber());
+            redirectAttributes.addFlashAttribute("successMessage", "Счёт успешно открыт!");
             return "redirect:/accounts";
         }catch (AccountTypeAlreadyExistsException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/accounts/open";
         }
         catch (Exception e) {
             log.error("Ошибка при открытии счёта", e);
@@ -80,6 +79,33 @@ public class AccountController {
                     "Ошибка при открытии счёта!");
             return "redirect:/accounts/open";
         }
-        return "redirect:/accounts/open";
+    }
+
+    @GetMapping("/{accountNumber}")
+    public String accountDetailsPage(Model model, @PathVariable String accountNumber, @AuthenticationPrincipal OAuth2User principal) {
+        String username = principal.getAttribute("sub");
+        if (accountService.isNotValidAccount(accountNumber, username)) {
+            throw new NotValidAccountException();
+        }
+        AccountDTO account = accountService.getAccountByNumber(accountNumber);
+        model.addAttribute("account", account);
+        return "account-details";
+    }
+
+    @PostMapping("/delete/{accountNumber}")
+    public String deleteAccount(@PathVariable String accountNumber, RedirectAttributes redirectAttributes, @AuthenticationPrincipal OAuth2User principal) {
+        String username = principal.getAttribute("sub");
+        if (accountService.isNotValidAccount(accountNumber, username)) {
+            throw new NotValidAccountException();
+        }
+        try {
+            accountService.deleteAccount(accountNumber);
+            redirectAttributes.addFlashAttribute("successMessage", "Счёт успешно удалён");
+            return "redirect:/accounts";
+        } catch (Exception e) {
+            log.error("Ошибка при удаления аккаунта - {}",  accountNumber, e);
+            redirectAttributes.addFlashAttribute("Ошибка при удалении платежа.");
+            return "redirect:/accounts/" + accountNumber;
+        }
     }
 }
