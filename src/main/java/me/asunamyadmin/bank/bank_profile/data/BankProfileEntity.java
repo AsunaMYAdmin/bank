@@ -28,4 +28,8 @@ public class BankProfileEntity {
     void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
+
+    public boolean isAdmin() {
+        return this.role.equals(Role.SYSTEM) || this.role.equals(Role.HEAD);
+    }
 }
