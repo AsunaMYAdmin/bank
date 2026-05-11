@@ -62,7 +62,7 @@
             <span th:text="${#numbers.formatDecimal(account.balance, 1, 'COMMA', 0, 'POINT')}">0</span>
             <span class="balance-currency" th:text="${account.currency.name() == 'CRYSTAL'} ? 'кристаллов' :
             (${account.currency.name() == 'GOLD'} ? 'золота' :
-            (${account.currency.name() == 'SILVER'}) ? 'серебра' : 'единиц')">кристаллов</span>
+            (${account.currency.name() == 'SILVER'} ? 'серебра' : 'единиц'))">кристаллов</span>
           </div>
         </div>
 
