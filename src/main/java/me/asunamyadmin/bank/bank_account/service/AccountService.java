@@ -31,6 +31,14 @@ public class AccountService {
                 .toList();
     }
 
+    public BigDecimal getCrystalBalanceFromUsername(String username) {
+        return getAllAccountsByUsername(username).stream()
+                .filter(accountDTO -> accountDTO.accountType() == AccountType.CRY)
+                .findFirst()
+                .map(AccountDTO::balance)
+                .orElse(BigDecimal.ZERO);
+    }
+
     @Transactional
     public void createAccount(AccountDTO accountDTO) {
         AccountEntity entity = new AccountEntity();

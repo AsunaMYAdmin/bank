@@ -35,6 +35,10 @@ public class AccountController {
     public String accountPage(Model model, @AuthenticationPrincipal OAuth2User principal) {
         String username = principal.getAttribute("sub");
         List<AccountDTO> accounts = accountService.getAllAccountsByUsername(username);
+
+        BigDecimal totalCrystals = accountService.getCrystalBalanceFromUsername(username);
+
+        model.addAttribute("totalCrystals", totalCrystals);
         model.addAttribute("accounts", accounts);
         return "bank-accounts";
     }
