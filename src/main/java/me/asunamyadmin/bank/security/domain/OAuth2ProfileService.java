@@ -36,7 +36,7 @@ public class OAuth2ProfileService implements OAuth2UserService<OAuth2UserRequest
            BankProfileEntity entity = new BankProfileEntity();
            entity.setUsername(username);
            entity.setRole(Role.USER);
-           return entity;
+           return repository.save(entity);
         });
     }
 }
