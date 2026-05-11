@@ -32,11 +32,14 @@ public class AccountEntity {
     AccountStatus status;
     @Column(name = "created_At")
     LocalDateTime createdAt;
+    Boolean isBlocked;
     @Version
     Long version;
 
     @PrePersist
     void onCreate() {
         this.createdAt = LocalDateTime.now();
+        this.isBlocked = false;
+        this.status = AccountStatus.ACTIVE;
     }
 }

@@ -12,7 +12,9 @@ public class AccountMapper {
                 entity.getBalance(),
                 entity.getCurrency(),
                 entity.getAccountType(),
-                entity.getStatus()
+                entity.getStatus(),
+                entity.getIsBlocked(),
+                entity.getCreatedAt()
         );
     }
 }
