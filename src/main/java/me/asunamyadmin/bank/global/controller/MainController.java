@@ -15,10 +15,10 @@ public class MainController {
         return "bank-about";
     }
 
-    @GetMapping("/accounts")
-    public String accountsPage() {
-        return "bank-accounts";
-    }
+//    @GetMapping("/accounts")
+//    public String accountsPage() {
+//        return "bank-accounts";
+//    }
 
     @GetMapping("/faq")
     public String faqPage() {
@@ -58,11 +58,6 @@ public class MainController {
     @GetMapping("/login")
     public String loginPage() {
         return "bank-login";
-    }
-
-    @GetMapping("/accounts/open")
-    public String accountsOpenPage() {
-        return "account-open";
     }
 
     @GetMapping("/transfer")
