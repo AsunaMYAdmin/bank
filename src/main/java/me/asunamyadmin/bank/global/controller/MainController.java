@@ -15,11 +15,6 @@ public class MainController {
         return "bank-about";
     }
 
-//    @GetMapping("/accounts")
-//    public String accountsPage() {
-//        return "bank-accounts";
-//    }
-
     @GetMapping("/faq")
     public String faqPage() {
         return "redirect:https://loregard.ru/faq";
@@ -34,12 +29,6 @@ public class MainController {
     public String contactsPage() {
         return "redirect:https://loregard.ru/contacts";
     }
-
-    @GetMapping("/transactions")
-    public String transactionsPage() {
-        return "bank-transactions";
-    }
-
     @GetMapping("/exchange")
     public String exchangePage() {
         return "bank-exchange";
@@ -59,12 +48,6 @@ public class MainController {
     public String loginPage() {
         return "bank-login";
     }
-
-    @GetMapping("/transfer")
-    public String transferPage() {
-        return "transfer";
-    }
-
     @GetMapping("/payment")
     public String paymentPage() {
         return "payment";

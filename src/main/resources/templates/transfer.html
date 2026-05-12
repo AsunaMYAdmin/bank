@@ -4,13 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Перевод | Кристальный Банк</title>
-  <link rel="stylesheet" href="/css/transfer.css">
+  <link rel="stylesheet" th:href="@{/css/transfer.css}">
+  <link rel="stylesheet" th:href="@{/css/main.css}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
-<!-- Фоновые кристаллы -->
 <div class="bg-decoration">
   <div class="crystal crystal-1"></div>
   <div class="crystal crystal-2"></div>
@@ -18,17 +20,16 @@
   <div class="crystal crystal-4"></div>
 </div>
 
-<!-- Шапка банка -->
 <div th:replace="~{fragments/bank-header :: bank-header('transfers')}"></div>
 
 <main class="main">
   <div class="container">
-    <!-- Хлебные крошки -->
     <div class="breadcrumbs">
-      <a href="/">Главная</a> <span>/</span> <a href="/accounts">Счета</a> <span>/</span> <span>Перевод</span>
+      <a th:href="@{/}">Главная</a> <span>/</span>
+      <a th:href="@{/accounts}">Счета</a> <span>/</span>
+      <span>Перевод</span>
     </div>
 
-    <!-- Заголовок -->
     <section class="page-header">
       <h1 class="page-title">Магический <span class="gradient-text">перевод</span></h1>
       <p class="page-description">
@@ -36,10 +37,8 @@
       </p>
     </section>
 
-    <!-- Основной блок перевода -->
     <section class="transfer-section">
       <div class="transfer-card">
-        <!-- Летающие кристаллы вокруг карточки -->
         <div class="transfer-crystals">
           <div class="floating-crystal crystal-orange-1"></div>
           <div class="floating-crystal crystal-blue-1"></div>
@@ -50,37 +49,36 @@
         <div class="transfer-content">
           <h2 class="transfer-title">Новый перевод</h2>
 
-          <form class="transfer-form">
+          <form th:action="@{/transfer/submit}" method="post" class="transfer-form" id="transferForm">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
             <!-- Блок отправителя -->
             <div class="transfer-block from-block">
               <h3 class="block-title">Отправитель</h3>
 
               <div class="form-group">
-                <label for="fromAccount" class="form-label">
+                <label class="form-label">
                   <span class="label-icon">📤</span>
                   Ваш счёт
                 </label>
-                <select id="fromAccount" name="fromAccount" class="form-select" required>
+                <label for="fromAccount"></label><select name="fromAccount" class="form-select" id="fromAccount" required>
                   <option value="" disabled selected>Выберите счёт для списания</option>
-                  <option value="40817810099900123456">4081 7810 0999 0012 3456 (1,245,800 💎)</option>
-                  <option value="40817810099900234567">4081 7810 0999 0023 4567 (542,800 💰)</option>
-                  <option value="40817810099900345678">4081 7810 0999 0034 5678 (987,500 ✨)</option>
+                  <option th:each="acc : ${accounts}"
+                          th:value="${acc.accountNumber}"
+                          th:selected="${acc.accountNumber == param.accountNumber}"
+                          th:text="${acc.accountNumber} + ' (' + ${#numbers.formatDecimal(acc.balance, 1, 'COMMA', 0, 'POINT')} + ' ' + ${acc.currencySymbol} + ')'">
+                  </option>
                 </select>
               </div>
 
               <div class="account-preview" id="fromAccountPreview" style="display: none;">
                 <div class="preview-row">
-                  <span class="preview-label">Баланс:</span>
-                  <span class="preview-value">1,245,800 💎</span>
-                </div>
-                <div class="preview-row">
                   <span class="preview-label">Доступно:</span>
-                  <span class="preview-value">1,245,800 💎</span>
+                  <span class="preview-value" id="fromBalance">0 💎</span>
                 </div>
               </div>
             </div>
 
-            <!-- Стрелка перевода -->
             <div class="transfer-arrow">
               <span class="arrow-line"></span>
               <span class="arrow-icon">⬇️</span>
@@ -92,21 +90,21 @@
               <h3 class="block-title">Получатель</h3>
 
               <div class="form-group">
-                <label for="recipientName" class="form-label">
+                <label class="form-label">
                   <span class="label-icon">👤</span>
                   Игрок
                 </label>
-                <input type="text"
-                       id="recipientName"
-                       name="recipientName"
-                       class="form-input"
-                       placeholder="Введите ник получателя"
-                       required>
+                <label for="recipientName"></label><input type="text"
+                                                          id="recipientName"
+                                                          name="recipientName"
+                                                          class="form-input"
+                                                          placeholder="Введите ник получателя"
+                                                          required>
                 <small class="form-hint">Например: ShadowDragon</small>
               </div>
 
               <div class="form-group">
-                <label for="toAccount" class="form-label">
+                <label class="form-label">
                   <span class="label-icon">📥</span>
                   Счёт получателя
                 </label>
@@ -116,26 +114,25 @@
                        class="form-input"
                        placeholder="20-значный номер счёта"
                        maxlength="20"
-                       pattern="\d*"
-                       title="Только цифры, 20 знаков"
+                       pattern="\d{20}"
+                       title="20 цифр, без пробелов"
                        required>
                 <small class="form-hint">20 цифр, без пробелов</small>
               </div>
 
-              <!-- Кнопка поиска получателя (для демо) -->
-              <button type="button" class="btn btn-outline btn-small btn-lookup">
+              <button type="button" class="btn btn-outline btn-small btn-lookup" id="lookupBtn">
                 <span class="btn-icon">🔍</span>
                 <span>Проверить получателя</span>
               </button>
 
               <div class="recipient-preview" id="recipientPreview" style="display: none;">
-                <div class="preview-row">
-                  <span class="preview-label">Найдено:</span>
-                  <span class="preview-value">ShadowDragon</span>
+                <div class="preview-row recipient-success" id="recipientSuccess" style="display: none;">
+                  <span class="preview-label">✅ Найдено:</span>
+                  <span class="preview-value" id="recipientNameDisplay">-</span>
                 </div>
-                <div class="preview-row">
-                  <span class="preview-label">Счёт:</span>
-                  <span class="preview-value">4081 7810 0999 0088 7766</span>
+                <div class="preview-row recipient-error" id="recipientError" style="display: none;">
+                  <span class="preview-label">❌ Ошибка:</span>
+                  <span class="preview-value" id="recipientErrorText">Получатель не найден</span>
                 </div>
               </div>
             </div>
@@ -145,13 +142,12 @@
               <h3 class="params-title">Параметры перевода</h3>
 
               <div class="params-grid">
-                <!-- Валюта перевода -->
                 <div class="form-group">
-                  <label for="currency" class="form-label">
+                  <label class="form-label">
                     <span class="label-icon">💱</span>
                     Валюта
                   </label>
-                  <select id="currency" name="currency" class="form-select" required>
+                  <label for="currency"></label><select name="currency" class="form-select" id="currency" required>
                     <option value="" disabled selected>Выберите валюту</option>
                     <option value="crystal">💎 Кристаллы</option>
                     <option value="gold">💰 Гномье золото</option>
@@ -159,42 +155,41 @@
                   </select>
                 </div>
 
-                <!-- Сумма -->
                 <div class="form-group">
-                  <label for="amount" class="form-label">
+                  <label class="form-label">
                     <span class="label-icon">💰</span>
                     Сумма
                   </label>
-                  <input type="number"
-                         id="amount"
-                         name="amount"
-                         class="form-input"
-                         placeholder="0"
-                         min="1"
-                         step="1"
-                         required>
+                  <label for="amount"></label><input type="number"
+                                                     id="amount"
+                                                     name="amount"
+                                                     class="form-input"
+                                                     placeholder="0"
+                                                     min="1"
+                                                     max="99999999999999"
+                                                     step="1"
+                                                     required>
+                  <small class="form-hint">От 1 до 99 999 999 999 999</small>
                 </div>
 
-                <!-- Комментарий (опционально) -->
                 <div class="form-group full-width">
-                  <label for="comment" class="form-label">
+                  <label class="form-label">
                     <span class="label-icon">📝</span>
                     Комментарий (необязательно)
                   </label>
-                  <input type="text"
-                         id="comment"
-                         name="comment"
-                         class="form-input"
-                         placeholder="Например: Спасибо за помощь!">
+                  <label for="comment"></label><input type="text"
+                                                      id="comment"
+                                                      name="comment"
+                                                      class="form-input"
+                                                      placeholder="Например: Спасибо за помощь!">
                 </div>
               </div>
             </div>
 
-            <!-- Информация о комиссии -->
             <div class="fee-info">
               <div class="fee-row">
                 <span class="fee-label">Комиссия за перевод:</span>
-                <span class="fee-value">0% (бесплатно)</span>
+                <span class="fee-value" id="feeValue">0% (бесплатно)</span>
               </div>
               <div class="fee-row">
                 <span class="fee-label">К получению:</span>
@@ -202,23 +197,20 @@
               </div>
             </div>
 
-            <!-- Предупреждение (если нужно) -->
-            <div class="warning-message" style="display: none;">
+            <div class="warning-message" id="warningMessage" style="display: none;">
               <span class="warning-icon">⚠️</span>
-              <span class="warning-text">Недостаточно средств на счёте</span>
+              <span class="warning-text" id="warningText">Недостаточно средств на счёте</span>
             </div>
 
-            <!-- Кнопки -->
             <div class="form-actions">
-              <button type="submit" class="btn btn-primary btn-large btn-submit">
+              <button type="submit" class="btn btn-primary btn-large btn-submit" id="submitBtn" disabled>
                 <span class="btn-text">Выполнить перевод</span>
                 <span class="btn-icon">⚡</span>
               </button>
-              <a href="/accounts" class="btn btn-outline btn-large">Отмена</a>
+              <a th:href="@{/accounts}" class="btn btn-outline btn-large">Отмена</a>
             </div>
           </form>
 
-          <!-- Примечание по безопасности -->
           <div class="security-note">
             <span class="note-icon">🛡️</span>
             <div class="note-text">
@@ -244,46 +236,26 @@
         </div>
 
         <div class="table-body">
-          <div class="table-row">
-            <div class="col-date">26.02.2026</div>
-            <div class="col-from">Asuna's Knight</div>
-            <div class="col-to">ShadowDragon</div>
-            <div class="col-amount">5,000 💎</div>
-            <div class="col-status"><span class="status-badge completed">Завершён</span></div>
+          <div th:each="tx : ${recentTransfers}" class="table-row">
+            <div class="col-date" th:text="${#temporals.format(tx.date, 'dd.MM.yyyy')}">—</div>
+            <div class="col-from" th:text="${tx.fromName}">—</div>
+            <div class="col-to" th:text="${tx.toName}">—</div>
+            <div class="col-amount" th:text="${tx.amount} + ' ' + ${tx.currencySymbol}">—</div>
+            <div class="col-status">
+              <span class="status-badge" th:classappend="${tx.status}" th:text="${tx.statusText}">—</span>
+            </div>
           </div>
-
-          <div class="table-row">
-            <div class="col-date">25.02.2026</div>
-            <div class="col-from">MoonElf</div>
-            <div class="col-to">Ironbeard</div>
-            <div class="col-amount">1,200 💰</div>
-            <div class="col-status"><span class="status-badge completed">Завершён</span></div>
-          </div>
-
-          <div class="table-row">
-            <div class="col-date">25.02.2026</div>
-            <div class="col-from">FrostMage</div>
-            <div class="col-to">Paladin</div>
-            <div class="col-amount">10,000 ✨</div>
-            <div class="col-status"><span class="status-badge pending">В обработке</span></div>
-          </div>
-
-          <div class="table-row">
-            <div class="col-date">24.02.2026</div>
-            <div class="col-from">Nightblade</div>
-            <div class="col-to">Ragnar</div>
-            <div class="col-amount">3,500 💎</div>
-            <div class="col-status"><span class="status-badge completed">Завершён</span></div>
+          <div th:if="${#lists.isEmpty(recentTransfers)}" class="table-row">
+            <div class="col-desc" style="grid-column:1/-1;text-align:center;">Переводов пока нет</div>
           </div>
         </div>
       </div>
 
       <div class="table-footer">
-        <a href="/transfer/history" class="btn btn-outline btn-small">Все переводы →</a>
+        <a th:href="@{/transfer/history}" class="btn btn-outline btn-small">Все переводы →</a>
       </div>
     </section>
 
-    <!-- FAQ по переводам -->
     <section class="faq-section">
       <h2 class="section-title">Частые вопросы о <span class="gradient-text">переводах</span></h2>
 
@@ -295,7 +267,7 @@
 
         <div class="faq-item">
           <h3 class="faq-question">❓ Есть ли комиссия за перевод?</h3>
-          <p class="faq-answer">Внутри Кристального банка переводы бесплатны. Комиссия взимается только за межмировые переводы (2%).</p>
+          <p class="faq-answer" id="faqCommission">Внутри Кристального банка переводы бесплатны. Комиссия взимается только за межмировые переводы (2%).</p>
         </div>
 
         <div class="faq-item">
@@ -305,109 +277,167 @@
 
         <div class="faq-item">
           <h3 class="faq-question">❓ Как узнать номер счёта другого игрока?</h3>
-          <p class="faq-answer">Игрок должен сообщить вам свой 20-значный номер счёта. Вы также можете найти его через поиск по нику.</p>
+          <p class="faq-answer">Игрок должен сообщить вам свой 20-значный номер счёта.</p>
         </div>
       </div>
     </section>
   </div>
 </main>
 
-<!-- Подвал банка -->
 <div th:replace="~{fragments/bank-footer :: bank-footer}"></div>
 
-<script>
-  // Демо-функции для предпросмотра
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  const initialAccount = /*[[${param.accountNumber ? param.accountNumber : ''}]]*/ '';
+  /*]]>*/
+
   document.addEventListener('DOMContentLoaded', function() {
-    // Показ информации о выбранном счёте
     const fromAccount = document.getElementById('fromAccount');
     const fromPreview = document.getElementById('fromAccountPreview');
-
-    if (fromAccount) {
-      fromAccount.addEventListener('change', function() {
-        if (this.value) {
-          fromPreview.style.display = 'block';
-
-          // Обновляем информацию в зависимости от выбора (для демо)
-          const previewValue = fromPreview.querySelector('.preview-value');
-          if (this.value.includes('3456')) {
-            previewValue.textContent = '1,245,800 💎';
-          } else if (this.value.includes('4567')) {
-            previewValue.textContent = '542,800 💰';
-          } else if (this.value.includes('5678')) {
-            previewValue.textContent = '987,500 ✨';
-          }
-        } else {
-          fromPreview.style.display = 'none';
-        }
-      });
-    }
-
-    // Кнопка проверки получателя
-    const lookupBtn = document.querySelector('.btn-lookup');
+    const fromBalanceSpan = document.getElementById('fromBalance');
+    const recipientName = document.getElementById('recipientName');
+    const toAccount = document.getElementById('toAccount');
+    const lookupBtn = document.getElementById('lookupBtn');
     const recipientPreview = document.getElementById('recipientPreview');
-
-    if (lookupBtn && recipientPreview) {
-      lookupBtn.addEventListener('click', function() {
-        const recipientName = document.getElementById('recipientName').value;
-        const toAccount = document.getElementById('toAccount').value;
-
-        if (recipientName || toAccount) {
-          recipientPreview.style.display = 'block';
-
-          // Обновляем информацию (для демо)
-          const previewName = recipientPreview.querySelector('.preview-value:first-of-type');
-          const previewAccount = recipientPreview.querySelector('.preview-value:last-of-type');
-
-          if (recipientName) {
-            previewName.textContent = recipientName;
-          } else {
-            previewName.textContent = 'ShadowDragon';
-          }
-
-          // Форматируем номер счёта для отображения
-          let account = toAccount || '40817810099900887766';
-          if (account.length === 20) {
-            account = account.replace(/(\d{4})(?=\d)/g, '$1 ');
-          }
-          previewAccount.textContent = account;
-        }
-      });
-    }
-
-    // Калькулятор суммы после комиссии
+    const recipientSuccess = document.getElementById('recipientSuccess');
+    const recipientError = document.getElementById('recipientError');
+    const recipientNameDisplay = document.getElementById('recipientNameDisplay');
     const amountInput = document.getElementById('amount');
     const currencySelect = document.getElementById('currency');
     const netAmount = document.getElementById('netAmount');
+    const warningMessage = document.getElementById('warningMessage');
+    const warningText = document.getElementById('warningText');
+    const submitBtn = document.getElementById('submitBtn');
+
+    let isValidRecipient = false;
+    let currentBalance = 0;
+    let currentCurrency = 'crystal';
+    let currentSymbol = '💎';
+
+    function updateFromAccountInfo() {
+      const selectedOption = fromAccount.options[fromAccount.selectedIndex];
+      if (fromAccount.value && selectedOption && selectedOption.text) {
+        const match = selectedOption.text.match(/([\d\s]+)\s*([💎💰✨])/);
+        if (match) {
+          currentBalance = parseFloat(match[1].replace(/\s/g, ''));
+          const symbol = match[2];
+          currentSymbol = symbol;
+          fromBalanceSpan.textContent = currentBalance.toLocaleString() + ' ' + symbol;
+          fromPreview.style.display = 'block';
+        } else {
+          fromPreview.style.display = 'none';
+          currentBalance = 0;
+        }
+      } else {
+        fromPreview.style.display = 'none';
+        currentBalance = 0;
+      }
+      validateForm();
+    }
+
+    function checkRecipient() {
+      const name = recipientName.value.trim();
+      const account = toAccount.value.trim();
+
+      if (!name && !account) {
+        recipientPreview.style.display = 'none';
+        isValidRecipient = false;
+        validateForm();
+        return;
+      }
+
+      fetch('/api/account/check', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          [document.querySelector('meta[name="_csrf_header"]').content]: document.querySelector('meta[name="_csrf"]').content
+        },
+        body: JSON.stringify({ username: name, accountNumber: account })
+      })
+              .then(res => res.json())
+              .then(data => {
+                recipientPreview.style.display = 'block';
+                if (data.found) {
+                  recipientSuccess.style.display = 'flex';
+                  recipientError.style.display = 'none';
+                  recipientNameDisplay.textContent = data.name || 'Игрок найден';
+                  isValidRecipient = true;
+                } else {
+                  recipientSuccess.style.display = 'none';
+                  recipientError.style.display = 'flex';
+                  document.getElementById('recipientErrorText').textContent = data.message || 'Получатель не найден';
+                  isValidRecipient = false;
+                }
+                validateForm();
+              })
+              .catch(() => {
+                recipientSuccess.style.display = 'none';
+                recipientError.style.display = 'flex';
+                document.getElementById('recipientErrorText').textContent = 'Ошибка связи с сервером';
+                isValidRecipient = false;
+                validateForm();
+              });
+    }
 
     function updateNetAmount() {
-      if (amountInput && netAmount) {
-        const amount = parseFloat(amountInput.value) || 0;
-        const currency = currencySelect?.value || 'crystal';
+      const amount = parseFloat(amountInput.value) || 0;
+      let symbol = '💎';
+      if (currentCurrency === 'gold') symbol = '💰';
+      if (currentCurrency === 'silver') symbol = '✨';
+      netAmount.textContent = amount > 0 ? amount.toLocaleString() + ' ' + symbol : '-';
+    }
 
-        let symbol = '💎';
-        if (currency === 'gold') symbol = '💰';
-        if (currency === 'silver') symbol = '✨';
+    function checkBalance() {
+      const amount = parseFloat(amountInput.value) || 0;
+      if (amount > currentBalance && currentBalance > 0) {
+        warningMessage.style.display = 'flex';
+        warningText.textContent = `Недостаточно средств. Доступно: ${currentBalance.toLocaleString()} ${currentSymbol}`;
+        return false;
+      }
+      warningMessage.style.display = 'none';
+      return true;
+    }
 
-        netAmount.textContent = amount > 0 ? `${amount.toLocaleString()} ${symbol}` : '-';
+    function validateForm() {
+      const hasFromAccount = fromAccount.value;
+      const hasAmount = amountInput.value && parseFloat(amountInput.value) > 0;
+      const hasCurrency = currencySelect.value;
+      const isBalanceOk = checkBalance();
+      const canSubmit = hasFromAccount && hasAmount && hasCurrency && isBalanceOk && isValidRecipient;
+      submitBtn.disabled = !canSubmit;
+    }
+
+    function updateCurrency() {
+      currentCurrency = currencySelect.value;
+      updateNetAmount();
+      validateForm();
+    }
+
+    fromAccount.addEventListener('change', updateFromAccountInfo);
+    lookupBtn.addEventListener('click', checkRecipient);
+    amountInput.addEventListener('input', () => { updateNetAmount(); validateForm(); });
+    currencySelect.addEventListener('change', updateCurrency);
+    recipientName.addEventListener('input', () => { isValidRecipient = false; validateForm(); });
+    toAccount.addEventListener('input', () => { isValidRecipient = false; validateForm(); });
+
+    if (initialAccount) {
+      for (let i = 0; i < fromAccount.options.length; i++) {
+        if (fromAccount.options[i].value === initialAccount) {
+          fromAccount.selectedIndex = i;
+          break;
+        }
       }
     }
+    updateFromAccountInfo();
+    updateNetAmount();
+    validateForm();
 
-    if (amountInput) {
-      amountInput.addEventListener('input', updateNetAmount);
-    }
-
-    if (currencySelect) {
-      currencySelect.addEventListener('change', updateNetAmount);
-    }
-
-    // Обработка отправки формы (демо)
-    const transferForm = document.querySelector('.transfer-form');
-    if (transferForm) {
-      transferForm.addEventListener('submit', function(e) {
+    document.getElementById('transferForm').addEventListener('submit', function(e) {
+      if (!validateForm()) {
         e.preventDefault();
-        alert('Перевод отправлен! (Демо-режим)');
-      });
-    }
+        alert('Пожалуйста, заполните все поля корректно и проверьте получателя');
+      }
+    });
   });
 </script>
 </body>
